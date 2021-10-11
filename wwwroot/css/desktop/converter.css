@@ -1,0 +1,102 @@
+.converter-title{
+    color: #2571bf;
+font-size: 20px;
+font-weight: bold;
+margin-top: 10px;
+}
+.converter-txt{
+    color: gray;
+font-size: 14px;
+font-weight: bold;
+}
+.converter-title-container{
+    color: #165291; 
+font-size: 13px;
+padding: 5px 12px;
+opacity: 0.6;
+cursor: pointer;
+border: 1px solid white;
+transition: all 0.6s ease-in-out;
+}
+.gray-line{
+    position: absolute;
+    top: 26px;
+    left: 15%;
+    height: 1px;
+    width: 70%;
+    background-color: rgb(232, 232, 232);
+}
+.active{
+    border-radius: 4px;
+    color: #165291; 
+    border: 1px solid rgb(232, 232, 232);
+    border-bottom: 1px solid white;
+    background-color: white;
+    z-index: 1;
+    opacity: 1;
+}
+.converter-all-container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+margin: auto;
+margin-bottom: 20px;
+margin-top: 20px;
+height: auto;
+width: 100%;
+transition: all 0.6s ease-in-out;
+}
+.converter-all-title-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+
+.converter-all-input-container{
+    display: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: auto;
+    width: 70%;
+    margin: auto;
+    margin-top: 10px;
+    box-shadow: 0px 1px 1px rgba(17, 59, 102, 0.3);
+    padding-bottom: 20px;
+    border-radius: 4px;
+    transition: all 0.6s ease-in-out;
+}
+.converter-input-container{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 50%;
+    padding: 0px 2.5%;
+}
+label{
+    font-size: 13px;
+    color: gray;
+    margin-top: 5px;
+    }
+    label>sup{
+        font-size: 10px;
+        color: gray;
+        }
+input[type=text]{
+    background-color: #f2f2f2;
+    color: #165291;
+    padding: 10px 2px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    width: 100%;
+    border: 1px solid #f2f2f2;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    }

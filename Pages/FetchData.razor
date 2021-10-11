@@ -1,0 +1,53 @@
+﻿@page "/fetchdata"
+
+@using Site.Data.DBModel
+@using MongoDB.Driver;
+
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (collections == null )
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+ 
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Price</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var collection in collections)
+            {
+                <tr>
+                    <td>@collection.Price</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Arenda> collections;
+   
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+        await Task.Run(async () =>
+        {
+           
+    
+            collections = await DbContext.GetCollection<Arenda>().Find(x => x.Price > 400).ToListAsync();
+         
+        });
+    }
+}

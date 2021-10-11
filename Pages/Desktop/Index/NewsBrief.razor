@@ -1,0 +1,29 @@
+﻿
+@using Data.Services
+@{
+    <div class="date">@Model.Moment.ToString(Settings.DefaultDateFormat)</div>
+    <a href="@Utils.LangHref(lang,"news/"+Model.GetSlugOrID())"><h2 class="news-title">@Utils.LC(Model.Name, lang)</h2></a>
+    if (Model.Brief.Ru != null)
+    {
+
+        string[] split = Utils.HtmlRaw(Utils.LC(Model.Brief, lang)).ToString().Split(' ');
+        var brief = "";
+        foreach (string s in split.Where((x, i) => i < 8))
+        {
+            if (s != "")
+            {
+                brief += " " + s;
+
+            }
+        }
+        brief += " ...";
+        <div class="news-desc">@brief</div>
+    }
+}
+
+@code
+{
+    [Parameter]
+    public NewsItem Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

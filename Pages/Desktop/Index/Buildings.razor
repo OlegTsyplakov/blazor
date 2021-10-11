@@ -1,0 +1,144 @@
+﻿@using Data.Services
+
+
+
+@{
+    var Buildings = DbContext.GetAllItemsFromCollection<BuildingItem>(x => x.Published && x.ShowOnMainPage, x => x.Position);
+    string Text = null;
+}
+
+<div class="carousel-all-wrapper">
+    <div class="arrow-slider arrow-prev"></div>
+    <div class="arrow-slider arrow-next" id="arrow-next"></div>
+
+    <div class="carousel-wrapper" id="carousel-wrapper">
+        @foreach (var item in Buildings)
+        {
+            string Name = Utils.LC(item.Name, lang);
+            Image im = item.DefaultImage;
+            var ImgSrc = Utils.GetImageCropedUrl(im.FileName,1140, 450);
+            string Alt = Utils.ImgAlt(im, Name);
+            string AddClass = null;
+            string AddClass2 = null;
+            string AddClass3 = null;
+            string AddClass4 = null;
+
+            switch (item.SystemUsed?.GetRu()?.ToUpper())
+            {
+                case "ОПТИМА":
+                    AddClass = "carousel-optima";
+                    AddClass2 = "carousel-optima2";
+                    AddClass3 = "-optima";
+                    AddClass4 = "system-applied-txt-optima";
+                    break;
+                case "СТАНДАРТ":
+                    AddClass = "carousel-standart";
+                    AddClass2 = "carousel-standart2";
+                    AddClass3 = "-standart";
+                    AddClass4 = "system-applied-txt-standart";
+                    break;
+                default:
+
+                    break;
+            }
+
+
+            <div class="carousel-index">
+                <img src="@ImgSrc" alt="@Name">
+                <div class="system-applied-container @AddClass">
+                    <div class="system-applied-txt @AddClass4">@Utils.LC("применена система", "equipped with system", lang)</div>
+                    <div class="system-applied-title">@item.SystemUsed.GetRu()</div>
+                </div>
+                <div class="purple-i @AddClass"></div>
+
+
+                <div class="carousel-container">
+                    <div class="carousel-container-1">@Utils.LC(item.Captions[0].Text, lang)</div>
+                    <div class="carousel-container-2">@Utils.LC(item.Captions[1].Text, lang)</div>
+                </div>
+                <div class="carousel-container-3 @AddClass2">
+
+                    <div class="carousel-container-3-desc">
+                        <div class="carousel-container-3-desc-1">@Name</div>
+                        <div class="carousel-container-3-desc-2">@Utils.LC("Применена система", "Equipped with system", lang) "@Utils.LC(item.SystemUsed, lang)"</div>
+                        <div class="carousel-container-3-desc-3 {@AddClass3} ">
+
+
+                            @{ Text = Utils.LC(item.Developer, lang);
+                                if (!string.IsNullOrWhiteSpace(Text))
+                                {
+
+                                    @Utils.LC("Заказчик: ", "Developer: ", lang) @Text<br>
+
+                                }
+                            }
+                            @{ Text = Utils.LC(item.ConstructionCompleted, lang);
+                                if (!string.IsNullOrWhiteSpace(Text))
+                                {
+
+                                    @Utils.LC("Окончание строительства: ", "Construction complete: ", lang) @Text<br>
+
+                                }
+                            }
+                            @{ Text = Utils.LC(item.Square, lang);
+                                if (!string.IsNullOrWhiteSpace(Text))
+                                {
+
+                                    @Utils.LC("Общая площадь: ", "Total Square: ", lang) @Text<br><br>
+
+                                }
+                            }
+                            @{ Text = Utils.LC(item.Address, lang);
+                                if (!string.IsNullOrWhiteSpace(Text))
+                                {
+
+                                    @Utils.LC("Адрес: ", "Address: ", lang) @Text<br><br>
+
+                                }
+                            }
+                            @{ Text = Utils.LC(item.Comment, lang);
+                                if (!string.IsNullOrWhiteSpace(Text))
+                                {
+
+                                    @Utils.HtmlRaw(Text)
+
+                                }
+                            }
+
+
+                            @if (item.flagInstallation || item.flagManufacturing || item.flagMainContractor || item.flagSupply || item.flagDesign)
+                            {
+                                <div class="carousel-container-3-desc-icons">
+                                    @if (item.flagInstallation)
+                                    {<div class="carousel-container-3-desc-icon-1" title="@Utils.LC("Монтаж инженерных систем и производство пуско-наладочных работ инженерного оборудования", "Installation and adjustment of engineering equipment", lang)"></div>}
+                                    @if (item.flagManufacturing)
+                                    {<div class="carousel-container-3-desc-icon-2" title="@Utils.LC("Производство труб и арматуры, использованных в системе отопления и водоснабжения", "Manufacturing of pipes and fittings used in water supply and heating systems", lang)"></div>}
+                                    @if (item.flagMainContractor)
+                                    {<div class="carousel-container-3-desc-icon-3" title="@Utils.LC("Генеральный подряд", "Main contractor", lang)"></div>}
+
+                                    @if (item.flagDesign)
+                                    {<div class="carousel-container-3-desc-icon-4" title="@Utils.LC("Проектирование инженерных систем здания", "Building engineering systems design", lang)"></div>}
+                                </div>
+                            }
+
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="carousel-container-3-x @AddClass"></div>
+                    <div class="carousel-container-3-bottomline @AddClass"></div>
+                </div>
+            </div>
+        }
+
+
+
+    </div>
+</div>
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

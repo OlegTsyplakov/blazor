@@ -1,0 +1,23 @@
+﻿@using Data.Services
+
+@{
+    if (!string.IsNullOrEmpty(Utils.LC(Model.Comment,lang)))
+    {
+
+        if (ShowCaption)
+        {<h2 class="also-required">@Utils.LC(MLText.Note,lang)</h2>}
+        <div class="part-container">
+            <div class="comment-container">&nbsp;@Utils.HtmlRaw(Utils.LC(Model.Comment,lang))</div>
+            <div class="size-line"></div>
+        </div>
+    }
+}
+
+@code
+{
+    [Parameter]
+    public WareGroup Model { get; set; }
+    [Parameter]
+    public bool ShowCaption { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

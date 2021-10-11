@@ -1,0 +1,10 @@
+﻿@using Data.Services
+<NoIndex/>
+
+<div class="content-container">
+    <h1 style="margin:auto;font-size:26px;font-weight:bold;color:#165291;">@Utils.LC("Страница не найдена", "Page not found", lang)</h1>
+</div>
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

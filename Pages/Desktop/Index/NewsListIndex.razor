@@ -1,0 +1,25 @@
+﻿
+
+@using Data.Services
+@{
+    var news = DbContext.GetAllItemsFromCollection<NewsItem>().OrderByDescending(x => x.Moment).Take(3).ToList();
+    <div class="news-container">
+        <div class="sale-container-txt"><a href="@Utils.LangHref(lang,"news")">@Utils.LC("новости", "news", lang)</a></div>
+        <div class="news-container-bg">
+            @foreach (var n in news)
+            {
+
+                <NewsBrief Model="@n" />
+
+            }
+            <div class="news-container-allnews">
+                <a href="@Utils.LangHref(lang,"news")"><div class="news-all" id="request-project">все новости</div></a>
+            </div>
+        </div>
+    </div>
+
+}
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

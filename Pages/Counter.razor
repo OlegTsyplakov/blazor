@@ -1,0 +1,51 @@
+﻿@page "/counter"
+@inject IJSRuntime JsRuntime;
+@inject ProtectedSessionStorage storage;
+@inject Site.Data.Mobile mobile
+
+
+
+<h1>Counter</h1>
+<h1>@mobile.IsAuthorized.ToString()</h1>
+<p id="id2">Current count: @currentCount</p>
+<button @onclick="IncrementCount">Click</button>
+@*<JS Name="Module.myMethod" />*@
+@if (mobile.IsAuthorized)
+{
+    <h1>Auth</h1>
+}
+
+
+@code {
+    private int currentCount = 0;
+
+    //private void IncrementCount()
+    //{
+    //    currentCount++;
+
+    //    mobile.IsAuthorized = true;
+
+    //}
+    private async Task IncrementCount()
+    {
+        //await storage.SetAsync("id", "27615271317311231");
+        await JsRuntime.InvokeAsync<object>("Module.WriteCookie", "uid", EncryptionHelper.Encrypt("cookieValue"), DateTime.Now.AddMinutes(10));
+        mobile.IsAuthorized = true;
+    }
+
+
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //    {
+    //        await storage.SetAsync("Email", "27615271317311231");
+
+    //        mobile.IsAuthorized = true;
+
+    //        StateHasChanged();
+    //    }
+    //    await base.OnAfterRenderAsync(firstRender);
+    //}
+}
+
+

@@ -1,0 +1,141 @@
+﻿@page "/ru/cat"
+@page "/ru/cat/{Slug}"
+@page "/ru/solutions/{Slug}"
+@page "/en/cat"
+@page "/en/cat/{Slug}"
+@page "/en/solutions/{Slug}"
+@using Data.Services
+@inject NavigationManager navigation
+@{
+    WareGroup Model = null;
+    if (Slug == null)
+    {
+        Model = DbContext.GetItemFromCollection<WareGroup>(x => x.Slug == "cat");
+    }
+    else
+    {
+        Model = DbContext.GetItemFromCollection<WareGroup>(x => x.Slug == Slug);
+    }
+    if (Model == null)
+    {
+        <Error />
+        return;
+    }
+    string TemplateCode = Model.Template.Value.Code;
+    var Models = DbContext.LoadFirstChildren<WareGroup>(Model.IdAsString);
+    var cannonical = string.Empty;
+    bool sdr_check = false;
+    string sdr = string.Empty;
+    string system = string.Empty;
+    var group_pointer = Model;
+    while (group_pointer.PSO == null)
+    {
+        if (group_pointer.Parent.Value != null)
+        {
+            group_pointer = group_pointer.Parent.Value;
+        }
+        else
+        {
+            break;
+        }
+    }
+    if (group_pointer.PSO == "Optima")
+    {
+        sdr = "SDR 11";
+        sdr_check = true;
+        system = "Optima";
+    }
+    if (group_pointer.PSO == "Standart")
+    {
+        sdr = "SDR 7.4";
+        sdr_check = true;
+        system = "Standart";
+    }
+    if (group_pointer.PSO == "Premium")
+    {
+        sdr = "SDR 7.4";
+        sdr_check = true;
+        system = "Premium";
+    }
+    if (group_pointer.PSO == "Premium/Standart")
+    {
+        sdr = "SDR 7.4";
+        sdr_check = true;
+        system = "Premium/Standart";
+    }
+}
+
+<Title>@Utils.LC(Model.MetaTitle, lang)</Title>
+<Meta Name="description" Content="@Utils.LC(Model.MetaDescription, lang)" />
+
+
+@{
+    switch (TemplateCode)
+    {
+        case "Default":
+            if (DbContext.LoadWareItems<WareItem>(Model.IdAsString).Count > 0)
+            {
+                TemplateCode = "Lowest";
+                break;
+            }
+
+            TemplateCode = "ExpandSubgroups";
+            break;
+    }
+
+
+    switch (TemplateCode)
+    {
+        case "Root":
+            <link href="/css/desktop/cd.css" rel="stylesheet" />
+            cannonical = Settings.HomePage + Utils.LangHref(lang, "cat");
+            <ModelName Model="@Model" />
+            <Description Model="@Model" />
+            <RootToSubgroups Models="@Models" />
+            <CommentCategory Model="@Model" ShowCaption="false" />
+            <LongDescription Model="@Model" ShowCaption="false" />
+            <Video Model="@Model" />
+            <Documents Model="@Model" />
+            break;
+        case "ExpandSubgroups":
+            <link href="/css/desktop/subcd.css" rel="stylesheet" />
+            cannonical = Settings.HomePage + Utils.LangHref(lang, "cat/" + Slug);
+            <JS Name="Module.Subcd" />
+            <ModelName Model="@Model" />
+            <Description Model="@Model" />
+            if (navigation.Uri.IndexOf("solutions") == -1)
+            {
+                <AdditionalDescription Model="@Model" />
+            }
+            <div id="subgroups-filter-result">
+                <ExpandedSubgroups2View Models="@Models"/>
+            </div>
+            <Documents Model="@Model" />
+            <LongDescription Model="@Model" ShowCaption="false" />
+            <Video Model="@Model" />
+            break;
+        case "Lowest":
+            <link href="/css/desktop/subcd2.css" rel="stylesheet" />
+            cannonical = Settings.HomePage + Utils.LangHref(lang, "cat/" + Slug);
+            <JS Name="Module.Subcd2" />
+            <PhotoEnlarge />
+            <ModelImageNameLogoProps Model="@Model" SDR="@sdr" SDR_Check="@sdr_check" System="@system"/>
+            <DescriptionLowest Model="@Model"/>
+            <div id="lowest-filter-result">
+                <Wares Model="@Model" ShowTextHeader="true"/>
+                <CommentSubCategory Model="@Model" ShowCaption="true"/>
+                <AlsoRecommended Model="@Model" />
+            </div>
+            <LongDescription Model="@Model" ShowCaption="true" />
+            <Documents Model="@Model" />
+            <Video Model="@Model" />
+            break;
+    }
+    <Link Rel="canonical" Href="@cannonical" />
+}
+
+@code
+{
+    [Parameter] public string Slug { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

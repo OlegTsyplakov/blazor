@@ -1,0 +1,36 @@
+﻿@page "/info/news/{Slug}"
+
+@using Site.Data.DBModel
+@using MongoDB.Driver;
+@if (item != null)
+{
+    <Toolbelt.Blazor.HeadElement.Title>@item.Name.Ru</Toolbelt.Blazor.HeadElement.Title>
+    <h3>News!!!! @item.Position.ToString()</h3>
+}
+
+
+
+
+
+
+
+@code {
+
+    [Parameter]
+    public string Slug { get; set; }
+
+    public NewsItem item;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+        await Task.Run(async () =>
+        {
+
+            item = await DbContext.GetCollection<NewsItem>().Find(x => x.Slug == Slug).FirstOrDefaultAsync();
+
+        });
+    }
+}

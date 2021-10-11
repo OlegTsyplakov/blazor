@@ -1,0 +1,41 @@
+.main-title{
+    color: #0073d0;
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+.offer-container-row{
+   
+    height: auto;
+    width: 100%; 
+    margin-bottom: 10px;
+    font-size:13px;
+    text-align:justify;
+    color: #17528e;
+}
+.offer-container-row>strong{
+    font-size:16px;
+}
+.structure-a{
+    color: #17528e;
+    font-weight: bold;
+}
+
+.items-img{
+    position: relative;
+
+    height: auto;
+  width: 100%;
+    margin: auto;
+    overflow: hidden;
+    padding:20px 0px;
+}
+
+
+
+
+

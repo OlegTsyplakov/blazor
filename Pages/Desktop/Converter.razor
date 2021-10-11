@@ -1,0 +1,247 @@
+﻿@page "/ru/converter"
+@page "/en/converter"
+
+@using Data.Services
+@{
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "converter");
+}
+
+<Title>@Utils.LC("Конвертер величин", "Calculator", lang)</Title>
+<Link Rel="canonical" Href="@cannonical" />
+<link href="/css/desktop/converter.css" rel="stylesheet" />
+<JS Name="Module.Converter" />
+
+
+<div class="content-container">
+    <div class="part-container">
+        <div class="converter-title">@Utils.LC("Конвертер величин", "Calculator")</div>
+        <div class="converter-txt">@Utils.LC("Выберите систему единиц измерения", "Select a system of units")</div>
+        <div class="converter-all-container">
+            <div class="converter-all-title-container">
+                <div class="converter-title-container active">@Utils.LC("Давление", "Pressure", lang)</div>
+                <div class="converter-title-container">@Utils.LC("Объёмный расход", "Volume flow", lang)</div>
+                <div class="converter-title-container">@Utils.LC("Температура", "Temperature", lang)</div>
+                <div class="converter-title-container">@Utils.LC("Объем", "Volume", lang)</div>
+                <div class="converter-title-container">@Utils.LC("Длина", "Length", lang)</div>
+                <div class="converter-title-container">@Utils.LC("Потребление тепловой энергии", "Heat consumption", lang)</div>
+            </div>
+            <div class="gray-line"></div>
+            <div class="converter-all-input-container">
+                <div class="converter-input-container">
+                    <label>Bar</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Mbar</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Па</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>КПа</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>МПа</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>кгс/мм2</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>кгс/см2</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Физ. атм.</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>мм рт.ст.</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>м вод.ст.</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>мм вод.ст.</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>psi</label>
+                    <input type="text">
+                </div>
+            </div>
+
+
+
+
+            <div class="converter-all-input-container">
+                <div class="converter-input-container">
+                    <label>м<sup>3</sup>/с</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>м<sup>3</sup>/мин</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>м<sup>3</sup>/ч</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>м<sup>3</sup>/сут</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>м<sup>3</sup>/год</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>л/с</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>л/мин</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>л/ч</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>л/сут</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>л/год</label>
+                    <input type="text">
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+            <div class="converter-all-input-container">
+                <div class="converter-input-container">
+                    <label>Градусы Фаренгейта, F</label>
+                    <input type="text" id="far">
+                </div>
+                <div class="converter-input-container">
+                    <label>Градусы Цельсия, C</label>
+                    <input type="text" id="cel">
+                </div>
+                <div class="converter-input-container">
+                    <label>Градусы Кельвина, K</label>
+                    <input type="text" id="kel">
+                </div>
+            </div>
+
+
+            <div class="converter-all-input-container">
+                <div class="converter-input-container">
+                    <label>Миллиметр<sup>3</sup></label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Сантиметр<sup>3</sup></label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Дециметр<sup>3</sup></label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Метр<sup>3</sup></label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Километр<sup>3</sup></label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Литр</label>
+                    <input type="text">
+                </div>
+            </div>
+
+
+
+
+            <div class="converter-all-input-container">
+                <div class="converter-input-container">
+                    <label>Километр (*10<sup>3</sup>)</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Дециметр (*10<sup>-1</sup>)</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Метр (*10<sup>0</sup>)</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Сантиметр (*10<sup>-2</sup>)</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Миллиметр (*10<sup>-3</sup>)</label>
+                    <input type="text">
+                </div>
+            </div>
+
+
+
+
+
+            <div class="converter-all-input-container">
+                <div class="converter-input-container">
+                    <label>Кал/час</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Вт</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Ккал/час</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>КВт</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Мкал/час</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>МВт</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>Гкал/час</label>
+                    <input type="text">
+                </div>
+                <div class="converter-input-container">
+                    <label>BTU/час</label>
+                    <input type="text">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@code
+{
+    [CascadingParameter] public string lang { get; set; }
+}

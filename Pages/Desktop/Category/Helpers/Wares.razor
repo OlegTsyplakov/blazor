@@ -1,0 +1,101 @@
+﻿@using Data.Services
+@{
+    var LWI = DbContext.LoadWareItems<WareItem>(Model.IdAsString, x => !x.FlagSoldOut).GroupBy(x => x.Unit.AbsoluteID() + x.PackUnit.AbsoluteID()).Select(grp => grp.ToList()).ToList();
+}
+@{
+    if (LWI.Count == 0)
+    {
+        return;
+    }
+    <div class="part-container">
+        @if (ShowTextHeader)
+        {
+            <h2 class="also-required2">@Utils.LC(MLText.Items, lang)</h2>
+        }
+
+        @if (LWI.Count != 1)
+        {
+            <div class="descparam-container-ware">
+                @for (int i = 0; i < LWI.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        <button class="ware_button ware_button_active">@GetCaption(LWI[i][0])</button>
+                    }
+                    else
+                    {
+                        <button class="ware_button ware_button_inactive">@GetCaption(LWI[i][0])</button>
+                    }
+                }
+            </div>
+        }
+
+        @for (int i = 0; i < LWI.Count; i++)
+        {
+            string AddClass;
+            if (i == 0) { AddClass = "descparam-item-container-ware ware_active"; } else { AddClass = "descparam-item-container-ware ware_inactive"; }
+            <div class="@((LWI.Count != 1) ? AddClass : null)">
+                <div class="same-group-container">
+                    <div class="table-all-container">
+                        @for (int j = 0; j < LWI[i].Count; j++)
+                        {
+
+                            <div class="table-all-title-container2">
+                                @{
+                                    string arthref = Utils.LangHref(lang, "art/" + LWI[i][j].GetSlugOrID());
+                                    var image = LWI[i][j].CollectImages(true)[0];
+                                }
+                                <div class="table-ware-container">
+                                    @if (Utils.CheckImageExists(image, lang))
+                                    {
+                                        <div class="table-img-container">
+                                            <a href="@arthref">  <img src="@Utils.GetImageCropedUrl(image.FileName,200, 100)"></a>
+                                        </div>
+
+                                    }
+                                    <div class="table-desc-container">
+                                        <a href="@arthref" title="@Utils.LC(MLText.Details,lang)">@(Utils.LC(LWI[i][j].Name,lang))</a>
+                                        <div class="cartpopup-article-container">@Utils.LC("Артикул:", "Article:", lang)&nbsp;<div class="cartpopup-article-txt">@(LWI[i][j].FinalArticle)</div></div>
+                                        @if (LWI[i][j].GetPropValue("Size") != null)
+                                        {
+
+                                            <div class="cartpopup-article-container">@Utils.LC("Размер:", "Size:", lang)&nbsp;<div class="cartpopup-article-txt">@Utils.LC(LWI[i][j].GetPropValue("Size"), lang)</div></div>
+                                        }
+                                    </div>
+                                    <div class="table-price-container">
+                                        @PriceCheck(LWI[i][j].GetUnitPrice(), LWI[i][j].IsOnSale() ? "tbl-price-old" : "tbl-price-regular")
+                                        @if (LWI[i][j].IsOnSale())
+                                        {@PriceCheck(LWI[i][j].GetUnitSalePrice(), LWI[i][j].IsOnSale() ? "tbl-price-sale" : "tbl-price-disc")}
+
+                                        <div class="ruble"></div><div class="red-unit">/@Utils.LC(LWI[i][j].Unit.Value.Html, lang)</div>
+                                    </div>
+                                </div>
+                                <Quantity ID="@LWI[i][j].IdAsString" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code
+{
+    public string GetCaption(WareItem WI)
+    {
+        var Cap = Model.UnitCaptions.Where(x => x.GroupUnit.KeyAsString == WI.PackUnit.AbsoluteID()).FirstOrDefault();
+        var result = Utils.LC(Cap.Caption, lang);
+        return (result != null) ? result : string.Empty;
+    }
+    public MarkupString PriceCheck(string Value, string AddClass)
+    {
+        string result = "<div class=" + AddClass + ">" + Value + "</div>";
+        return result.ToMarkupString();
+    }
+    [Parameter]
+    public WareGroup Model { get; set; }
+    [Parameter]
+    public bool ShowTextHeader { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

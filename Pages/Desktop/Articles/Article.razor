@@ -1,0 +1,66 @@
+﻿@page "/ru/articles/{Slug}"
+@page "/en/articles/{Slug}"
+
+
+@using Data.Services
+
+
+@{
+    var Item = DbContext.GetItemFromCollection<Site.Data.DBModel.Article>(x => x.Slug == Slug);
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "articles/" + Slug);
+    if (Item == null)
+    {
+        <Error />
+        return;
+    }
+    uint count = Item.Vote;
+}
+<Title>@Utils.LC(Item.MetaTitle, lang)</Title>
+<Meta Name="description" Content="@Utils.LC(Item.MetaDescription, lang)" />
+<Link Rel="canonical" Href="@cannonical" />
+<link href="/css/desktop/structure.css" rel="stylesheet" />
+
+
+
+<!-- Начало инфо-->
+<div class="part-container">
+    <div class="gray-txt-url"><NavLink href="@Utils.LangHref(lang,"articles")">@Utils.LC("Статьи", "Articles", lang)</NavLink></div>
+    <h1 class="main-title">@((Item.Name != null) ? Utils.LC(Item.Name, lang) : string.Empty)</h1>
+    <div class="offer-container-row">
+
+        @foreach (var block in Item.Block)
+        {
+            if (Utils.LC(block.Subtitle, lang) != null)
+            {
+                <br>
+                <b class="subtitle">@Utils.LC(block.Subtitle, lang)</b>
+                <br>
+
+            }
+            if (Utils.LC(block.Content, lang) != null)
+            {
+                <br>
+                @Utils.HtmlRaw(Utils.LC(block.Content, lang))
+                <br>
+            }
+            var img = Utils.LC(block.Image.FileName, lang);
+            if (!string.IsNullOrEmpty(img))
+            {
+                <br>
+                <div class="articles-img-container"><img src="@img.Substring(1)"></div>
+                <br>
+            }
+        }
+
+
+    </div>
+</div>
+<!-- Конец инфо-->
+
+
+@code
+{
+    [Parameter]
+    public string Slug { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

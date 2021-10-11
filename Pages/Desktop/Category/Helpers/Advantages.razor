@@ -1,0 +1,31 @@
+﻿@using Data.Services
+<!-- Начало преймущество-->
+@{ 
+    List<Advantage> LA = DbContext.GetAllItemsFromCollection<Advantage>().Take(4).ToList();
+}
+<div class="also-required">@Utils.LC("Преимущества", "Advantages",lang)</div>
+<div class="part-container">
+    <div class="advantage-info-container">
+
+        @foreach (var la in LA)
+        {
+            <div class="advantage-info-item-container">
+             
+                @if (la.Image.FileName != null)
+                {
+                    <div class="advantage-info-icon-container"><img src="@Utils.LC(la.Image.FileName,lang).Substring(1)" /></div>
+                }
+                <div class="advantage-info-item-title">@Utils.LC(la.Name, lang)</div>
+                <div class="advantage-info-line"></div>
+                <div class="advantage-info-purple-txt">@Utils.HtmlRaw(Utils.LC(la.Description,lang))</div>
+                <div class="advantage-info-more-purple-line"></div>
+            </div>
+        }
+    </div>
+</div>
+<!-- Конец преймущество-->
+
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

@@ -1,0 +1,29 @@
+﻿@using Data.Services
+
+
+@{
+    string min_price;
+    string max_price;
+    if (Model.Count() > 0)
+    {
+        min_price = Model.First().Price.ToStringWithDot();
+        max_price = Model.Last().Price.ToStringWithDot();
+        if (min_price == max_price)
+        {
+    <div class="also-recommended-price-title">Цена, руб./шт.</div>
+    <div class="also-recommended-price">@min_price</div>
+}
+else
+{
+    <div class="also-recommended-price-title">Цена, руб./шт.</div>
+    <div class="also-recommended-price">@min_price - @max_price</div>
+}
+}
+}
+
+@code
+{
+        [Parameter]
+public List<WareItem> Model { get; set; }
+[CascadingParameter] string lang { get; set; }
+}

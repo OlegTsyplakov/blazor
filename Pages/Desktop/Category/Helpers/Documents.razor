@@ -1,0 +1,44 @@
+﻿@using Data.Services
+<JS Name="Module.Documents" />
+@{
+    var LF = Model.CollectFiles();
+    if (LF.Count > 0)
+    {
+        <div class="part-container">
+            <div class="doc-container">
+                <div class="doc-line"></div>
+                <div class="doc-icon-container">
+                    <div class="doc-icon"></div>
+                </div>
+                <div class="doc-title">@Utils.LC("Документы", "Documents",lang)</div>
+                <div class="doc-items-container" id="doc-items-container">
+                    <div class="doc-arrow" id="doc-left-arrow"></div>
+                    <div class="doc-items-container-show" id="doc-items-container-show">
+                        @foreach (var F in LF)
+                        {
+                            string href = Utils.GetImageUrl(Utils.LC(F.FileName, lang));
+                            if (string.IsNullOrEmpty(href)) { continue; }
+                            string thumb = Utils.GetImageCropedUrl(F.Thumbnail,250,250);
+                            <div class="doc-item-container">
+                                @if (!string.IsNullOrEmpty(thumb))
+                                {<img src="@thumb">}
+                                <div class="doc-item-txt">@Utils.HtmlRaw(Utils.LC(F.Name,lang))</div>
+                                <div class="doc-circle"></div>
+                                <a href="@href" target="_blank"><div class="doc-pdf-icon" title="@Utils.LC("Скачать","Download",lang)"></div></a>
+                            </div>
+                        }
+                    </div>
+                    <div class="doc-arrow" id="doc-right-arrow"></div>
+                </div>
+            </div>
+        </div>
+
+    }
+}
+
+@code
+{
+    [Parameter]
+    public WareGroup Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

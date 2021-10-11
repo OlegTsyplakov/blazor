@@ -1,0 +1,33 @@
+﻿@using Data.Services
+@{
+    var FAQs = DbContext.GetAllItemsFromCollection<FAQ>(null, x => x.Position).Take(6);
+    uint count = 1;
+}
+
+<div class="faq-all-container">
+    <div class="sale-container-txt"><a href="@Utils.LangHref(lang, "info/faq")">@Utils.LC("часто задаваемые вопросы", "frequently asked questions", lang)</a></div>
+    <div class="faq-container">
+        <div class="faq-container-lineup"></div>
+        <div class="faq-container-all-item">
+            @foreach (var item in FAQs)
+            {
+                <a href="@Utils.LangHref(lang, "info/faq")#faq@(item.Position)">
+                    <div class="faq-container-item">
+                        <div class="faq-circle">
+                            <div class="faq-number">@count</div>
+                        </div>
+                        <div class="faq-txt">@Utils.HtmlRaw(Utils.LC(item.Question, lang))</div>
+                    </div>
+                </a>
+                count++;
+            }
+        </div>
+        <div class="faq-epmty-container">
+            <a href="@Utils.LangHref(lang, "info/faq")"><div class="faq-more">@Utils.LC("смотреть ещё", "see more", lang)</div></a>
+        </div>
+    </div>
+</div>
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

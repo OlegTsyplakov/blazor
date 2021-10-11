@@ -1,0 +1,42 @@
+﻿@using Data.Services
+@{
+
+
+    int i = 1;
+    if (Model.ListNewLongDesc.Count > 0)
+    {
+
+        if (ShowCaption)
+        {
+            <h2 class="also-required">@Utils.LC(MLText.Description,lang)</h2>
+        }
+        <div class="part-container">
+            <div class="accordion">
+
+                @foreach (var d in Model.ListNewLongDesc)
+                {
+                    <div class="accordion-item">
+                        <button id="accordion-button-@i" aria-expanded="false"><span class="accordion-title">@Utils.HtmlRaw(Utils.LC(d.Title, lang))</span><span class="icon" aria-hidden="true"></span></button>
+
+                        <div class="accordion-content"><p>@Utils.HtmlRaw(Utils.LC(d.Description, lang))</p></div>
+                        <p>@Utils.HtmlRaw(Utils.LC(d.SubTitle, lang))</p>
+
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+
+
+
+}
+
+@code
+{
+    [Parameter]
+    public WareGroup Model { get; set; }
+    [Parameter]
+    public bool ShowCaption { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

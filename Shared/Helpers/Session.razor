@@ -1,0 +1,29 @@
+﻿@inject ProtectedSessionStorage storage
+@inject Mobile mobile
+<h1>@DateTime.Now</h1>
+@code {
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            string result = (await storage.GetAsync<string>("id")).Value ?? "";
+            if (!string.IsNullOrEmpty(result))
+            {
+                mobile.IsAuthorized = true;
+
+
+                StateHasChanged();
+            }
+        }
+        await base.OnAfterRenderAsync(firstRender);
+
+
+
+
+    }
+
+
+}

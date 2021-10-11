@@ -1,0 +1,43 @@
+﻿@page "/ru/docs"
+@page "/en/docs"
+@using Data.Services
+@{
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "docs");
+    var Models = DbContext.GetAllItemsFromCollection<Site.Data.DBModel.File>(x => x.Published == true && x.Group != null).GroupBy(x => x.Group).OrderBy(x => x.Key.Value.Position);
+    var group_name = string.Empty;
+}
+<Title>@Utils.LC("Документы", "Documents", lang)</Title>
+<Link Rel="canonical" Href="@cannonical" />
+<link href="/css/desktop/docs.css" rel="stylesheet" />
+
+@{
+    <div class="content-container">
+        <div class="part-container">
+
+            @foreach (var group in Models)
+            {
+                if (group_name != Utils.LC(group.Key.Value.Name))
+                {
+                    group_name = Utils.LC(group.Key.Value.Name);
+                    <div class="main-txt">@group_name</div>
+                }
+
+                foreach (var file in group.OrderBy(x => x.Position))
+                {
+                    var href = Utils.LC(file.FileName, lang);
+                    if (!string.IsNullOrEmpty(href))
+                    {
+                        <div class="sub-txt"><a href="@href.Substring(1)" target="_blank">&middot;@Utils.LC(file.Name, lang)</a></div>
+                    }
+
+                }
+
+            }
+        </div>
+    </div>
+}
+
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

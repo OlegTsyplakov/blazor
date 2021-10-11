@@ -1,0 +1,43 @@
+.main-title{
+color: #0073d0;
+font-size: 18px;
+font-weight: bold;
+width: 100%;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+.offer-container-row{
+
+height: auto;
+width: 100%; 
+margin-bottom: 10px;
+font-size:13px;
+color: #17528e;
+}
+
+.activities-txt-container{
+display: flex;
+flex-direction: column;
+margin-left: 10px;
+}
+.activities-txt-container>a{
+color: #17528e;
+font-weight: bold;
+font-size:16px;
+}
+.hr-dotted {
+border: 0;
+border-bottom: 1px dashed #999;
+background: white;
+width: 100%;
+}
+.date {
+color: #d4145a;
+font-size: 11px;
+}
+.more{
+    font-weight: normal!important;
+    font-size: 13px!important;
+}
+
+

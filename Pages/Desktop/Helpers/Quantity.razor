@@ -1,0 +1,24 @@
+﻿@using Data.Services
+
+<div data-wareid="@ID" data-mode="qcont" class="sale-cart-container-column-box">
+    <div class="sale-qty-container-column">
+        <div data-wareid="@ID" data-change="-1" title="@Utils.LC(MLText.Decrease,lang)" class="sale-qty-minus">-</div>
+        <input type="text" name="qty" min="0" data-wareid="@ID" value="0" id="qty">
+        <div data-wareid="@ID" data-change="1" title="@Utils.LC(MLText.Increase,lang)" class="sale-qty-plus">+</div>
+    </div>
+
+
+</div>
+
+<div style="display: none;" data-wareid="@ID" data-mode="rcont" class="article-price-container-absolute-column">
+    <div class="article-price-container-absolute-row" data-wareid="@ID" data-change="A">
+        <div title="@Utils.LC(MLText.According,lang)">@Utils.LC(MLText.Required, lang) &nbsp;</div>
+        <div data-wareid="@ID" data-mode="rval"></div>
+    </div>
+</div>
+@code
+{
+    [Parameter]
+    public string ID { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

@@ -1,0 +1,51 @@
+﻿@using Data.Services
+<JS Name="Module.AlsoRecomended" />
+@{
+    if (Model.GetAlsoRecommendedItems() != null || (Model.GetAlsoRecommendedGroup() != null && Model.GetAlsoRecommendedGroup().Where(x => !x.ExludeFromGroup.Contains(Model.IdAsString)).Count() > 0))
+    {
+    <div class="part-container">
+
+        <h2 class="also-required">@Utils.LC(MLText.AlsoRecommended,lang)</h2>
+
+
+        <div class="also-recommended-items-container">
+            <div class="also-recommended-arrow" id="left-arrow"></div>
+            <div class="also-recommended-item-container-show" id="also-recommended-show">
+
+
+                @if (Model.GetAlsoRecommendedItems() != null)
+                {
+                    foreach (var item in Model.GetAlsoRecommendedItems())
+                    {
+
+                        <RecomendedWareItemTile Model="@item"/>
+                       
+
+                    }
+                }
+                @if (Model.GetAlsoRecommendedGroup() != null)
+                {
+
+
+                    foreach (var item in Model.GetAlsoRecommendedGroup())
+                    {
+                        <RecomendedWareGroupTile Model="@item"/>
+                    }
+
+                }
+            </div>
+            <div class="also-recommended-arrow" id="right-arrow"></div>
+        </div>
+    </div>
+    }
+}
+
+
+@code
+{
+    [Parameter]
+    public WareGroup Model { get; set; }
+
+ 
+    [CascadingParameter] string lang { get; set; }
+}

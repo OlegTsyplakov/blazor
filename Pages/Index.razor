@@ -1,0 +1,13 @@
+﻿@page "/"
+@page "/en"
+
+@inject Site.Data.Mobile mobile
+
+@if (mobile.IsMobile)
+{
+    <Site.Pages.Mobile.Index_mobile />
+}
+else
+{
+    <Site.Pages.Desktop.Index.Index />
+}

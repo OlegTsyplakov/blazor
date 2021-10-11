@@ -1,0 +1,18 @@
+﻿@using Data.Services
+@{
+    if (Model2 != null)
+    {
+        var image = Model2.Logo;
+        @if (Utils.CheckImageExists(image, lang))
+        {
+            <img class="art-vendorlogo" src="@Utils.GetImageCropedUrl(image.FileName,64, 64)">
+        }
+
+    }
+}
+@code
+{
+    [Parameter]
+    public Vendor Model2 { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

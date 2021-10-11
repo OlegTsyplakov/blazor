@@ -1,0 +1,80 @@
+﻿@page "/ru/info/activities"
+@page "/en/info/activities"
+
+@using Data.Services
+
+@{
+    var Item = DbContext.GetItemFromCollection<ContentPage>(x => x.Slug == "activities");
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "info/activities");
+}
+<Title>@Utils.LC(Item.MetaTitle, lang)</Title>
+<Meta Name="description" Content="@Utils.LC(Item.MetaDescription, lang)" />
+<Link Rel="canonical" Href="@cannonical" />
+
+<link href="css/desktop/activities.css" rel="stylesheet" />
+
+<!-- Начало инфо-->
+<div class="content-container">
+    <div class="part-container">
+        <div class="main-title">Виды деятельности</div>
+
+        <div class="offer-container-row">
+
+            <div class="activities-container">
+                <div class="activities-img-container"><img src="/img/info/structure/a1.png"></div>
+                <div class="activities-txt-container">
+                    <NavLink href="@Utils.LangHref(lang,"info/research")">@Utils.LC("Исследования", "", lang)</NavLink>
+                    <hr>
+                    Исследования дают уверенность в правильном выборе. В период с 2001 по 2008 год мы провели глубокие исследования длительной прочности труб из различных видов сшитых полиэтиленов при работе с теплоносителем при температуре 95°С. Такие исследования не имели аналогов в мире. Полученные знания помогают и сегодня при оценке качества и применимости появляющихся материалов.
+                </div>
+            </div>
+
+            <div class="activities-container">
+                <div class="activities-img-container"><img src="/img/info/structure/a2.png"></div>
+                <div class="activities-txt-container">
+                    <NavLink href="@Utils.LangHref(lang,"info/innovations")">@Utils.LC("Инновации", "", lang)</NavLink>
+                    <hr>
+                    Знания, полученные от исследовательской деятельности, в сочетании с накопленным собственным опытом и анализом мировых премьер и тенденций, помогают правильно сформулировать требования, выбрать материал и направить инженерную мысль на решение необходимых задач. Так появляются нехитрые решения, которые по праву называются инновационными.
+                </div>
+            </div>
+            <div class="activities-container">
+                <div class="activities-img-container"><img src="/img/info/structure/a3.png"></div>
+                <div class="activities-txt-container">
+                    <NavLink href="@Utils.LangHref(lang,"info/production")">@Utils.LC("Производство", "", lang)</NavLink>
+                    <hr>
+                    Корпорация БИР ПЕКС является производителем труб из молекулярно-сшитого полиэтилена и соединительных элементов к ним. Производство развернуто на собственных площадях более 2000 кв. м. и постоянно развивается.
+                </div>
+            </div>
+            <div class="activities-container">
+                <div class="activities-img-container"><img src="/img/info/structure/a4.png"></div>
+                <div class="activities-txt-container">
+                    <NavLink href="@Utils.LangHref(lang,"info/supply")">@Utils.LC("Продажи", "", lang)</NavLink>
+                    <hr>
+                    Торговая сеть Корпорации БИР ПЕКС представлена в 18 городах России и в странах ближнего зарубежья. Во всех офисах Вам предложат квалифицированную помощь в подборе продукции, предоставят рекламные и технические каталоги, обеспечат максимально быструю поставку.
+                </div>
+            </div>
+            <div class="activities-container">
+                <div class="activities-img-container"><img src="/img/info/structure/a5.png"></div>
+                <div class="activities-txt-container">
+                    <NavLink href="@Utils.LangHref(lang,"info/design")">@Utils.LC("Проектирование", "", lang)</NavLink>
+                    <hr>
+                    Корпорация выполняет работы по проектированию систем отопления, водоснабжения и других инженерных систем зданий. Кроме того, мы сотрудничаем и помогаем проектным организациям во многих городах России и зарубежья. Нами спроектированы инженерные системы для более 1 млн. кв.м. площадей различного назначения.
+                </div>
+            </div>
+            <div class="activities-container">
+                <div class="activities-img-container"><img src="/img/info/structure/a6.png"></div>
+                <div class="activities-txt-container">
+                    <NavLink href="@Utils.LangHref(lang,"info/installation")">@Utils.LC("Строительство", "", lang)</NavLink>
+                    <hr>
+                    Корпорация проводит весь комплекс работ по устройству внутренних инженерных систем и настройке оборудования на всей территории России. Нами смонтированы системы более чем 2 млн. кв.м. жилых и общественных зданий.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Конец инфо-->
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

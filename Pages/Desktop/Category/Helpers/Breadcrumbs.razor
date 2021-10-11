@@ -1,0 +1,37 @@
+﻿@using Data.Services
+@{
+   
+        <div class="part-container">
+            <div class="gray-txt-url">@CatBreadcrumbs(Model,lang,url)</div>
+        </div>
+   
+}
+@code
+{
+    public static MarkupString CatBreadcrumbs(WareGroup Model,string lang,string url)
+    {
+
+        while (Model?.Parent?.Value != null || Model.Parent?.KeyAsString != Settings.DBZeros)
+        {
+            Model = Model.Parent.Value;
+            if (Model.ShowInCatalog && Model.IncludeInSiteMap)
+            {
+                if (Model.GetSlugOrID()=="cat")
+                {
+                    url = "<a href = " + Utils.LangHref(lang, Model.GetSlugOrID()) + " class=\"\"text-underdotted\"\">" + Utils.LC(Model.Name, lang) + "</a> / " + url;
+                    continue;
+                }
+                url = "<a href = " + Utils.LangHref(lang, "cat/"+Model.GetSlugOrID()) + " class=\"\"text-underdotted\"\">" + Utils.LC(Model.Name, lang) + "</a> / "+ url;
+            }
+        }
+        return Utils.HtmlRaw(url.Substring(0, url.Length - 3));
+    }
+
+
+
+    private string url { get; set; }
+
+    [Parameter]
+    public WareGroup Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

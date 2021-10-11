@@ -1,0 +1,79 @@
+﻿@page "/ru/vacancy/{Slug}"
+@page "/en/vacancy/{Slug}"
+
+@using Data.Services
+
+@{
+    var Model = DbContext.GetItemFromCollection<Site.Data.DBModel.Vacancy>(x => x.Slug == Slug);
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "vacancy/" + Slug);
+    if (Model == null)
+    {
+        <Error />
+        return;
+    }
+}
+
+<Title>@Utils.LC(Model.MetaTitle, lang)</Title>
+<Meta Name="description" Content="@Utils.LC(Model.MetaDescription, lang)" />
+<Link Rel="canonical" Href="@cannonical" />
+<link href="/css/desktop/vacancy.css" rel="stylesheet" />
+
+
+<!-- Начало инфо-->
+<div class="content-container">
+    <div class="part-container">
+        <div class="gray-txt-url"><NavLink href="@Utils.LangHref(lang,"vacancies")">@Utils.LC("Все вакансии","",lang)</NavLink></div>
+        <div class="main-title">@Utils.LC(Model.Name, lang)</div>
+        <div class="date">@Model.LastModified.ToString(Settings.DefaultDateFormat)</div>
+        <div class="offer-container-row">
+            <hr class="hr-dotted">
+            <br />
+            <div class="activities-txt-container">
+                <b>Обязанности:</b>
+                <ul>
+                    @foreach (var res in Model.Responsibilities)
+                    {
+                        <li>@res</li>
+                    }
+                </ul>
+            </div>
+            <br />
+            <div class="activities-txt-container">
+                <b>Требования:</b>
+                <ul>
+                    @foreach (var req in Model.Requirements)
+                    {
+                        <li>@req</li>
+                    }
+                </ul>
+            </div>
+            <br />
+            <div class="activities-txt-container">
+                <b>Условия:</b>
+                <ul>
+                    @foreach (var con in Model.Conditions)
+                    {
+                        <li>@con</li>
+                    }
+                </ul>
+            </div>
+            <br />
+            <div class="activities-txt-container">
+                <b>Тип занятости:</b>
+                @Model.TypeOfEmployment
+            </div>
+            <br />
+            <hr class="hr-dotted">
+
+        </div>
+
+    </div>
+</div>
+<!-- Конец инфо-->
+
+@code
+{
+    [Parameter]
+    public string Slug { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

@@ -1,0 +1,73 @@
+﻿@using Data.Services
+@{
+    List<List<WareItem>> LLWI = new List<List<WareItem>>();
+    int count = 0;
+}
+<div class="part-container">
+    @{
+        for (int i = 0; i < Models.Count; i++)
+        {
+
+            var LWI = DbContext.LoadWareItems<WareItem>(Models[i].IdAsString, x => !x.FlagSoldOut);
+            LLWI.Add(LWI);
+        }
+        <div class="items-container-tile" id="tileView">
+            @foreach (var LWI in LLWI)
+            {
+
+                var image = Models[count].GetMainImage();
+
+                <div class="also-recommended-item-container">
+                    <div class="also-recommended-item-title">
+                        <a href="@Utils.LangHref(lang, "cat/" + Models[count].GetSlugOrID())">@Utils.CutString(Utils.LC(Models[count].Name, lang), 50)</a>
+                    </div>
+                    <div class="also-recommended-item-img">
+                        @if (Utils.CheckImageExists(image, lang))
+                        {
+                            <img src="@Utils.GetImageCropedUrl(image.FileName,240, 160)" />
+                        }
+                    </div>
+                    <WareItemTile Model="@LWI"/>
+                </div>
+                count++;
+            }
+        </div>
+        count = 0;
+        <div id="detailView" class="items-container">
+            @foreach (var LWI in LLWI)
+            {
+              
+                    var desc = Utils.LC(Models[count].Description, lang);
+                    var desc_more = Utils.LC(Models[count].DescriptionMore, lang);
+               
+                <div class="all-description-container">
+                    <div class="description-container">
+                        <h2 class="description-title"><a href="@Utils.LangHref(lang, "cat/" + Models[count].GetSlugOrID())">@Utils.CutString(Utils.LC(Models[count].Name, lang), 50)</a></h2>
+                        @if (!string.IsNullOrEmpty(desc) && !string.IsNullOrEmpty(desc_more))
+                        {
+                            <div class="description-txt">@Utils.HtmlRaw(desc)<div class="readmore-gray">@Utils.LC("далее ...", "more ...",lang)</div></div>
+                            <div class="readmore-container-height">
+                                <div class="description-txt-more">@Utils.HtmlRaw(desc_more)<br /><div class="readmore-gray-close">@Utils.LC("свернуть", "hide",lang)</div></div>
+                            </div>
+
+                        }
+                        else if (!string.IsNullOrEmpty(desc))
+                        {
+                            <div class="description-txt">@Utils.HtmlRaw(desc)</div>
+                        }
+
+    
+                    </div>
+                </div>
+                <Wares Model="@Models[count]" ShowTextHeader="false"/>
+                count++;
+            }
+        </div>
+    }
+</div>
+@code
+{
+
+    [Parameter] public List<WareGroup> Models { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

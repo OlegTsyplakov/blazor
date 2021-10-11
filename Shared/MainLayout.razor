@@ -1,0 +1,632 @@
+﻿@inherits LayoutComponentBase
+@using Data.Services
+@inject NavigationManager navigation
+
+
+
+<En Lang="@lang" />
+
+<JS Name="Module.HF" />
+<JS Name="Module.Slider" />
+
+@{
+    string Phone = "8 800 700 9732";
+    string PhoneFlat = "+78007009732";
+    string tel = "tel:"+PhoneFlat;
+var solChildren = DbContext.LoadFirstChildren<WareGroup>(Settings.SolutionsId);
+var catChildren = DbContext.LoadFirstChildren<WareGroup>(Settings.CatalogId);
+List<string> catalog_url_list = new List<string> { };
+List<string> solution_url_list = new List<string> { };
+List<string> catalog_img_url_list = new List<string> { };
+List<string> solution_img_url_list = new List<string> { };
+var LinkDocs = Utils.LangHref(lang, "docs");
+var LinkPublicOffer = Utils.LangHref(lang, "info/public-offer");
+var LinkReturns = Utils.LangHref(lang, "info/returns-and-refund");
+var LinkDeliveryOptions = Utils.LangHref(lang, "info/delivery-options");
+var LinkPlaceAnOrderAndPay = Utils.LangHref(lang, "info/placing-an-order-and-payment");
+var LinkAboutUs = Utils.LangHref(lang, "info/about-us");
+var LinkContacts = Utils.LangHref(lang, "contacts");
+string LinkProfile = Utils.LangHref(lang, "profile");
+for (int i = 0; i < solChildren.Count; i++)
+{
+
+    var WG = solChildren[i];
+
+    string url = "/" + Lang.lang + "/solutions/" + WG.GetSlugOrID();
+    solution_url_list.Add("<a class=\"choose_slider_txt\" href=\"" + url + "\">" + @Utils.LC(WG.Name) + "</a>");
+    solution_img_url_list.Add(url);
+}
+foreach (var WG in catChildren)
+{
+
+
+    string url = "/" + Lang.lang + "/cat/" + WG.GetSlugOrID();
+    catalog_url_list.Add("<a class=\"choose_slider_txt\" href=\"" + url + "\">" + @Utils.LC(WG.Name) + "</a>");
+    catalog_img_url_list.Add(url);
+}
+
+string[] solution_img_url_array = solution_img_url_list.ToArray<string>();
+string[] solution_url_array = solution_url_list.ToArray<string>();
+string[] catalog_img_url_array = catalog_img_url_list.ToArray<string>();
+string[] catalog_url_array = catalog_url_list.ToArray<string>();
+}
+
+
+
+@*<Cookie />*@
+<div class="client-support-container"></div>
+<div class="float-menu-container"></div>
+<!-- Начало меню-->
+<header>
+
+    <div class="line1-empty">
+        <div class="line1-empty-nav">
+            <div class="line1">
+                <div class="line1-nav-container-left">
+                    <div class="logo-white"></div>
+
+
+
+
+
+                    <div class="tel"><NavLink href="@tel">@Phone</NavLink></div>
+
+
+                </div>
+
+
+
+
+                @{
+
+
+                    if (true)
+                    {
+                        <div class="input-block">
+                            <form class="search-form-prcode" action="@Utils.LangHref(lang, "promocode")" method="post">
+                                <input class="prcode" type="search" name="promo" value="" placeholder="Введите промокод" autocomplete="off">
+                                <button class="search-icon"></button>
+                            </form>
+
+                        </div>
+
+                    }
+                    else
+                    {
+                        if (true)
+                        {
+
+                            <div class="line1-nav-container-center">
+                                <div class="sale">Скидка</div>
+                                <div class="circle">
+                                    <div class="sale-quantity">%</div>
+                                </div>
+
+                            </div>
+
+                        }
+                        else
+                        {<div class="tel tel-margin">@Utils.LC("Вас ждёт подарок!", "Anticipate the gift!", lang)</div>}
+                }
+                }
+                <!-- Конец промокод -->
+
+
+
+
+
+
+                <div class="line1-nav-container-right">
+
+                    <div id="client-container">
+                        @if (false) //Request.IsAuthenticated
+                        {
+                            @*if (Cli != null)
+                                {
+
+                                    <div class="" id="client-user-name">
+                                        @localUserName
+                                        <div class="client-user-name-container">
+                                            <div class="client-user-name-container-square"></div>
+
+                                            <a href="@LinkProfile" class="client-user-name-item-container">
+                                                <div class="client-user-name-item-icon-profile"></div>
+                                                <div class="client-user-name-item-txt">@Utils.LC("Личный кабинет", "My Profile", lang)</div>
+                                            </a>
+                                            <div class="client-user-name-item-container" id="client-help">
+                                                <div class="client-user-name-item-icon-help"></div>
+                                                <div class="client-user-name-item-txt">@Utils.LC("Помощь", "Help", lang)</div>
+                                            </div>
+
+                                            <div class="client-user-name-item-container" id="client-logout">
+                                                <div class="client-user-name-item-icon-logout"></div>
+                                                <div class="client-user-name-item-txt">@Utils.LC("Выйти", "Logout", lang)</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }*@
+                        }
+                        else
+                        {
+
+                            <div id="loginclick">@Utils.LC("Личный кабинет", "My Profile", lang)</div>
+
+                        }
+                    </div>
+
+                    <div class="hamburger-container"><div class="hamburger-icon"></div></div>
+
+                    <div class="language">@lang.ToUpper() | <NavLink href="@url" @onclick="ChangeLanguage">@Lang.GetOtherLang(lang).ToUpper()</NavLink></div>
+                </div>
+            </div>
+        </div>
+        <div class="color-container"><div class="light-blue-color"></div><div class="green-color"></div><div class="orange-color"></div><div class="red-color"></div><div class="purple-color"></div><div class="blue-color"></div></div>
+
+    </div>
+
+    <!-- Конец меню-->
+    <div class="line2">
+        <div class="official">
+            <div class="txt-blue">@Utils.LC("Официальный", "Official", lang)</div>
+            <div class="txt-blue">@Utils.LC("интернет-магазин", "Internet Store", lang)</div>
+        </div>
+        <NavLink href="@Settings.HomePage">
+            <div class="logo-blue"></div>
+        </NavLink>
+        <div class="official2">
+            <div class="txt-blue">@Utils.LC("Российский", "Russian", lang)</div>
+            <div class="txt-blue">@Utils.LC("производитель", "Manufacturer", lang)</div>
+        </div>
+    </div>
+    <!-- Начало плавающего второго меню-->
+    <div class="line3-overlay"></div>
+    <!-- Конец плавающего второго меню-->
+    <!-- Начало второго меню-->
+    <div class="line3-empty">
+        <div class="line3-empty-nav">
+            <div class="line3">
+                <div class="line3-dropdown">
+                    <div class="nav-container-left">
+                        <div class="dropdown">
+                            <div class="dropbtn">@Utils.LC("Корпорация", "Corporation", lang)</div>
+                            <div class="dropdown-content">
+                                <nav>
+                                    <ul>
+                                        <li class="nav-style"><a href="@LinkAboutUs"><div class="blue-box"></div>@Utils.LC("Знакомство", "About us", lang)</a></li>
+                                        <li class="nav-style"><a href="@Utils.LangHref(lang, "info/structure")"><div class="blue-box"></div>@Utils.LC("Структура", "Structure", lang)</a></li>
+                                        <li class="nav-style"><a href="@Utils.LangHref(lang, "info/activities")"><div class="blue-box"></div>@Utils.LC("Виды деятельности", "Activities", lang)</a></li>
+                                        <li class="nav-style"><a href="@Utils.LangHref(lang, "vacancies")"><div class="blue-box"></div>@Utils.LC("Вакансии", "Vacancies", lang)</a></li>
+                                        <li class="nav-style"><a href="@LinkContacts"><div class="blue-box"></div>@Utils.LC("Контакты", "Contacts", lang)</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="arrow" id="arrow"></div>
+                    </div>
+                    <div class="nav-container-left">
+                        <div class="dropdown2">
+                            <div class="dropbtn2">@Utils.LC("Каталог", "Catalogue", lang)</div>
+                        </div>
+                        <div class="dropdown-content2" id="dropdown-content2">
+                            <!-- Началокарусели 2-->
+                            <div class="choose_slider">
+                                <div class="typical-solution">Ассортимент по категориям</div>
+                                <div class="choose_slider_items">
+                                    <ul id="mySlider1">
+
+
+                                        <li class="current_item">
+                                            <a class="white-circle" href="@Utils.HtmlRaw(catalog_img_url_array[1])"><img src="/img/new/catalog/fitingi-3.svg" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Фитинг - незаменимая составная часть любого трубопровода. Поэтому качество фитинга напрямую влияет на долговечность и функциональность инженерных систем водоснабжения и отопления.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(catalog_url_array[1])
+                                        </li>
+                                        <li class="current_item">
+                                            <a class="white-circle" href="@Utils.HtmlRaw(catalog_img_url_array[0])"><img src="/img/new/catalog/pipe-3.svg" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Обладая превосходными параметрами наши трубы применяются в любых инженерных водопроводных системах.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(catalog_url_array[0])
+                                        </li>
+                                        <li class="current_item">
+                                            <a class="white-circle" href="@Utils.HtmlRaw(catalog_img_url_array[2])"><img src="/img/new/catalog/kran.svg" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Применение таких комплектующих позволяет расширить спектр функциональности инженерных систем.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(catalog_url_array[2])
+                                        </li>
+                                        <li class="current_item">
+                                            <a class="white-circle" href="@Utils.HtmlRaw(catalog_img_url_array[3])"><img src="/img/new/catalog/teplovoi-punkt.svg" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Ассортимент предлагаемой продукцию включает только товары зарекомендовавших себя производителей.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(catalog_url_array[3])
+                                        </li>
+
+                                        <li class="current_item">
+                                            <a class="white-circle" href="@Utils.HtmlRaw(catalog_img_url_array[1])"><img src="/img/new/catalog/fitingi-3.svg" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Фитинг - незаменимая составная часть любого трубопровода. Поэтому качество фитинга напрямую влияет на долговечность и функциональность инженерных систем водоснабжения и отопления.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(catalog_url_array[1])
+                                        </li>
+                                        <li class="current_item">
+                                            <a class="white-circle" href="@Utils.HtmlRaw(catalog_img_url_array[0])"><img src="/img/new/catalog/pipe-3.svg" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Обладая превосходными параметрами наши трубы применяются в любых инженерных водопроводных системах.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(catalog_url_array[0])
+                                        </li>
+                                        <li class="current_item">
+                                            <a class="white-circle" href="@Utils.HtmlRaw(catalog_img_url_array[2])"><img src="/img/new/catalog/kran.svg" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Применение таких комплектующих позволяет расширить спектр функциональности инженерных систем.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(catalog_url_array[2])
+                                        </li>
+                                        <li class="current_item">
+                                            <a class="white-circle" href="@Utils.HtmlRaw(catalog_img_url_array[3])"><img src="/img/new/catalog/teplovoi-punkt.svg" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Ассортимент предлагаемой продукцию включает только товары зарекомендовавших себя производителей.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(catalog_url_array[3])
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a id="btn_next1" href="#">
+                                    <div class="big-arrow-right"></div>
+                                </a>
+                                <a id="btn_prev1" href="#">
+                                    <div class="big-arrow-left"></div>
+                                </a>
+                                <div class="blue-circle"></div>
+                            </div>
+
+                            <br />
+                            <!-- Конец карусели 2-->
+                        </div>
+                        <div class="arrow" id="arrow2"></div>
+                    </div>
+
+
+                    <div class="search-container">
+
+                        <div class="search-button"></div>
+                        <div class="search-container-enlarge">
+                            <a title="@Utils.LC("Поиск по параметрам", "Parametric search", lang)" href="@Utils.LangHref(lang, "globalfilter")"><div class="search-filter"></div></a>
+                            <form class="search-form" action="@Utils.LangHref(lang, "search")" method="post">
+
+                                <div class="autocomplete">
+                                    <input type="search" name="SearchText" value="" placeholder="Поиск" id="search-input" autocomplete="off">
+                                </div>
+
+                                <div class="search-lupa-container"><button type="submit" class="search-lupa"></button></div>
+
+                            </form>
+                            <div class="search-x"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="nav-container-right">
+                        <div class="dropdown3">
+                            <div class="dropbtn3">@Utils.LC("Решения", "Solutions", lang)</div>
+                        </div>
+                        <div class="dropdown-content3" id="dropdown-content3">
+
+
+                            <!-- Началокарусели 3-->
+                            <div class="choose_slider">
+                                <div class="typical-solution">
+                                    Типовые решения
+                                </div>
+                                <div class="choose_slider_items">
+                                    <ul id="mySlider2">
+                                        <li class="current_item">
+                                            <a href="@Utils.HtmlRaw(solution_img_url_array[0])"><img src="/img/new/carousel/desc-field.png" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Водяные системы подогрева площадок можно применять как для устройства газонов и футбольных полей, так и для устройства систем антиобледенения кровли.</div>
+                                            </div>
+                                            <br> @Utils.HtmlRaw(solution_url_array[0])
+                                        </li>
+                                        <li class="current_item">
+
+                                            <a href="@Utils.HtmlRaw(solution_img_url_array[1])"><img src="/img/new/carousel/desc-heating.png" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">С развитием производства новых материалов и технологий совершенствуются  и системы отопления. Теперь вы можете создать комфортные условия в доме или квартире как самостоятельно, так и с помощью наших специалистов.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(solution_url_array[1])
+                                        </li>
+                                        <li class="current_item">
+                                            <a href="@Utils.HtmlRaw(solution_img_url_array[2])"><img src="/img/new/carousel/desc-supply.png" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Представить свое жилье без водопровода сегодня невозможно. Правильно организованная  система водоснабжения обеспечит эффективную эксплуатацию на долгие годы.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(solution_url_array[2])
+                                        </li>
+                                        <li class="current_item">
+
+                                            <a href="@Utils.HtmlRaw(solution_img_url_array[3])"><img src="/img/new/carousel/desc-floor.png" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Наиболее популярная сегодня система отопления зданий и помещений, обеспечивающая комфорт и эстетичность.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(solution_url_array[3])
+                                        </li>
+                                        <li class="current_item">
+
+                                            <a href="@Utils.HtmlRaw(solution_img_url_array[4])"><img src="/img/new/carousel/desc-watering.png" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">От особенностей устройства системы полива или орошения зависит и ваш будущий урожай на дачном участке, и красота ландшафтного дизайна вашего коттеджа.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(solution_url_array[4])
+                                        </li>
+                                        <li class="current_item">
+                                            <a href="@Utils.HtmlRaw(solution_img_url_array[0])"><img src="/img/new/carousel/desc-field.png" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Водяные системы подогрева площадок можно применять как для устройства газонов и футбольных полей, так и для устройства систем антиобледенения кровли.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(solution_url_array[0])
+                                        </li>
+                                        <li class="current_item">
+
+                                            <a href="@Utils.HtmlRaw(solution_img_url_array[1])"><img src="/img/new/carousel/desc-heating.png" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">С развитием производства новых материалов и технологий совершенствуются  и системы отопления. Теперь вы можете создать комфортные условия в доме или квартире как самостоятельно, так и с помощью наших специалистов.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(solution_url_array[1])
+                                        </li>
+                                        <li class="current_item">
+                                            <a href="@Utils.HtmlRaw(solution_img_url_array[2])"><img src="/img/new/carousel/desc-supply.png" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Представить свое жилье без водопровода сегодня невозможно. Правильно организованная  система водоснабжения обеспечит эффективную эксплуатацию на долгие годы.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(solution_url_array[2])
+                                        </li>
+                                        <li class="current_item">
+
+                                            <a href="@Utils.HtmlRaw(solution_img_url_array[3])"><img src="/img/new/carousel/desc-floor.png" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">Наиболее популярная сегодня система отопления зданий и помещений, обеспечивающая комфорт и эстетичность.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(solution_url_array[3])
+                                        </li>
+                                        <li class="current_item">
+
+                                            <a href="@Utils.HtmlRaw(solution_img_url_array[4])"><img src="/img/new/carousel/desc-watering.png" /></a>
+                                            <div class="current_item_blue_container">
+                                                <div class="blue_container_txt">От особенностей устройства системы полива или орошения зависит и ваш будущий урожай на дачном участке, и красота ландшафтного дизайна вашего коттеджа.</div>
+                                            </div>
+                                            <br>
+                                            @Utils.HtmlRaw(solution_url_array[4])
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <a id="btn_next2" href="#">
+                                    <div class="big-arrow-right"></div>
+                                </a>
+                                <a id="btn_prev2" href="#">
+                                    <div class="big-arrow-left"></div>
+                                </a>
+                                <div class="blue-circle"></div>
+                            </div>
+                            <br />
+                            <!-- Конец карусели 3-->
+                        </div>
+                        <div class="arrow" id="arrow3"></div>
+                    </div>
+                    <div class="nav-container-right">
+                        <div class="txt-white dropbtn4">@Utils.LC("Информация", "Information", lang)</div>
+                        <div class="arrow" id="arrow4"></div>
+                        <div class="dropdown-content4" id="dropdown-content4">
+                            <div class="dropdown-content4-container">
+                                <nav>
+                                    <ul>
+                                        <li class="nav-style"><a href="@LinkPlaceAnOrderAndPay"><div class="blue-box"></div>Оформление заказа и оплата</a></li>
+                                        <li class="nav-style"><a href="@LinkDeliveryOptions"><div class="blue-box"></div>Доставка / Самовывоз</a></li>
+                                        <li class="nav-style"><a href="@LinkReturns"><div class="blue-box"></div>Возврат</a></li>
+                                        <li class="nav-style"><a href="@LinkPublicOffer"><div class="blue-box"></div>Договор публичной оферты</a></li>
+                                    </ul>
+                                </nav>
+                                <nav>
+                                    <ul>
+                                        <li class="nav-style"><a href="@LinkDocs"><div class="blue-box"></div>Библиотека</a></li>
+                                        <li class="nav-style"><a href="/@Utils.LangHref(lang, "sale")"><div class="blue-box"></div>Выгодные акции</a></li>
+                                        <li class="nav-style"><a href="@Utils.LangHref(lang, "info/partnership")"><div class="blue-box"></div>Взаимовыгодные отношения</a></li>
+                                        <li class="nav-style"><a href="/@Utils.LangHref(lang, "network")"><div class="blue-box"></div>Сеть Бир Пекс</a></li>
+                                    </ul>
+                                </nav>
+                                <nav>
+                                    <ul>
+                                        <li class="nav-style"><a href="@Utils.LangHref(lang, "bim")"><div class="blue-box"></div>BIM моделирование</a></li>
+                                        <li class="nav-style"><div class="blue-box"></div><div id="smeta2">Онлайн-смета</div></li>
+                                        <li class="nav-style"><div class="blue-box"></div><div id="pricelist2">Прайс-лист</div></li>
+                                        <li class="nav-style"> <a href="/@Utils.LangHref(lang, "converter")"><div class="blue-box"></div>Конвертер</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Конец второго меню-->
+
+<div class="skoba"></div>
+<CascadingValue Value="@lang">
+    @Body
+</CascadingValue>
+
+<div class="smeta-container"><div class="smeta-load-container"></div></div>
+<div class="slr-pricelist-container"><div class="slr-pricelist-title">@Utils.LC("Прайс-лист", "Pricelist", lang)</div><div class="color-circle-container"><div class="color-circle light-blue-circle"></div><div class="color-circle green-color-circle"></div><div class="color-circle orange-color-circle"></div><div class="color-circle red-color-circle"></div><div class="color-circle purple-color-circle"></div><div class="color-circle blue-color-circle"></div></div><div class="calc-x"></div><div class="slr-pricelist-container-load"></div></div>
+<div class="calc-delivery-container"><div class="calc-delivery-container-load"></div><div class="calc-x x"></div></div>
+<div class="purple-arrow"></div>
+<!-- Начало мнение-->
+<div class="feedback-popup-container" id="feedback-results"></div>
+<div class="opinion-container">
+
+    <div class="opinion-txt x" id="feedback-popup">@Utils.LC("Сообщить об ошибке", "Share your opinion", lang) <div class="white-talk"></div></div>
+
+</div>
+<!-- Конец мнение-->
+<footer class="footer-all-container">
+    <div class="footer-container">
+        <div class="footer-container-left">
+            <div class="footer-container-column">
+                <div class="logo-white-footer"></div>
+                <div class="footer-white-txt our-company">Наша компания способна пред&shy;ло&shy;жить вам ком&shy;плекс&shy;ное ре&shy;ше&shy;ние по ус&shy;трой&shy;ству кли&shy;мата и до&shy;маш&shy;не&shy;го уюта. Обоз&shy;начь&shy;те за&shy;дачу и до&shy;верь&shy;тесь ко&shy;манде опыт&shy;ных специа&shy;листов.</div>
+                <div class="footer-row-social">
+                    <a href="http://tg.xenot.ru/BYRbot" target="_blank">
+                        <div class="telegram"></div>
+                    </a>
+                    <a href="https://www.facebook.com/TSDbyrpex/" target="_blank">
+                        <div class="facebook"></div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=I9WQhE0wq6k&list=PL8WswMf69c5O_GM76oAsB7B0Yqtd2Od9j&index=2" target="_blank">
+                        <div class="youtube"></div>
+                    </a>
+                    <a href="https://www.instagram.com/byr_pex/" target="_blank">
+                        <div class="instagram"></div>
+                    </a>
+                    <a href="https://vm.tiktok.com/ZSJFMAKfF/" target="_blank">
+                        <div class="tiktok"></div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <div class="footer-container-right">
+            <div class="footer-container-column2">
+                <div class="footer-white-txt"><strong>@Utils.LC("Информация", "Information", lang)</strong></div>
+                <div class="white-line"></div>
+
+                <div class="footer-white-txt"><a href="@LinkAboutUs">@Utils.LC("О компании", "About us", lang)</a></div>
+                <div class="footer-white-txt"><a href="@LinkPlaceAnOrderAndPay">Оформление заказа и оплата</a></div>
+                <div class="footer-white-txt"><a href="@LinkDeliveryOptions">Доставка / Самовывоз</a></div>
+                <div class="footer-white-txt"><a href="@LinkReturns">Возврат</a></div>
+                <div class="footer-white-txt"><a href="@LinkPublicOffer">Договор публичной оферты</a></div>
+                <div class="footer-white-txt"><a href="@LinkDocs">Библиотека</a></div>
+            </div>
+
+            <div class="footer-container-column2 smaller">
+                <div class="footer-white-txt"><strong>@Utils.LC("Решения", "Решения", lang)</strong></div>
+                <div class="white-line"></div>
+                @foreach (var item in solution_url_list)
+                {
+                    <div class="footer-white-txt">@Utils.HtmlRaw(item)</div>
+                }
+            </div>
+
+            <div class="footer-container-column2">
+                <div class="footer-white-txt"><a href="@Utils.LangHref(lang, "cat")"><strong>@Utils.LC("Каталог", "Catalogue", lang)</strong></a></div>
+                <div class="white-line"></div>
+                @foreach (var item in catalog_url_list)
+                {
+                    <div class="footer-white-txt">@Utils.HtmlRaw(item)</div>
+                }
+
+                <div class="footer-white-txt"><a href="@Utils.LangHref(lang, "articles")">@Utils.LC("Статьи", "Articles", lang)</a></div>
+            </div>
+
+            <div class="footer-container-column2">
+                <div class="footer-white-txt"><a href="@Utils.LangHref(lang, "contacts")"><strong>@Utils.LC("Контакты", "Contacts", lang)</strong></a></div>
+                <div class="white-line"></div>
+                <div class="footer-row">
+                    <div class="email"></div>
+                    <div class="footer-white-txt" id="choose-email">@Utils.LC("Написать нам:", "Email us:", lang)</div>
+                    <div class="footer-arrow" id="footer-arrow-email"></div>
+
+                </div>
+                <div id="choose-city-email"><a class="etc" href="mailto:shop@byrpex.ru">shop@byrpex.ru</a></div>
+                <div class="footer-row">
+                    <div class="footer-tel"></div>
+                    <div class="footer-white-txt" id="choose-city">@Utils.LC("Позвонить нам:", "Call us:", lang)</div>
+
+                    <div class="footer-arrow" id="footer-arrow-tel"></div>
+
+
+                </div>
+                <div id="choose-city-tel"><a class="etc" href="tel:@PhoneFlat">@Phone</a></div>
+                <div class="footer-row">
+                    <div class="footer-pin"></div>
+                    <div class="footer-white-txt" id="delivery">@Utils.LC("Увидеть на карте:", "See on the map:", lang)</div>
+                    <div class="footer-arrow" id="footer-arrow-map"></div>
+
+                </div>
+                <div id="choose-city-map"><a class="etc" href="@LinkContacts">@Utils.LC("Сеть торговых представителей", "Network of sales representatives", lang)</a></div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="footer-address-payment">
+        <div class="footer-white-txt  copyright-container">© @(DateTime.Now.Year) <NavLink href="@Settings.HomePage">@Utils.LC("ТОРГОВО-СТРОИТЕЛЬНЫЙ ДОМ БИР ПЕКС", "TRADING AND CONSTRUCTION HOUSE BYR PEX", lang)</NavLink></div>
+        <div class="footer-white-txt address-container">
+            @Utils.LC("Россия, 141580, Московская область, деревня Поярково Солнечногорского района, ул. Клушинская, 1", "Russia, 141580, Moscow oblast, Solnechnogorskiy rayon, Poyarkovo, Klushinskaya st., 1", lang)
+        </div>
+        <div class="payment-container">
+            <div class="visa"></div>
+            <div class="mastercard"></div>
+            <div class="mir"></div>
+        </div>
+    </div>
+</footer>
+<div id="PriceHintBase">Базовая цена</div>
+<div id="PriceHintDisc">Цена с Вашей скидкой</div>
+<div id="PriceHintSale">Сейчас распродажа!</div>
+<div id="PriceHintMin">Минимально возможная цена. Скидка предоставляется менеджером индивидуально.</div>
+@code {
+
+    string lang { get; set; }
+    string url { get; set; }
+
+    protected override void OnInitialized()
+    {
+        url = Lang.GetDifferentLangUrl(navigation.Uri);
+        lang = Lang.lang;
+    }
+
+    void ChangeLanguage()
+    {
+        url = Lang.GetDifferentLangUrl(navigation.Uri);
+        if (Lang.lang == Settings.LanguageRU)
+        {
+            Lang.lang = "en";
+            lang = "en";
+
+        }
+        else
+        {
+            Lang.lang = "ru";
+            lang = "ru";
+
+        }
+        StateHasChanged();
+    }
+
+}
+
+

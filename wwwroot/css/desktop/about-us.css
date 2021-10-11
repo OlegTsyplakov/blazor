@@ -1,0 +1,120 @@
+.main-title{
+    color: #0073d0;
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.description-img-container{
+    position: relative;
+
+    height: 0;
+  width: 45%;
+  
+    overflow: hidden;
+    padding-bottom:25%;
+}
+
+.description-item-title-top{
+    text-align: center;
+    font-size: 2vw;
+    font-weight: bold;
+    color: #17528e;
+}
+.description-item-title-middle{
+    text-align: center;
+    font-size: 1.8vw;
+    font-weight: bold;
+    color: #0073d0;
+}
+.description-item-title-bottom{
+    text-align: center;
+    font-size: 1.2vw;
+    font-weight: bold;
+    color: #17528e;
+}
+.description-img-container>.description-img-1,.description-img-container>.description-img-2,.description-img-container>.description-img-3{
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+  margin: auto;
+  
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.description-img-1{
+    height: 467px;
+    width: 700px;
+    background: url("/img/new/about-us/edelveis.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;  
+   
+}
+.description-img-2{
+    height: 495px;
+    width: 700px;
+    background: url("/img/new/about-us/tower-china.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;  
+   
+}
+.description-img-3{
+    height: 503px;
+    width: 700px;
+    background: url("/img/new/about-us/karamishevskaya.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;  
+   
+}
+.description-txt{
+   
+    color:#17528e;
+    font-size: 1vw;
+    font-weight: bold;
+    
+   padding: 10px;
+    opacity:1;
+    
+    width: 50%;
+    text-align: justify;
+    margin: auto;
+    
+}
+
+.description-container{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    
+
+}
+
+.description-container-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+    width: 100%; 
+    margin-bottom: 10px;
+    font-size:13px;
+    color: #17528e;
+    text-align:justify;
+    flex-wrap: wrap;
+}
+.description-img-container-row{
+    display: flex;
+    flex-direction: row; 
+    height: auto;
+    width: 100%; 
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(240, 240, 240);
+}
+
+

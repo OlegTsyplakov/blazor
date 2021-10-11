@@ -1,0 +1,20 @@
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+        <Found Context="routeData">
+
+        
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout_mobile)" />
+
+         
+
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout_mobile)">
+                <p>Sorry, there is nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
+
+

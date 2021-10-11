@@ -1,0 +1,42 @@
+﻿@page "/ru/vacancies"
+@page "/en/vacancies"
+
+@using Data.Services
+
+@{
+    var Model = DbContext.GetAllItemsFromCollection<Site.Data.DBModel.Vacancy>();
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "vacancies");
+}
+<Title>@Utils.LC("Вакансии - корпорации БИР ПЕКС", "", lang)</Title>
+<Link Rel="canonical" Href="@cannonical" />
+<link href="/css/desktop/vacancy.css" rel="stylesheet" />
+
+
+<!-- Начало инфо-->
+<div class="content-container">
+    <div class="part-container">
+        <div class="main-title">Вакансии</div>
+        <div class="offer-container-row">
+            <hr class="hr-dotted">
+            <br />
+            @foreach (var vacancy in Model)
+            {
+        <div class="activities-txt-container">
+            <NavLink href="@Utils.LangHref(lang,"vacancy/"+vacancy.Slug)">@Utils.LC(vacancy.Name, lang)</NavLink>
+            <NavLink href="@Utils.LangHref(lang,"vacancy/"+vacancy.Slug)" class="more">@Utils.LC("подробнее","", lang)</NavLink>
+            <div class="date">@vacancy.LastModified.ToString(Settings.DefaultDateFormat)</div>
+        </div>
+                <br />
+                <hr class="hr-dotted">
+                <br />
+            }
+        </div>
+    </div>
+</div>
+<!-- Конец инфо-->
+
+
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

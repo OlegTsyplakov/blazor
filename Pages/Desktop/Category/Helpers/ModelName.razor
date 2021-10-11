@@ -1,0 +1,21 @@
+﻿@using Data.Services
+@{
+    var name = Utils.LC(Model.Name, lang);
+    if (!string.IsNullOrEmpty(name))
+    {
+        if (Model.Parent?.Value != null)
+        {
+            <Breadcrumbs Model="@Model" />
+        }
+
+        <div class="part-container">
+            <h1 class="main-title">@name</h1>
+        </div>
+    }
+}
+@code
+{
+    [Parameter]
+    public WareGroup Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

@@ -1,0 +1,37 @@
+﻿@using Data.Services
+<JS Name="Module.Video" />
+@{
+    var MainYoutube = Utils.GetMainYoutube(Model);
+    if (MainYoutube.Code != null)
+    {
+        <div class="part-container">
+            <div class="video-container-column">
+                <div class="video-title">
+                    @Utils.LC(MainYoutube.Name,lang)
+                </div>
+                <div class="video-container-row">
+                    <div class="video-item-play">
+                        <iframe id="first-video" width="560" height="315" src="https://www.youtube.com/embed/@MainYoutube.Code?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=allowfullscreen></iframe>
+                    </div>
+                    <div class="video-items-container">
+                        @foreach (var video in Utils.CollectYoutube(Model).Take(3))
+                        {
+                            <div class="video-item-container">
+                                <div class="video-item-next-title">@Utils.LC(video.Name,lang)</div>
+                                <div class="video-item-next"> <iframe class="video-item-next-noclick" width="100%" height="auto" src="https://www.youtube.com/embed/@video.Code?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=allowfullscreen></iframe></div>
+
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+@code
+{
+    [Parameter]
+    public WareGroup Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

@@ -1,0 +1,51 @@
+﻿@using Data.Services
+@{
+    if (Model.UnifyingFeatureReference != null && Model.UnifyingFeatureReference.Count > 0)
+    {
+        <div class="part-container">
+            <div class="description-info-container">
+                @foreach (var ufr in Model.UnifyingFeatureReference)
+                {
+                    var uf = DbContext.GetItemFromCollectionByID<UnifyingFeature>(ufr);
+                    <div class="description-info-item-container">
+                        <div class="description-info-icon-container">
+                            @{
+                                var href = Utils.LC(uf.Image.FileName, lang);
+                                var desc = Utils.LC(uf.Description, lang);
+
+                             }
+                            @if (!string.IsNullOrEmpty(href))
+                            {
+                                <div class="info-icon"><img src="@href.Substring(1)" /></div>
+                            }
+                        </div>
+                        <div class="description-info-purple-txt">@Utils.LC(uf.Name,lang)</div>
+                        @if (!string.IsNullOrEmpty(desc))
+                        {
+                            <div class="description-info-more-purple-txt">@Utils.LC("подробнее", "more", lang)</div>
+                        }
+
+                        <div class="description-info-more-purple-line"></div>
+                    </div>
+                    if (!string.IsNullOrEmpty(desc))
+                    {
+            <div class="description-info-popup-container x">
+                <div class="calc-x x"></div>
+                <div class="color-circle-container"><div class="color-circle light-blue-circle"></div><div class="color-circle green-color-circle"></div><div class="color-circle orange-color-circle"></div><div class="color-circle red-color-circle"></div><div class="color-circle purple-color-circle"></div><div class="color-circle blue-color-circle"></div></div>
+                @Utils.HtmlRaw(Utils.LC(uf.Description, lang))
+
+            </div>
+                    }
+                }
+            </div>
+        </div>
+
+
+    }
+}
+@code
+{
+    [Parameter]
+    public WareGroup Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

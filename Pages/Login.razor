@@ -1,0 +1,25 @@
+﻿@page "/login"
+@inject ProtectedSessionStorage ProtectedSessionStore
+User name: @UserName
+<p />
+<input value="@UserName" @onchange="args => UserName = args.Value?.ToString()" />
+<button class="btn btn-primary" @onclick="SaveUserName">Save</button>
+
+@code {
+    private string UserName;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            UserName = (await ProtectedSessionStore.GetAsync<string>("UserName")).Value ?? "";
+            StateHasChanged();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task SaveUserName()
+    {
+        await ProtectedSessionStore.SetAsync("UserName", UserName);
+    }
+}

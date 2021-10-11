@@ -1,0 +1,162 @@
+
+.contact-title{
+    color: #0073d0;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.contact-subtitle{
+    color: #17528e;
+    font-size: 20px;
+    font-weight: bold;
+}
+.branch-list{
+    color: #17528e;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.contact-city{
+    color: #0073d0;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.branch-desc{
+    color: #0073d0;
+    font-size: 14px;
+    font-weight: bold;
+   
+}
+p{
+    color: #292f36;
+    font-size: 14px;
+}
+
+span>a,p>a{
+    color: #17528e;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.6s ease-in-out;
+}
+span>a:hover,p>a:hover{
+    opacity: 0.8;
+}
+.dealer{
+    color: #9118cc;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+.representative{
+    color: #149100;
+    font-size: 13px;
+}
+.headquarter{
+  color: #177bc9;
+  font-size: 13px;
+}
+
+  .container {
+    margin: 0 auto;
+    padding: 10px 0px;
+    width: 100%;
+  }
+  
+  .accordion .accordion-item {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .accordion .accordion-item button[aria-expanded='true'] {
+    border-bottom: 1px solid #0073d0;
+  }
+  .accordion button {
+    position: relative;
+    display: block;
+    text-align: left;
+    width: 100%;
+    padding: 1em 0;
+    color: #7288a2;
+    font-size: 14px;
+    line-height: 26px;
+    font-weight: 400;
+    border: none;
+    background: none;
+    outline: none;
+    transition: all 0.6s ease-in-out;
+  }
+  .accordion button:hover, .accordion button:focus {
+    cursor: pointer;
+    color: #0073d0;
+  }
+  .accordion button:hover::after, .accordion button:focus::after {
+    cursor: pointer;
+    color: #0073d0;
+    border: 1px solid #0073d0;
+  }
+  .accordion button .accordion-title {
+    padding: 1em 1.5em 1em 0;
+  }
+  .accordion button .icon {
+    display: inline-block;
+    position: absolute;
+    top: 18px;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border: 1px solid;
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  .accordion button .icon::before {
+    display: block;
+    position: absolute;
+    content: '';
+    top: 4px;
+    left: 1px;
+    width: 8px;
+    height: 2px;
+    background: currentColor;
+  }
+  .accordion button .icon::after {
+    display: block;
+position: absolute;
+content: '';
+top: 1px;
+left: 4px;
+width: 2px;
+height: 8px;
+background: currentColor;
+  }
+  .accordion button[aria-expanded='true'] {
+    color: #0073d0;
+  }
+  .accordion button[aria-expanded='true'] .icon::after {
+    width: 0;
+  }
+  .accordion button[aria-expanded='true'] + .accordion-content {
+    opacity: 1;
+    height: auto;
+    -webkit-transition: all 200ms linear;
+    transition: all 200ms linear;
+    will-change: opacity, height;
+    border-top: 0px;
+  }
+  .accordion .accordion-content {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    -webkit-transition: opacity 200ms linear, height 200ms linear;
+    transition: opacity 200ms linear, height 200ms linear;
+    will-change: opacity, height;
+  }
+  .accordion .accordion-content p {
+    font-size: 14px;
+font-weight: 300;
+margin: 10px 0;
+  }
+  hr{
+      height: 0;
+     border: none;
+     border-top: 1px dashed #c6c6c6;
+  }

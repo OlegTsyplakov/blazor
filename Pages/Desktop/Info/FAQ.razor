@@ -1,0 +1,54 @@
+﻿@page "/ru/info/faq"
+@page "/en/info/faq"
+
+@using Data.Services
+
+@{
+    var FAQs = DbContext.GetAllItemsFromCollection<Site.Data.DBModel.FAQ>();
+    uint count = 1;
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "info/design");
+}
+<Title>@Utils.LC("Часто задаваемые вопросы", "Frequently asked questions", lang)</Title>
+<Link Rel="canonical" Href="@cannonical" />
+<link href="/css/desktop/faq.css" rel="stylesheet" />
+<JS Name="Module.FAQ" />
+
+
+<!-- Начало faq-->
+<div class="part-container">
+    <div class="faq-container-txt">@Utils.LC("часто задаваемые вопросы", "frequently asked questions", lang)</div>
+    <div class="faq-container">
+        <div class="faq-container-left">
+            <div class="faq-title-left">Вопросы</div>
+            @foreach (var item in FAQs)
+            {
+                <div class="faq-container-item">
+                    <div class="faq-circle">
+                        <div class="faq-number">@count</div>
+                    </div>
+                    <div class="faq-txt">@Utils.HtmlRaw(Utils.LC(item.Question, lang))</div>
+                    <div class="faq-rect" id="rect@(count)"></div>
+                </div>
+                count++;
+            }
+        </div>
+        <div class="faq-container-right">
+            <div class="faq-title-right">Ответы</div>
+
+            @{count = 1; }
+            @foreach (var item in FAQs)
+            {
+                <div class="faq-container-answer" id="faq@(count)">
+                    @Utils.HtmlRaw(Utils.LC(item.Answer, lang))
+
+                </div>
+                count++;
+            }
+        </div>
+    </div>
+</div>
+<!-- Конец faq-->
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

@@ -1,0 +1,70 @@
+﻿@using Data.Services
+
+
+@{
+
+
+    var WI = Model.Item.Value;
+    var SDR = WI.GetSDR();
+    var PSO = WI.GetPSO();
+    string arthref = Utils.LangHref(lang, "art/" + WI.GetSlugOrID());
+}
+@{
+    <div class="also-recommended-item-container">
+        @if (SDR != null)
+        {
+            <div class="also-recommended-item-sdr">@SDR</div>
+        }
+        @if (PSO == "Optima")
+        {<div class="also-recommended-brand-container-green">@Utils.LC("Оптима", "Optima", lang)</div>}
+        @if (PSO == "Premium/Standart")
+        {<div class="also-recommended-brand-container-blue">@Utils.LC("Стандарт", "Standart", lang)</div><div class="also-recommended-brand-container-purple">@Utils.LC("Премиум", "Premium", lang)</div>}
+        @if (PSO == "Standart")
+        {<div class="also-recommended-brand-container-blue-single">@Utils.LC("Стандарт", "Standart", lang)</div>}
+        @if (PSO == "Premium")
+        {<div class="also-recommended-brand-container-purple">@Utils.LC("Премиум", "Premium", lang)</div>}
+
+        <div class="also-recommended-item-title"><a href="@arthref">@Utils.CutString(Utils.HtmlRaw(Utils.LC(WI.Name, lang)).ToString(), 48)</a></div>
+        <div class="also-recommended-item-img">
+            @{
+                Image image = WI.GetMainImage();
+                if (Utils.CheckImageExists(image, lang))
+                {
+                    <img src="@Utils.GetImageCropedUrl(image.FileName, 153, 153)">
+                }
+            }
+
+        </div>
+
+
+
+        @if (WI.PackAmount != 1.0)
+        {
+            <div class="also-recommended-price-title">Цена, руб./@WI.GetPackUnit(lang)</div>
+            <div class="also-recommended-price">@WI.GetPackPrice()</div>
+
+        }
+        else
+        {
+            <div class="also-recommended-price-title">Цена, руб./@WI.GetUnit(lang)</div>
+            <div class="also-recommended-price">@WI.GetUnitPrice()</div>
+
+
+        }
+
+
+        <div class="also-recommended-price-title"></div>
+
+
+
+        <Quantity ID="@WI.IdAsString" />
+
+
+    </div>
+}
+@code
+{
+    [Parameter]
+    public RecommendedItem Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

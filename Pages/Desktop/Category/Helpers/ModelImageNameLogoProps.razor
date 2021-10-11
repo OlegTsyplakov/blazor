@@ -1,0 +1,118 @@
+﻿@using Data.Services
+<JS Name="Module.Share" />
+<div class="bg-container">
+    <div class="part-container">
+        <Breadcrumbs Model="@Model"/>
+        <div class="purple-txt-container">
+            <h1 class="purple-txt">@Utils.HtmlRaw(Utils.LC(Model.Name,lang))</h1>
+            <div class="blue-logo"><VendorLogo Model2="@Model.Vendor.Value"/></div>
+            <div class="ya-share2" data-curtain data-shape="round" data-limit="0" data-more-button-type="short" data-services="vkontakte,facebook,odnoklassniki,telegram,twitter"></div>
+        </div>
+        <div class="item-container-cd2">
+            <div class="item-photo-container">
+                @if (SDR_Check)
+                {
+                    <div class="sdr">@SDR</div>
+                }
+                @if (Model?.Images != null && Model.Images.Count() > 0)
+                {
+                    @WareOrGroupImages(Model.Images.Where(x => x.IsDrawing != true).ToList(), Utils.LC(Model.Name,lang))
+                }
+            </div>
+            <div class="item-price-bg-container">
+                <div class="item-price-container">
+                    @if (System == "Optima")
+                    {<div class="brand-container">@Utils.LC("Оптима", "Optima",lang)</div>}
+                    @if (System == "Standart")
+                    {<div class="brand-blue-single-container">@Utils.LC("Стандарт", "Standart", lang)</div>}
+                    @if (System == "Premium")
+                    {<div class="brand-purple-container">@Utils.LC("Премиум", "Premium", lang)</div>}
+                    @if (System == "Premium/Standart")
+                    {<div class="brand-blue-container">@Utils.LC("Стандарт", "Standart", lang)</div><div class="brand-purple-container">@Utils.LC("Премиум", "Premium", lang)</div>}
+
+                  
+
+                    @WareOrGroupPropertyTableNew(Model.CollectPropertiesGroup(Model), SDR)
+                    @if (Utils.LC(Model.Name, lang).ToLower().Contains("purmo"))
+                    {
+                        <Purmo Model="@Model"/>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@code
+{
+    public MarkupString WareOrGroupImages(List<Image> Images, string AltAlt)
+    {
+        string result = string.Empty;
+        int ic;
+        if (Images != null && (ic = Images.Count) > 0)
+        {
+            Image image = Images[0];
+
+            if (ic == 1)
+            {
+                result += "<div class=\"main-photo-container main-photo-container-single\"><img src="+ Utils.GetImageCropedUrl(image.FileName, 1024, 768) + "></div>";
+            }
+            else
+            {
+                result += "<div class=\"main-photo-container\"><img src="+ Utils.GetImageCropedUrl(image.FileName, 1024, 768) + "></div>";
+
+                result += "<div class=\"small-photo-container\">";
+                for (int i = 1; i < ic; i++)
+                {
+                    image = Images[i];
+                    result += "<div class=\"small-photo\"><img src="+ Utils.GetImageCropedUrl(image.FileName, 1024, 768) + "></div>";
+                }
+
+                result += "</div>";
+            }
+        }
+        return (MarkupString)result;
+    }
+
+    public MarkupString WareOrGroupPropertyTableNew(List<Property> Props, string sdr)
+    {
+        string result = string.Empty;
+        int count = 0;
+        if (Props.Count > 0)
+        {
+
+            foreach (var p in Props)
+            {
+                if (!p.Hidden)
+                {
+                    result += "<div class=\"item-price-row\">";
+                    if (count % 2 == 0)
+                    {
+                        result += "<div class=\"item-price-row-purple-light\">";
+                    }
+                    else
+                    {
+                        result += "<div class=\"item-price-row-purple\">";
+                    }
+                    result += "<div class=\"item-price-txt-purple\">" + p.PropType.Value.HtmlNameAndUnit(lang) + "</div><div class=\"item-price-txt-purple\">" + Utils.LC(p.Value, lang) + "</div>";
+                    result += "</div>";
+                    count++;
+                    result += "</div>";
+                }
+            }
+            result += "<div class=\"item-price-row-empty\"></div>";
+        }
+        return (MarkupString)result;
+    }
+
+    [Parameter]
+    public string SDR { get; set; }
+    [Parameter]
+    public bool SDR_Check { get; set; }
+    [Parameter]
+    public string System { get; set; }
+    [Parameter]
+    public WareGroup Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}
+

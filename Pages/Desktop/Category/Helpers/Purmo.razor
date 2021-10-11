@@ -1,0 +1,50 @@
+﻿@using Data.Services
+
+
+@{ var LP = DbContext.LoadWareItems<WareItem>(Model.IdAsString).Select(x => new { x.Article, x.IdAsString }).Select(x => new { model = x.Article.Split(new char[] { 'х' }, 3, StringSplitOptions.RemoveEmptyEntries)[0], height = x.Article.Split(new char[] { 'х' }, 3, StringSplitOptions.RemoveEmptyEntries)[1], width = x.Article.Split(new char[] { 'х' }, 3, StringSplitOptions.RemoveEmptyEntries)[2] }).ToList();
+    var LPN = LP.GroupBy(x => x.model).Select(x => x.First()).ToList();
+}
+<JS Name="Module.Purmo" />
+
+<div class="purmo-all-container">
+
+    <div class="purmo-column-container">
+        <div class="purmo-label-txt">Тип:</div>
+        <select class="select-purmo" id="purmo-model">
+            <option disabled selected>Выберите ...</option>
+            @foreach (var lpn in LPN)
+            {
+                <option value="@lpn.model">@lpn.model</option>
+            }
+        </select>
+    </div>
+    <div class="purmo-column-container">
+        <div class="purmo-label-txt">Высота:</div>
+        <select class="select-purmo" id="purmo-height">
+            <option disabled selected>Выберите ...</option>
+        </select>
+    </div>
+    <div class="purmo-column-container">
+        <div class="purmo-label-txt">Длина:</div>
+        <select class="select-purmo" id="purmo-width">
+            <option disabled selected>Выберите ...</option>
+        </select>
+        <div id="data-models" data-models="@System.Text.Json.JsonSerializer.Serialize(LP)"></div>
+    </div>
+
+
+
+</div>
+<div class="purmo-cart-container" id="purmo-id">
+    <div class="cartpopup-filter-qty-container">
+        <div class="cartpopup-filter-qty-minus" title="@Utils.LC(MLText.Decrease,lang)" data-wareid="" data-change="-1">-</div>
+        <input type="text" class="cartpopup-qty" id="qty" data-wareid="" value="0" disabled>
+        <div class="cartpopup-filter-qty-plus" title="@Utils.LC(MLText.Increase,lang)" data-wareid="" data-change="1">+</div>
+    </div>
+</div>
+<div class="purmo-all-price-container"><div class="purmo-price-black">@Utils.LC("Цена:", "Price:", lang)</div><div class="purmo-price-red"></div></div>
+@code {
+    [Parameter]
+    public WareGroup Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

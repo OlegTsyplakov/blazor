@@ -1,0 +1,34 @@
+﻿@using Data.Services
+@{
+    var desc = Utils.LC(Model.Description, lang);
+    var desc_more = Utils.LC(Model.DescriptionMore, lang);
+    if ((!string.IsNullOrEmpty(desc)) && (!string.IsNullOrEmpty(desc_more)))
+    {
+        <div class="part-container">
+            <div class="size-line"></div>
+            <div class="main-title-description">
+                @Utils.HtmlRaw(desc) <div class="readmore" id="readmore">@Utils.LC("далее ...", "more ...", lang)</div>
+            </div>
+            <div id="readmore-container-height">
+                <div id="readmore-container" class="main-title-description">@Utils.HtmlRaw(desc_more)<div class="readmore" id="close">@Utils.LC("свернуть", "close", lang)</div></div>
+            </div>
+
+            <div class="size-line" id="size-line-bottom"></div>
+        </div>
+    }
+    else if (!string.IsNullOrEmpty(desc))
+    {
+        <div class="part-container">
+            <div class="size-line" id="size-line"></div>
+            <div class="main-title-description">@Utils.HtmlRaw(desc)</div>
+            <div class="size-line" id="size-line-bottom"></div>
+        </div>
+    }
+
+}
+@code
+{
+    [Parameter]
+    public WareGroup Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

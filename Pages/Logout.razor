@@ -1,0 +1,25 @@
+﻿@page "/logout"
+
+@inject Site.Data.Mobile mobile
+@inject NavigationManager NavigationManager
+
+<h3>Logout</h3>
+<AuthorizeView>
+    <NotAuthorized>
+        <h2 class="mt-5">You are not authorized to view this page</h2>
+    </NotAuthorized>
+    <Authorized>
+        <div class="container my-profile">
+            <h2>My Profile</h2>
+            --- Place here all the content you want your user to view ----
+        </div>
+    </Authorized>
+</AuthorizeView>
+@code {
+    //protected override async Task OnInitializedAsync()
+    //{
+
+
+
+    //}
+}

@@ -1,0 +1,285 @@
+﻿@page "/ru/contacts"
+@page "/en/contacts"
+@using Data.Services
+
+
+@{
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "contacts");
+    var Dealers = DbContext.GetAllItemsFromCollection<BranchAddress>(x => x.BranchType == Enums.NBranchType.Dealer);
+    var Headquarters = DbContext.GetAllItemsFromCollection<BranchAddress>(x => x.BranchType == Enums.NBranchType.Headquarter);
+    var Representatives = DbContext.GetAllItemsFromCollection<BranchAddress>(x => x.BranchType == Enums.NBranchType.Representative);
+    var data = "{\"type\": \"FeatureCollection\",\"metadata\": {\"name\": \"Представители и дилеры\",\"creator\": \"Byr Pex\"},\"features\": [";
+    var data2 = "{\"features\": [";
+    var data3 = "{\"features\": [";
+    int count = 0;
+    List<string> RL = new List<string>();
+    List<string> DL = new List<string>();
+}
+<Title>@Utils.LC("Контакты", "Contacts", lang)</Title>
+<Link Rel="canonical" Href="@cannonical" />
+<link href="/css/desktop/contacts.css" rel="stylesheet" />
+<JS Name="Module.Contacts"/>
+@{
+    foreach (var item in Representatives.Where(x => x.ShowInList = true && x.ShowPlacemark == true))
+    {
+
+        if (string.IsNullOrEmpty(item.MapCoords) || item.MapCoords.IndexOf(',') == -1)
+        {
+
+            continue;
+        }
+        int delimetr = item.MapCoords.IndexOf(',');
+        data += "{\"type\": \"Feature\",\"id\": " + count + ",\"geometry\": { \"type\": \"Point\", \"coordinates\": [" + item.MapCoords.Substring(0, delimetr) + ", " + item.MapCoords.Substring(delimetr + 1) + "]},    \"properties\": {\"hintContent\": \"" + "<b>" + Utils.HtmlEncode(Utils.LC(item.Organization,lang)) + "</b>" + "<br>" + item.City.Ru + ", " + Utils.HtmlEncode(Utils.LC(item.StreetAddress,lang)) + "<br>" + item.ContactPersonName.Ru + "<br>" + item.EMail + "<br>" + item.Phones.FirstOrDefault() + "\", \"iconCaption\": \"" + Utils.HtmlEncode(Utils.LC(item.Name,lang)) + "\", \"marker-color\": \"#b51eff\"}},";
+
+        count++;
+    }
+    data = data.Substring(0, data.Length - 1) + "]}";
+
+
+    foreach (var item in Dealers.Where(x => x.ShowInList = true && x.ShowPlacemark == true))
+    {
+
+        if (string.IsNullOrEmpty(item.MapCoords) || item.MapCoords.IndexOf(',') == -1)
+        {
+
+            continue;
+        }
+
+        int delimetr = item.MapCoords.IndexOf(',');
+
+        data2 += "{\"type\": \"Feature\",\"id\": " + count + ",\"geometry\": { \"type\": \"Point\", \"coordinates\": [" + item.MapCoords.Substring(0, delimetr) + ", " + item.MapCoords.Substring(delimetr + 1) + "]},    \"properties\": {\"hintContent\": \"" + "<b>" + Utils.HtmlEncode(Utils.LC(item.Organization,lang)) + "</b>" + "<br>" + item.City.Ru + ", " + Utils.HtmlEncode(Utils.LC(item.StreetAddress,lang)) + "<br>" + item.ContactPersonName.Ru + "<br>" + item.EMail + "<br>" + item.Phones.FirstOrDefault() + "\", \"iconCaption\": \"" + Utils.HtmlEncode(Utils.LC(item.Name,lang)) + "\", \"marker-color\": \"#b51eff\"}},";
+
+        count++;
+
+    }
+    data2 = data2.Substring(0, data2.Length - 1) + "]}";
+    foreach (var item in Headquarters.Where(x => x.ShowPlacemark == true))
+    {
+
+        if (string.IsNullOrEmpty(item.MapCoords) || item.MapCoords.IndexOf(',') == -1)
+        {
+
+            continue;
+        }
+
+        int delimetr = item.MapCoords.IndexOf(',');
+
+        data3 += "{\"type\": \"Feature\",\"id\": " + count + ",\"geometry\": { \"type\": \"Point\", \"coordinates\": [" + item.MapCoords.Substring(0, delimetr) + ", " + item.MapCoords.Substring(delimetr + 1) + "]},    \"properties\": {\"hintContent\": \"" + "<b>" + Utils.HtmlEncode(Utils.LC(item.Organization,lang)) + "</b>" + "<br>" + item.City.Ru + ", " + Utils.HtmlEncode(Utils.LC(item.StreetAddress,lang)) + "<br>" + item.ContactPersonName.Ru + "<br>" + item.EMail + "<br>" + item.Phones.FirstOrDefault() + "\", \"iconCaption\": \"" + Utils.HtmlEncode(Utils.LC(item.Name,lang)) + "\", \"marker-color\": \"#b51eff\"}},";
+
+        count++;
+
+    }
+    data3 = data3.Substring(0, data3.Length - 1) + "]}";
+}
+<div class="skoba"></div>
+<!-- Начало контакт-->
+<div class="part-container">
+    <div class="contact-title">Контакты</div>
+    <div class="contact-subtitle">ТСД БИР ПЕКС</div>
+    <div class="headquarter">Центральный офис</div>
+    <div class="representative">Представитель</div>
+    <div class="dealer">Дилер</div>
+
+    <!-- Начало yandex-->
+
+    <div id="map" style="width: 100%; height: 350px;margin-bottom:20px;"></div>
+    <input type="hidden" data-dr="@data" id="data-dr">
+    <input type="hidden" data-dr2="@data2" id="data-dr2">
+    <input type="hidden" data-dr3="@data3" id="data-dr3">
+<JS Name="Module.ContactsMap"/>
+
+    <!-- Конец yandex-->
+
+
+    <h2 class="branch-list">Центральный офис</h2>
+    <div class="contact-city">Москва</div>
+    <p style="margin-bottom: 30px;">
+        <span class="branch-desc">Производство, офисно-складской комплекс и пункт самовывоза</span><br /><br /><b>Адрес: Россия, Московская область, деревня Поярково Солнечногорского района, ул. Клушинская, 1</b><br />
+        <b>Контактное лицо:</b> <br />
+        <b>Телефон:</b> <a href="tel:88007009732">8 (800) 700-9732</a>, <a href="tel:+74957899732">+7 (495) 789-9732</a>, <a href="tel:+74957837341">+7 (495) 783-7341</a><br />
+        <b>E-Mail:</b> <a href="mailto:shop@byrpex.ru">shop@byrpex.ru</a>
+        <br /><b>Режим работы: Пн-Пт: 09:00-17:00, Сб-Вс: выходной</b><br /><a href="https://shop.byrpex.com/img/info/byrpex-drive-to-poyarkovo.pdf">Распечатать схему проезда</a>
+        <br />
+        <span><a href="https://goo.gl/maps/hTRb42atK656xqyq5" target="_blank">Место на картах Google</a></span>
+        <br />
+        <span><a href="https://yandex.ru/maps/-/CCcAmDpK" target="_blank">Место на Яндекс-Картах</a></span>
+        <br />
+        <span><a href="https://youtu.be/YWy8y0wpH1M" target="_blank">Видео проезда на Youtube</a></span>
+
+
+    </p>
+    <div class="contact-city">Москва</div>
+    <p style="margin-bottom: 30px;">
+        <span class="branch-desc">Офис Корпорации БИР ПЕКС</span><br /><br />        <b>Адрес: Россия, Москва, Ленинградское шоссе 25, корпус 2 (отдельный вход со стороны детской площадки)</b><br />
+        <b>Контактное лицо:</b> <br />
+        <b>Телефон:</b> <a href="tel:+74957899732">+7 (495) 789-9732</a><br />
+        <b>E-Mail:</b> <a href="mailto:info@byrpex.ru">info@byrpex.ru</a>
+        <br />
+        <span><a href="https://goo.gl/maps/vEWZjy3ZhWzjVuhL7" target="_blank">Место на картах Google</a></span>
+        <br />
+        <span><a href="https://yandex.ru/maps/-/CCWLBWnw" target="_blank">Место на Яндекс-Картах</a></span>
+
+    </p>
+
+    @foreach (var Representative in Representatives.Where(x => x.ShowInList == true))
+    {
+        if (!RL.Contains(Utils.LC(Representative.City)))
+        {
+            RL.Add(Utils.LC(Representative.City));
+        }
+    }
+    <div class="container">
+        <h2 class="branch-list">Представители</h2>
+        <div class="accordion">
+            @{int i = 1; }
+            @foreach (var rl in RL)
+            {
+                <div class="accordion-item">
+                    <button id="accordion-button-@i" aria-expanded="false"><span class="accordion-title">@rl</span><span class="icon" aria-hidden="true"></span></button>
+                    <div class="accordion-content">
+                        @{
+                            var R = Representatives.Where(x => Utils.LC(x.City,lang) == rl && x.ShowInList == true);
+                            bool hr = (R.Count() > 1) ? true : false;
+                            int j = 0;
+                        }
+                        @foreach (var Representative in R)
+                        {
+
+                            <p>
+                                <b>@Utils.LC("Адрес", "Address", lang): @Utils.LC(Representative.ZipCode, lang), @Utils.LC(Representative.Country, lang), @Utils.LC(Representative.Region, lang), @Utils.LC(Representative.City, lang), @Utils.LC(Representative.StreetAddress, lang)</b><br />
+                                @if (Representative.Organization.Ru != null)
+                                {
+                                    <b>@Utils.LC("Организация", "Organization", lang): @Utils.LC(Representative.Organization, lang)</b><br />
+                                }
+                                @if (Representative.Description.Ru != null)
+                                {
+                                    <b>@Utils.LC("Описание", "Description", lang): @Utils.LC(Representative.Description, lang)</b><br />
+                                }
+                                @if (Representative.ContactPersonName.Ru != null)
+                                {
+                                    <b>@Utils.LC("Контактное лицо", "Contact person", lang): @Utils.LC(Representative.ContactPersonName, lang)</b><br />
+                                }
+                                @if (Representative.Phones.Count > 0)
+                                {
+                                    <b>@Utils.LC("Телефон", "Phone", lang):</b>
+
+                                    foreach (var phone in Representative.Phones)
+                                    {
+                                        <a href="tel:@phone">@phone</a>@:&nbsp;
+                                    }
+                                    <br />
+                                }
+                                @if (Representative.EMail != null)
+                                {
+                                    <b>E-Mail:</b> <a href="mailto:@Representative.EMail">@Representative.EMail</a><br />
+                                }
+                                @if (Representative?.WorkHours != null)
+                                {
+                                    WeekSchedule WS = new WeekSchedule(Utils.LC(Representative.WorkHours, lang));
+
+                                    <b>@Utils.LC("Режим работы", "Operation mode", lang): @WS.GetReadable(lang)</b>
+                                }
+                                @if (Representative.ProvidesInstallation == true)
+                                {
+                                    <br /><b>Доступна услуга монтажа</b><br />
+                                }
+                            </p>
+                            if (hr && j < R.Count() - 1)
+                            { <hr />}
+                            j++;
+                        }
+
+                    </div>
+                </div>
+                i++;
+            }
+
+        </div>
+    </div>
+    @foreach (var Dealer in Dealers.Where(x => x.ShowInList == true))
+    {
+        if (!DL.Contains(Utils.LC(Dealer.City, lang)))
+        {
+            DL.Add(Utils.LC(Dealer.City, lang));
+        }
+    }
+    <div class="container">
+        <h2 class="branch-list">Дилеры</h2>
+        <div class="accordion">
+            @{i = 1; }
+            @foreach (var dl in DL)
+            {
+                <div class="accordion-item">
+                    <button id="accordion-button-@i" aria-expanded="false"><span class="accordion-title">@dl</span><span class="icon" aria-hidden="true"></span></button>
+                    <div class="accordion-content">
+                        @{
+                            var D = Dealers.Where(x => Utils.LC(x.City, lang) == dl && x.ShowInList == true);
+                            bool hr = (D.Count() > 1) ? true : false;
+                            int j = 0;
+                        }
+                        @foreach (var Dealer in D)
+                        {
+
+                            <p>
+                                <b>@Utils.LC("Адрес", "Address", lang): @Utils.LC(Dealer.ZipCode, lang), @Utils.LC(Dealer.Country, lang), @Utils.LC(Dealer.Region, lang), @Utils.LC(Dealer.City, lang), @Utils.LC(Dealer.StreetAddress, lang)</b><br />
+                                @if (Dealer.Organization.Ru != null)
+                                {
+                                    <b>@Utils.LC("Организация", "Organization", lang): @Utils.LC(Dealer.Organization, lang)</b><br />
+                                }
+                                @if (Dealer.Description.Ru != null)
+                                {
+                                    <b>@Utils.LC("Описание", "Description", lang): @Utils.LC(Dealer.Description, lang)</b><br />
+                                }
+                                @if (Dealer.ContactPersonName.Ru != null)
+                                {
+                                    <b>@Utils.LC("Контактное лицо", "Contact person", lang): @Utils.LC(Dealer.ContactPersonName, lang)</b><br />
+                                }
+                                @if (Dealer.Phones.Count > 0)
+                                {
+                                    <b>@Utils.LC("Телефон", "Phone", lang):</b>
+
+                                    foreach (var phone in Dealer.Phones)
+                                    {
+                                        <a href="tel:@phone">@phone</a>@:&nbsp;
+                                    }
+                                    <br />
+                                }
+                                @if (Dealer.EMail != null)
+                                {
+                                    <b>E-Mail:</b> <a href="mailto:@Dealer.EMail">@Dealer.EMail</a><br />
+                                }
+                                @if (Dealer?.WorkHours != null)
+                                {
+                                    WeekSchedule WS = new WeekSchedule(Utils.LC(Dealer.WorkHours, lang));
+
+                                    <b>@Utils.LC("Режим работы", "Operation mode", lang): @WS.GetReadable(lang)</b>
+                                }
+                                @if (Dealer.ProvidesInstallation == true)
+                                {
+                                    <br /><b>Доступна услуга монтажа</b><br />
+                                }
+                            </p>
+                            if (hr && j < D.Count() - 1)
+                            { <hr />}
+                            j++;
+                        }
+                    </div>
+                </div>
+                i++;
+            }
+
+        </div>
+    </div>
+
+
+
+
+</div>
+<!-- Конец контакт-->
+ }
+
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}
+

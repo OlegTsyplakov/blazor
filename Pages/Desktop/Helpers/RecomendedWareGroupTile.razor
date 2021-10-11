@@ -1,0 +1,46 @@
+﻿@using Data.Services
+@{
+    var WG = Model.Group.Value;
+    string SDR = WG.GetSDR();
+    string PSO = WG.GetPSO();
+    string cathref = Utils.LangHref(lang, "cat/" + WG.GetSlugOrID());
+}
+@{
+    <div class="also-recommended-item-container">
+        @{
+            if (SDR != null)
+            {
+                <div class="also-recommended-item-sdr">@SDR</div>
+            }
+
+            if (PSO == "Optima")
+            {<div class="also-recommended-brand-container-green">@Utils.LC("Оптима", "Optima", lang)</div>}
+        if (PSO == "Premium/Standart")
+        {<div class="also-recommended-brand-container-blue">@Utils.LC("Стандарт", "Standart", lang)</div><div class="also-recommended-brand-container-purple">@Utils.LC("Премиум", "Premium", lang)</div>}
+    if (PSO == "Standart")
+    {<div class="also-recommended-brand-container-blue-single">@Utils.LC("Стандарт", "Standart", lang)</div>}
+if (PSO == "Premium")
+{<div class="also-recommended-brand-container-purple">@Utils.LC("Премиум", "Premium", lang)</div>}
+        }
+
+        <div class="also-recommended-item-title"><a href="@cathref">@Utils.CutString(Utils.HtmlRaw((Utils.LC(WG.HtmlName, lang) != null) ? Utils.LC(WG.HtmlName, lang) : Utils.LC(WG.Name, lang)).ToString(), 48)</a></div>
+        @{ Image image = WG.GetMainImage();
+            if (Utils.CheckImageExists(image, lang))
+            {
+
+                <div class="also-recommended-item-img"><img src="@Utils.GetImageCropedUrl(image.FileName, 153, 153)" /></div>
+            }
+
+        }
+
+        <WareGroupTileBarArticles Model="@WG" href="@cathref" />
+
+    </div>
+}
+
+@code
+{
+    [Parameter]
+    public RecommendedGroup Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

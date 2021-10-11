@@ -1,0 +1,49 @@
+﻿@page "/ru/articles"
+@page "/en/articles"
+
+
+@using Data.Services
+
+
+@{
+    var Model = DbContext.GetAllItemsFromCollection<Site.Data.DBModel.Article>();
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "articles");
+}
+<Title>@Utils.LC("Статьи", "Articles", lang)</Title>
+<Link Rel="canonical" Href="@cannonical" />
+<link href="/css/desktop/articles.css" rel="stylesheet" />
+
+
+<!-- Начало инфо-->
+<div class="content-container">
+    <div class="part-container">
+        <div class="main-title">Статьи</div>
+
+        <div class="offer-container-row">
+            @foreach (var art in Model)
+            {
+                if (art.Block.Count() > 0)
+                {
+                    <div class="activities-container">
+                        <div class="articles-img-container">
+                            @if (Utils.CheckImageExists(art.MainImage, lang))
+                            {
+                                <img src="@Utils.GetImageCropedUrl(art.MainImage.FileName,200, 100)">
+                            }
+                        </div>
+                        <div class="activities-txt-container">
+                            <NavLink href="@Utils.LangHref(lang,"articles/"+art.GetSlugOrID())">@Utils.LC(art.Name, lang)</NavLink>
+                            <hr>
+                            @Utils.HtmlRaw(Utils.CutString(Utils.LC(art.Block.First().Content, lang), 200))
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<!-- Конец инфо-->
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

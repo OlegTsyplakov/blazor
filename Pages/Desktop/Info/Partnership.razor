@@ -1,0 +1,307 @@
+﻿@page "/ru/info/partnership"
+@page "/en/info/partnership"
+
+@using Data.Services
+
+@{
+    var Item = DbContext.GetItemFromCollection<ContentPage>(x => x.Slug == "partnership");
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "info/partnership");
+}
+<Title>@Utils.LC(Item.MetaTitle, lang)</Title>
+<Meta Name="description" Content="@Utils.LC(Item.MetaDescription, lang)" />
+<Link Rel="canonical" Href="@cannonical" />
+<link href="/css/desktop/partnership.css" rel="stylesheet" />
+<JS Name="Module.Partnership" />
+
+
+<!-- Начало сотрудничество-->
+<div class="part-container">
+    <div class="partnership-title">Добрый день, Уважаемые Потенциальные Партнёры!</div>
+    <div class="partnership-container">
+        <div class="txt">
+            &nbsp;&nbsp;&nbsp;&nbsp;Вот уже 20 лет, силами корпорации и её представителей, продукция Бир Пекс набирает
+            популярность по всем странам бывшего СНГ, но что ещё важнее, успела заслужить доверие
+            своих потребителей, которые из года в год отдают предпочтение наиболее
+            сбалансированному соотношению цены и качества, из тех, которые встречаются сегодня на
+            рынке.
+        </div>
+        <div class="txt" id="replace">
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;Компания все эти годы активно развивалась в оптовом секторе, распространяя, проектируя
+            и монтируя собственную продукцию во множестве узнаваемых строительных объектов, недвижимости класса «бизнес», такие как:<div class="readmore" id="readmore">далее ...</div>
+
+        </div>
+        <div id="readmore-container">
+            <div class="txt">
+                Эдельвейс, Алые Паруса, Воробьёвы горы, а также объекты мировой значимости,
+                например 2-ое по высоте в мире многофункциональное здание - «Шанхайская башня» (все
+                их вы найдёте в «Портфолио объектов» на начальной странице сайта).
+            </div>
+            <div class="txt">
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;Однако, розничная аудитория обычно не подозревает о достижениях успешных организаций,
+                чаще всего фигурирующих в B2B секторе, а также не будем забывать про иностранные
+                организации, которые привыкли добиваться целей не «качеством», а «пиаром», как
+                оправданным, так и не очень, из-за чего потребитель просто не успевает задуматься о том,
+                что там, «за ширмой», есть ещё опции, среди которых можно и нужно выбирать.
+            </div>
+            <div class="txt">
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;Наш век славится скоростным развитием коммуникаций, что послужило толчком для
+                налаживания связи между потребителем и производителем, минуя посредников, которые
+                чаще не столько выступают в роли фильтра для отсеивания, сколько наоборот стремятся
+                усложнить выбор клиента, разграничивая продукцию на «дешёвую-некачественную» и
+                «дорогую-качественную». Любому компетентному человеку, не только в области внутренних
+                инженерных систем, это покажется абсолютно наивной точкой зрения, призванной
+                отстаивать идеологию «раскрутки бренда», нежели поиска оптимальных решений под
+                реальные потребности рынка. Именно поэтому специалисты нашей компании, а точнее
+                целый комплекс взаимодействующих отделов, стремится принять обращение в том виде, в
+                котором клиент способен его сформулировать, а затем предоставить ему наиболее
+                оптимальное решение, оправданное минимально необходимыми параметрами системы, а не
+                воображаемыми критериями «комфорта» и «ценности» предлагаемой продукции.
+            </div>
+            <div class="txt">
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;Для того, чтобы у реальных пользователей нашей, проверенной временем, продукции
+                появилась возможность извлекать не только интеллектуальную выгоду из взаимодействия с
+                производителем, но и коммерческую, корпорация Бир Пекс раскрывает конфиденциальную
+                информацию о разделении классов в рамках существующей программы лояльности,
+                позволяющих, как розничному потребителю понимать потенциально доступную выгоду, так и
+                монтажным организациям накапливать бонусы, для дальнейшего обмена.
+            </div>
+            <div class="txt">
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;Мы бы хотели предложить каждому наиболее выгодные условия, оправданные объёмами
+                реализации, для того, чтобы создать наиболее благоприятную среду, в которой не придётся
+                переживать о скрытых замыслах или вникать в «тонкости» профессий – мы создаём
+                доверительную среду, справедливую и оправданную, в которой все смогут почувствовать
+                истинный дух партнёрства.
+            </div>
+        </div>
+        <div class="txt">
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;В нашем интернет-магазине вы можете чувствовать себя, как дома, пользоваться
+            развивающимся функционалом и делать предложения по модификации и упрощению
+            вашего пользовательского опыта, ведь, в конечном счёте, мы работаем, чтобы платформа
+            устраивала именно вас! По любому вопросу вы можете обращаться в «чат» интернет-
+            магазина, а также по бесплатному, для звонков внутри России, номеру, наши специалисты
+            всегда отнесутся к вашим обращениям со всей степенью серьёзности и оперативно
+            отреагирует.
+            <br>
+            <br>
+            <i>
+                С уважением, <br>
+                Коммерческий директор «Корпорации Бир Пекс» <br>
+                Кикель Александр Владимирович
+            </i>
+        </div>
+        <div class="readmore" id="close">свернуть</div>
+    </div>
+    <div class="loyality-big">программа лояльности от Бир Пекс</div>
+    <div class="loyality-small">получайте скидки и накапливайте бонусы</div>
+    <div class="all-container">
+        <!-- Начало описание-->
+        <div class="partnership-big-title">Классификации скидок</div>
+        <div class="descparam-container">
+            <button class="description">Разовые</button>
+            <button class="parametrs">Накопительные</button>
+            <button class="condition">Условия предоставления скидок</button>
+        </div>
+        <div class="descparam-container2">
+            <div class="descparam-item-container" id="description">
+                <div class="partnership-price-container">
+                    <label class="label-reg">
+                        <div class="toggle fadeIn first">
+                            <input id="partnership-toggle-state" class="toggle-state" type="checkbox" name="check" value="check" />
+                            <div class="indicator"></div>
+                        </div>
+                        <div class=" fadeIn first" id="partnership-sale-nosale">без скидки</div>
+                    </label>
+                </div>
+                <ul>
+                    <li>
+                        Скидки ориентированы на интернет-продажи и розницу
+                    </li>
+                    <li>
+                        Совершив повторную покупку в течение 3 лет - у вас активируется накопительная скидка
+                    </li>
+                    <li>
+                        Скидки применяются совместно с промокодами
+                    </li>
+                </ul>
+                <div class='partnership-wrapper'>
+                    <div class="card-container">
+                        <div class="start-card">
+                            <div class="card-name start-txt">Стартовый</div>
+                            <div class="card-discount-digit start-txt">5</div>
+                            <div class="card-discount-sign start-txt card-discount-sign-start">%</div>
+                            <div class="card-discount-buy start-txt">при закупке</div>
+                            <div class="trial card-discount-sum start-txt">от 50 т.р.</div>
+                            <div class="nosale card-discount-sum start-txt">от 55 т.р.</div>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="bronze-card">
+                            <div class="card-name bronze-txt">Бронзовый</div>
+                            <div class="card-discount-digit bronze-txt">10</div>
+                            <div class="card-discount-sign bronze-txt">%</div>
+                            <div class="card-discount-buy bronze-txt">при закупке</div>
+                            <div class="trial card-discount-sum bronze-txt">от 100 т.р.</div>
+                            <div class="nosale card-discount-sum bronze-txt">от 111 т.р.</div>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="silver-card">
+                            <div class="card-name silver-txt">Серебряный</div>
+                            <div class="card-discount-digit silver-txt">15</div>
+                            <div class="card-discount-sign silver-txt">%</div>
+                            <div class="card-discount-buy silver-txt">при закупке</div>
+                            <div class="trial card-discount-sum silver-txt">от 150 т.р.</div>
+                            <div class="nosale card-discount-sum silver-txt">от 175 т.р.</div>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="gold-card">
+                            <div class="card-name gold-txt">Золотой</div>
+                            <div class="card-discount-digit gold-txt">20</div>
+                            <div class="card-discount-sign gold-txt">%</div>
+                            <div class="card-discount-buy gold-txt">при закупке</div>
+                            <div class="trial card-discount-sum gold-txt">от 200 т.р.</div>
+                            <div class="nosale card-discount-sum gold-txt">от 250 т.р.</div>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="platinum-card">
+                            <div class="card-name platinum-txt">Платиновый</div>
+                            <div class="card-discount-digit platinum-txt">25</div>
+                            <div class="card-discount-sign platinum-txt">%</div>
+                            <div class="card-discount-buy platinum-txt">при закупке</div>
+                            <div class="trial card-discount-sum platinum-txt">от 250 т.р.</div>
+                            <div class="nosale card-discount-sum platinum-txt">от 333 т.р.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="descparam-item-container" id="parametrs">
+                <div class="partnership-price-container">
+                    <label class="label-reg">
+                        <div class="toggle fadeIn first">
+                            <input id="partnership-toggle-state2" class="toggle-state" type="checkbox" name="check" value="check" />
+                            <div class="indicator"></div>
+                        </div>
+                        <div class=" fadeIn first" id="partnership-sale-nosale2">бонус</div>
+                    </label>
+                </div>
+                <ul>
+                    <li>
+                        Скидки ориентированы на торговые и монтажные организации
+                    </li>
+                    <li>
+                        История закупок сохраняется за 3 года
+                    </li>
+                    <li>
+                        Скидки применяются совместно с промокодами
+                    </li>
+                </ul>
+                <div class='partnership-wrapper'>
+                    <div class="card-container">
+                        <div class="start-card">
+                            <div class="card-name start-txt">Стартовый</div>
+                            <div class="trial2 card-discount-digit start-txt">5</div>
+                            <div class='nosale2 card-discount-digit start-txt'>4</div>
+                            <div class="card-discount-sign start-txt card-discount-sign-start">%</div>
+                            <div class="card-discount-buy start-txt">при закупке</div>
+                            <div class="card-discount-sum start-txt">от 100 т.р.</div>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="bronze-card">
+                            <div class="card-name bronze-txt">Бронзовый</div>
+                            <div class="trial2 card-discount-digit bronze-txt">10</div>
+                            <div class='nosale2 card-discount-digit bronze-txt'>8</div>
+                            <div class="card-discount-sign bronze-txt" id="bronze">%</div>
+                            <div class="card-discount-buy bronze-txt">при закупке</div>
+                            <div class="card-discount-sum bronze-txt">от 170 т.р.</div>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="silver-card">
+                            <div class="card-name silver-txt">Серебряный</div>
+                            <div class="trial2 card-discount-digit silver-txt">15</div>
+                            <div class='nosale2 card-discount-digit silver-txt'>12</div>
+                            <div class="card-discount-sign silver-txt">%</div>
+                            <div class="card-discount-buy silver-txt">при закупке</div>
+                            <div class="card-discount-sum silver-txt">от 375 т.р.</div>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="gold-card">
+                            <div class="card-name gold-txt">Золотой</div>
+                            <div class="trial2 card-discount-digit gold-txt">20</div>
+                            <div class='nosale2 card-discount-digit gold-txt'>16</div>
+                            <div class="card-discount-sign gold-txt">%</div>
+                            <div class="card-discount-buy gold-txt">при закупке</div>
+                            <div class="card-discount-sum gold-txt">от 750 т.р.</div>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="platinum-card">
+                            <div class="card-name platinum-txt">Платиновый</div>
+                            <div class="trial2 card-discount-digit platinum-txt">25</div>
+                            <div class='nosale2 card-discount-digit platinum-txt'>20</div>
+                            <div class="card-discount-sign platinum-txt">%</div>
+                            <div class="card-discount-buy platinum-txt">при закупке</div>
+                            <div class="card-discount-sum platinum-txt">от 1,5 млн р.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="descparam-item-container" id="conditions">
+                <div class='conditions-container'>
+                    <ul>
+                        <li>
+                            Регистрируйтесь и накапливайте бонусы
+                        </li>
+                        <li>
+                            Бонусами можно покрыть до 50% от счёта
+                        </li>
+                        <li>
+                            Преодолев порог баланса в размере 1000 бонусов, вы сможете ими распоряжаться
+                        </li>
+                        <li>
+                            По истечению 3-ёх лет с момента последней покупки - бонусы сгорают
+                        </li>
+                        <li>
+                            Бонусы нельзя обналичить - их можно только обменять на товары БИР ПЕКС, EAGLE-BP или на рекламную продукцию
+                        </li>
+                        <li>
+                            При повышении статуса - вы претендуете на подарок в виде "рекламной продукции Бир Пекс
+                        </li>
+                        <br>
+                        <br>
+                        <br>
+                        <li>
+                            "Разовые" и "Накопительные" скидки не применяются совместно
+                        </li>
+                        <li>
+                            "Разовые" скидки применяются совместно с промокодами
+                        </li>
+
+                        <li>
+                            Скидки и бонусы применяются совместно, если это не противоречит условиям квартального минимума (250 тыс. руб., с учётом скидки/квартал)
+                        </li>
+                    </ul>
+                </div>
+                <div class="sale-txt">
+                    * Для каждой классификации скидок существует аналогичное разделение на статусы.
+                </div>
+            </div>
+        </div>
+        <div class="partnership-container">
+            <p>
+                &nbsp;&nbsp;Все ваши вопросы и предложения Вы можете направить по адресу <a href="mailto:info@byrpex.ru">info@byrpex.ru</a>
+                или позвонить по бесплатному, для звонков внутри России, номеру <a href="tel:88007009732">8 800 700 97 32</a>.
+            </p>
+
+        </div>
+    </div>
+    <!-- Конец сотрудничество-->
+</div>
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

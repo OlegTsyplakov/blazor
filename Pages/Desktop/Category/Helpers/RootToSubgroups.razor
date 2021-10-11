@@ -1,0 +1,135 @@
+﻿@using Data.Services
+@{ 
+    int count = 0;
+
+
+    <div class="part-container">
+        <div class="all-items-container">
+
+           
+    @for (int i = 0; i < Models.Count; i++)
+    {
+      
+        Image bgi = Utils.GetImageByIndex<WareGroup>(Models[i], 0);
+        string ImgHref = string.Empty;
+        if (bgi != null) { ImgHref = Utils.GetImageCropedUrl(bgi.FileName, 244, 154);}
+
+        string mainHref = Utils.LangHref(lang,"cat/" + Models[i].GetSlugOrID());
+
+
+        string MainName = MLString.IsNullOrEmpty(Models[i].HtmlName) ? Utils.LC(Models[i].Name,lang) : Utils.LC(Models[i].HtmlName,lang); 
+
+
+            <div class="wrapper-cat">
+                <div class="white-background"></div>
+                @{           
+                    <div class="also-recommended-item-sdr">@Models[i].SDR</div>
+             
+
+                    if (Models[i].PSO == "Optima")
+                    {
+                        <div class="also-recommended-brand-container-green">@Utils.LC("Оптима", "Optima",lang)</div>
+                    }
+
+
+                    if (Models[i].PSO == "Optima")
+                    {
+                        <div class="also-recommended-brand-container-green">@Utils.LC("Оптима", "Optima", lang))</div>
+                    }
+                    if (Models[i].PSO == "Premium/Standart")
+                    {
+                        <div class="also-recommended-brand-container-blue">@Utils.LC("Стандарт", "Standart", lang))</div>
+                        <div class="also-recommended-brand-container-purple">@Utils.LC("Премиум", "Premium", lang))</div>
+                    }
+                    if (Models[i].PSO == "Premium")
+                    {
+                        <div class="also-recommended-brand-container-purple">@Utils.LC("Премиум", "Premium", lang))</div>
+                    }
+                    if (Models[i].PSO == "Standart")
+                    {
+                        <div class="also-recommended-brand-container-blue-single">@Utils.LC("Стандарт", "Standart", lang))</div>
+                    }
+                }
+
+                <div class="items-title"><a href="@mainHref">@MainName</a></div>
+                <div class="items-img"><a href="@mainHref"><img src="@ImgHref" /></a></div>
+
+
+                @{
+                    var Сhildren = DbContext.LoadFirstChildren<WareGroup>(Models[i].IdAsString);
+
+
+                    foreach (var child in Сhildren)
+                    {
+                        if (!child.IncludeInParent)
+                        {
+                     
+                            var href = Utils.LangHref(lang, "cat/" + child.GetSlugOrID());
+                            string name2 = Utils.LC(child.HtmlName??child.Name,lang);
+                            <input id='item-@count' type='checkbox'>
+                            <label for='item-@count'>
+                                <p style="height: 40px;display: block;align-items: center;width: 85%;"><a href="@href">@Utils.HtmlRaw(name2)</a></p>
+                                @if ( child.SDR != null)
+                                {<div class="also-recommended-item-sdr-cat">@child.SDR</div>}
+
+                                <span></span>
+                            </label>
+                            count++;
+                        }
+                        else
+                        {
+                            string name2 = Utils.LC(MLString.IsNullOrEmpty(child.HtmlNameCommon) ? child.HtmlName : child.HtmlNameCommon,lang);
+                            if (string.IsNullOrEmpty(name2)) { name2 = Utils.LC(child.Name,lang); }
+                            <input id='item-@count' type='checkbox'>
+                            <label for='item-@count'>
+                                <p style="height: 40px;display: block;align-items: center;width: 85%;">@Utils.HtmlRaw(name2)</p>
+                                <div class='lil_arrow'></div>
+                                <div class="content">
+                                    <ul>
+                                        @{
+                                            var L = DbContext.LoadAllChildren<WareGroup>(child.IdAsString); ;
+                                            for (int j = 0; j < L.Count; j++)
+                                            {
+                                                var href = Utils.LangHref(lang, "cat/" + L[j].GetSlugOrID());
+                                                name2 = Utils.LC(MLString.IsNullOrEmpty(L[j].HtmlNameParticular) ? L[j].HtmlName : L[j].HtmlNameParticular,lang);
+                                                if (string.IsNullOrEmpty(name2)) { name2 = Utils.LC(L[j].Name,lang); }
+                                                <li class="link-title-small"><a href="@href">@Utils.HtmlRaw(name2)</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                                <span></span>
+                            </label>
+                            count++;
+                        }
+                    }
+                    if (Models[i].PresetFilters2.Count > 0)
+                    {
+                        <div class="diametr-container">
+                            @foreach (var P in Models[i].PresetFilters2)
+                            {
+                                var href = Utils.LangHref(lang, "cat/" + Models[i].GetSlugOrID());
+                                string name2 = Utils.LC(P.HtmlName,lang);
+                                <div class="diametr-item-container">
+                                    <form method="post" action="@href">
+                                        <input type="hidden" name="id" value="@href" />
+                                        <input type="hidden" name="newf" value="@P.Filter.KeyAsString" />
+                                        <button class="diametr-size-title"><div class="diametr-icon"></div>@Utils.HtmlRaw(name2)</button>
+                                    </form>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+            }
+        </div>
+    </div>
+}
+
+@code
+{
+    [Parameter]
+    public List<WareGroup> Models { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

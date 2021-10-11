@@ -1,0 +1,50 @@
+.main-title{
+    color: #0073d0;
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.description-txt{
+   
+    color:#17528e;
+    font-size: 1vw;
+    font-weight: bold;
+  
+   padding: 10px;
+    opacity:1;
+    
+    width: 50%;
+    text-align: justify;
+    margin: auto;
+    
+}
+.delivery-container{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+}
+
+.delivery-container-row{
+   
+    height: auto;
+    width: 100%; 
+    margin-bottom: 10px;
+    font-size:13px;
+    text-align:justify;
+    color: #17528e;
+}
+
+.delivery-bold-txt{
+    font-size:1.4vw;
+    font-weight: bold;
+    color: #17528e;
+}
+.delivery-txt{
+    font-size:1.2vw;
+    font-weight: bold;
+    color: #17528e;
+    width: 100%;
+}

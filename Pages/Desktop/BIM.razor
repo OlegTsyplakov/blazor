@@ -1,0 +1,23 @@
+﻿@page "/ru/bim"
+@page "/en/bim"
+@using Data.Services
+@{
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "bim");
+}
+
+<Title>@Utils.LC("BIM модели", "BIM models", lang)</Title>
+<Link Rel="canonical" Href="@cannonical" />
+<link href="/css/desktop/bim.css" rel="stylesheet" />
+
+
+<div class="content-container">
+    <div class="part-container">
+        <div class="bim-title">@Utils.LC("BIM модели", "BIM models", lang)</div>
+        <JS Name="Module.BIM" /> <div id="catalogue"><catalogue id_company="bimlibc6a8c388a0feff58b9a05663f9d1894c" :settings="{'card_number':20, 'col_number':1, 'font': 5, 'color_header': '#000000', 'color_bg_hover': '#00afa1', 'color_text_hover': '#ffffff', 'views_number':true, 'download_number': true, 'show3D': true, 'showBorder': false, 'defaultCategory': 'all', 'defaultSection': 'all', 'defaultSelection': 'true'}"></catalogue></div>
+    </div>
+</div>
+
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}
