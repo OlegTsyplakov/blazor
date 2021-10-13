@@ -1,15 +1,21 @@
 ﻿@using Data.Services
 @{
+    var AllModels = DbContext.LoadAllChildren<WareGroup>(Model.IdAsString);
+    List<WareGroup> Models = new List<WareGroup>();
     List<List<WareItem>> LLWI = new List<List<WareItem>>();
     int count = 0;
 }
 <div class="part-container">
     @{
-        for (int i = 0; i < Models.Count; i++)
+        for (int i = 0; i < AllModels.Count; i++)
         {
 
-            var LWI = DbContext.LoadWareItems<WareItem>(Models[i].IdAsString, x => !x.FlagSoldOut);
-            LLWI.Add(LWI);
+            var LWI = DbContext.LoadWareItems<WareItem>(AllModels[i].IdAsString, x => !x.FlagSoldOut);
+            if (LWI.Count > 0)
+            {
+                Models.Add(AllModels[i]);
+                LLWI.Add(LWI);
+            }
         }
         <div class="items-container-tile" id="tileView">
             @foreach (var LWI in LLWI)
@@ -27,7 +33,7 @@
                             <img src="@Utils.GetImageCropedUrl(image.FileName,240, 160)" />
                         }
                     </div>
-                    <WareItemTile Model="@LWI"/>
+                    <WareItemListTile Model="@LWI"/>
                 </div>
                 count++;
             }
@@ -42,7 +48,7 @@
                
                 <div class="all-description-container">
                     <div class="description-container">
-                        <h2 class="description-title"><a href="@Utils.LangHref(lang, "cat/" + Models[count].GetSlugOrID())">@Utils.CutString(Utils.LC(Models[count].Name, lang), 50)</a></h2>
+                        <h2 class="description-title"><a href="@Utils.LangHref(lang, "cat/" + Models[count].GetSlugOrID())">@Utils.LC(Models[count].Name, lang)</a></h2>
                         @if (!string.IsNullOrEmpty(desc) && !string.IsNullOrEmpty(desc_more))
                         {
                             <div class="description-txt">@Utils.HtmlRaw(desc)<div class="readmore-gray">@Utils.LC("далее ...", "more ...",lang)</div></div>
@@ -59,7 +65,8 @@
     
                     </div>
                 </div>
-                <Wares Model="@Models[count]" ShowTextHeader="false"/>
+                <WareitemListRow Models="@LWI"/>
+                @*<Wares Model="@Models[count]" ShowTextHeader="false"/>*@
                 count++;
             }
         </div>
@@ -68,6 +75,6 @@
 @code
 {
 
-    [Parameter] public List<WareGroup> Models { get; set; }
+    [Parameter] public WareGroup Model { get; set; }
     [CascadingParameter] string lang { get; set; }
 }

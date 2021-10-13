@@ -1,7 +1,7 @@
 ﻿@using Data.Services
 @{ 
     int count = 0;
-
+    var Models = DbContext.LoadFirstChildren<WareGroup>(Model.IdAsString);
 
     <div class="part-container">
         <div class="all-items-container">
@@ -23,7 +23,7 @@
             <div class="wrapper-cat">
                 <div class="white-background"></div>
                 @{           
-                    <div class="also-recommended-item-sdr">@Models[i].SDR</div>
+                    <div class="item-sdr">@Models[i].SDR</div>
              
 
                     if (Models[i].PSO == "Optima")
@@ -130,6 +130,6 @@
 @code
 {
     [Parameter]
-    public List<WareGroup> Models { get; set; }
+    public WareGroup Model { get; set; }
     [CascadingParameter] string lang { get; set; }
 }

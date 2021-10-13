@@ -22,7 +22,7 @@
         return;
     }
     string TemplateCode = Model.Template.Value.Code;
-    var Models = DbContext.LoadFirstChildren<WareGroup>(Model.IdAsString);
+ 
     var cannonical = string.Empty;
     bool sdr_check = false;
     string sdr = string.Empty;
@@ -87,17 +87,19 @@
     switch (TemplateCode)
     {
         case "Root":
+
             <link href="/css/desktop/cd.css" rel="stylesheet" />
             cannonical = Settings.HomePage + Utils.LangHref(lang, "cat");
             <ModelName Model="@Model" />
             <Description Model="@Model" />
-            <RootToSubgroups Models="@Models" />
+            <RootToSubgroups Model="@Model" />
             <CommentCategory Model="@Model" ShowCaption="false" />
             <LongDescription Model="@Model" ShowCaption="false" />
             <Video Model="@Model" />
             <Documents Model="@Model" />
             break;
         case "ExpandSubgroups":
+      
             <link href="/css/desktop/subcd.css" rel="stylesheet" />
             cannonical = Settings.HomePage + Utils.LangHref(lang, "cat/" + Slug);
             <JS Name="Module.Subcd" />
@@ -108,7 +110,8 @@
                 <AdditionalDescription Model="@Model" />
             }
             <div id="subgroups-filter-result">
-                <ExpandedSubgroups2View Models="@Models"/>
+                <Filters/>
+                <ExpandedSubgroups2View Model="@Model"/>
             </div>
             <Documents Model="@Model" />
             <LongDescription Model="@Model" ShowCaption="false" />

@@ -1,0 +1,41 @@
+﻿@page "/ru/sale"
+@page "/en/sale"
+@using Data.Services
+
+@{
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "sale");
+    var LWI = DbContext.GetAllItemsFromCollection<WareItem>(x => (x.ShowInCatalog &&  x.FlagSale ));
+}
+
+<Title>@Utils.LC("Распродажа", "Sale", lang)</Title>
+<link href="/css/desktop/sale.css" rel="stylesheet" />
+<JS Name="Module.Sale" />
+<Link Rel="canonical" Href="@cannonical" />
+<div class="content-container">
+    <div class="part-container">
+        <div class="main-title">@Utils.LC("Акции", "Sale", lang)</div>
+        <div id="sort_results">
+            <div class="offer-container">
+                <div class="sale-all-container-column">
+              
+                        @foreach (var WI in LWI) 
+                        {
+                    <WareItemTile Model="@WI"/>
+                        }
+                   
+                </div>
+                <div class="sale-all-container-row">
+                    @foreach (var WI in LWI)
+                    {
+                        <WareItemRow Model="@WI" />
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

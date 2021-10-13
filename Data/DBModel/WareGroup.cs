@@ -51,7 +51,6 @@ namespace Site.Data.DBModel
         public string YandexMarketCategory { get; set; }
 
 
-
         public WareGroup TopParent
         {
             get
@@ -128,6 +127,21 @@ namespace Site.Data.DBModel
                 WG = WG.Parent.Value;
             }
             return Result.Count > 0 ? Result[0] : null;
+        }
+        public List<Image> CollectPropagatedImages()
+        {
+            return CollectPropagatedImagesInternal(this);
+        }
+        private List<Image> CollectPropagatedImagesInternal(WareGroup G)
+        {
+            List<Image> AllImgs = new List<Image>();
+
+            while (G != null)
+            {
+                AllImgs.AddRange(G.Images.Where(x => x.Propagate));
+                G = G.Parent.Value;
+            }
+            return AllImgs;
         }
         public List<RecommendedGroup> GetAlsoRecommendedGroup() 
         {

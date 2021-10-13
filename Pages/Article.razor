@@ -1,0 +1,33 @@
+﻿@page "/ru/art/{Slug}"
+@page "/en/art/{Slug}"
+@inject Site.Data.Mobile mobile
+@{
+    WareItem Model = null;
+    if (Slug == null)
+    {
+        <Error />
+        return;
+    }
+    else
+    {
+        Model = DbContext.GetItemFromCollection<WareItem>(x => x.Slug == Slug);
+    }
+    if (Model == null)
+    {
+        <Error />
+        return;
+    }
+    @if (mobile.IsMobile)
+    {
+    <Site.Pages.Mobile.Article.Article Model="@Model" />
+    }
+    else
+    {
+       <Site.Pages.Desktop.Article.Article Model="@Model"/>
+    }
+}
+
+@code {
+    [Parameter] public string Slug { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

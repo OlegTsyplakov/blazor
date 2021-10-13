@@ -17,6 +17,8 @@ import { video } from '/js/desktop/video.js';
 import { alsorecomended } from '/js/desktop/alsorecomended.js';
 import { share } from '/js/desktop/share.js';
 import { purmo } from '/js/desktop/purmo.js';
+import { article } from '/js/desktop/article.js';
+import { sale } from '/js/desktop/sale.js';
 
 
 var Module = 
@@ -69,7 +71,9 @@ var Module =
      Video:video,
      AlsoRecomended:alsorecomended,
      Share:share,
-     Purmo:purmo
+     Purmo:purmo,
+     Article:article,
+     Sale:sale
      
 }
 window.Module = Module;

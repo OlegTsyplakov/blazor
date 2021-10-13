@@ -1,0 +1,35 @@
+﻿@using Data.Services
+<div class="part-container">
+    <div class="filter-container">
+
+        <div class="filter-icon-container">
+            <div class="filter-icon-column" id="tileMode"></div>
+            <div class="filter-icon-row" id="detailMode"></div>
+            <div class="filter-icon-button-container"><div class="filter-icon-button"></div><div class="filter-icon-button-text">@Utils.LC("Показать фильтры", "Show filters", lang)</div></div>
+
+
+
+
+            <div class="filter-form-container">
+             
+             
+                <form id="filterform" class="filter-form"
+                    <input type="hidden" name="id" value="" />
+                    <input type="hidden" name="cat" value="subgroup" />
+               
+
+                    <input type="submit" id="FilterApplyButton" class="filter-apply-new" value="@Utils.LC("Применить", "Submit",lang)" />
+                    @if (false)
+                    {
+                        <div id="FilterResetButton" class="filter-drop-txt-new">сбросить фильтр</div>
+                    }
+
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter] string lang { get; set; }
+}

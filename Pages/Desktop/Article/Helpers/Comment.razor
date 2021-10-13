@@ -1,0 +1,21 @@
+﻿@using Data.Services
+@{ 
+    var comment = Utils.LC(Model.Comment,lang);
+
+}
+@if (!string.IsNullOrEmpty(comment))
+{
+    <div class="part-container">
+        <h2 class="also-required">@Utils.LC(MLText.Note, lang)</h2>
+        <div class="size-line"></div>
+        <div class="comment-container">
+            @Utils.HtmlRaw(comment)
+        </div>
+        <div class="size-line"></div>
+    </div>
+}
+@code
+{
+    [Parameter] public WareItem Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

@@ -11,7 +11,18 @@ namespace Site.Data.Services
 {
     public static class Utils
     {
-       
+        public static MarkupString VendorLogo(Vendor Model,string lang)
+        {
+            string result = string.Empty;
+            if (Model != null)
+            {
+                if(Utils.CheckImageExists(Model.Logo, lang))
+                            {
+                                result = "<img class=\"art-vendorlogo\" src = " + Utils.GetImageCropedUrl(Model.Logo.FileName,64, 64)+">";
+                            }
+            }
+            return result.ToMarkupString();
+        }
         public static string LC(string Ru = null, string En = null, string lang = "ru")
         {
             if (lang == "en" && !string.IsNullOrEmpty(En)) 

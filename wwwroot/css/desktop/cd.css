@@ -23,14 +23,7 @@
     color: grey;
 }
 
-.main-title{
-    color: #2672c3;
-    font-size: 20px;
-    font-weight: bold;
-    height: auto;
-    width: 100%;
-    margin-bottom: 10px;
-}
+
 .main-title-description{
     color:rgba(0, 0, 0, 0.72);
     font-size: 13px;
@@ -824,7 +817,7 @@ table{
         transition: all 0.6s ease-in-out;
         z-index: 1;
 }
-.also-recommended-item-sdr{
+.item-sdr{
     position: absolute;
     display: flex;
     justify-content: center;

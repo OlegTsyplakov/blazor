@@ -1,0 +1,12 @@
+﻿
+@{ 
+    foreach(var Model in Models)
+            {
+
+        <WareItemRow Model="@Model"/>
+            }
+}
+@code {
+    [Parameter] public List<WareItem> Models { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

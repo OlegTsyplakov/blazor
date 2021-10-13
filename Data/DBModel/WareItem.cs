@@ -5,6 +5,7 @@ using Site.Data.Services;
 
 namespace Site.Data.DBModel
 {
+    [BsonIgnoreExtraElements]
     public class WareItem : WareCommon
     {
         public double AutoConfirm { get; set; }
@@ -38,7 +39,80 @@ namespace Site.Data.DBModel
 
         [BsonIgnore]
         public string FinalArticle { get { return string.IsNullOrEmpty(VendorArticle) ? Article : VendorArticle; } }
+        public List<Property> CollectPropertiesGroupArticleTab()
+        {
+            WareGroup G = this.Group.Value;
+            WareItem Item = this;
+            bool efp = false;
+            List<Property> AllProps = new List<Property>();
+            List<string> ExProps = new List<string>();
+            if (Item.ExludeFromProperties.Count() > 0)
+            {
+                ExProps = Item.ExludeFromProperties;
+                efp = true;
+            }
 
+            AllProps.AddRange(Item.Properties.Where(x => !x.IsShowInMainContainer));
+            while (G != null)
+            {
+
+                if (efp)
+                {
+                    AllProps.AddRange(G.Properties.Where(x => x.Propagate && !x.IsShowInMainContainer && !ExProps.Contains(x.PropType.KeyAsString)));
+                }
+                else
+                {
+                    AllProps.AddRange(G.Properties.Where(x => x.Propagate && !x.IsShowInMainContainer));
+                }
+                if (G.ExludeFromProperties.Count > 0)
+                {
+                    ExProps = G.ExludeFromProperties;
+                    efp = true;
+                }
+
+
+                G = G.Parent.Value;
+            }
+            RemoveDuplicateProperties(AllProps);
+            return AllProps;
+        }
+        public List<Property> CollectPropertiesGroupArticle()
+        {
+            WareGroup G = Group.Value;
+            WareItem Item = this;
+            bool efp = false;
+            List<Property> AllProps = new List<Property>();
+            List<string> ExProps = new List<string>();
+            if (Item.ExludeFromProperties.Count > 0)
+            {
+                ExProps = ExProps.Concat(Item.ExludeFromProperties).ToList();
+                efp = true;
+            }
+
+            AllProps.AddRange(Item.Properties.Where(x => x.IsShowInMainContainer && !x.Hidden));
+
+
+            while (G != null)
+            {
+                if (efp)
+                {
+                    AllProps.AddRange(G.Properties.Where(x => x.Propagate && x.IsShowInMainContainer && !x.Hidden && !ExProps.Contains(x.PropType.KeyAsString)));
+                }
+                else
+                {
+                    AllProps.AddRange(G.Properties.Where(x => x.Propagate && x.IsShowInMainContainer && !x.Hidden));
+                }
+
+                if (G.ExludeFromProperties.Count > 0)
+                {
+                    ExProps = ExProps.Concat(G.ExludeFromProperties).ToList();
+                    efp = true;
+                }
+                G = G.Parent.Value;
+            }
+            RemoveDuplicateProperties(AllProps);
+            return AllProps;
+        }
         public List<Property> CollectProperties()
         {
             List<Property> AllProps = new List<Property>();
@@ -65,6 +139,10 @@ namespace Site.Data.DBModel
                     }
                 }
             }
+        }
+        public bool IsUsePack() { 
+        
+        return PackAmount != 1.0;
         }
         public string GetSDR()
         {
@@ -126,6 +204,31 @@ namespace Site.Data.DBModel
             }
             return system;
         }
+        public List<RecommendedGroup> GetAlsoRecommendedGroup()
+        {
+            List<RecommendedGroup> ResultWG = new List<RecommendedGroup>();
+            ResultWG.AddRange(AlsoRecommendedGroups2);
+
+            var G = Group.Value;
+            while (G != null)
+            {
+                foreach (var i in G.AlsoRecommendedGroups2) if (i.Propagate) ResultWG.Add(i);
+                G = G.Parent.Value;
+            }
+            return ResultWG;
+        }
+        public List<RecommendedItem> GetAlsoRecommendedItems()
+        {
+            List<RecommendedItem> ResultWI = new List<RecommendedItem>();
+            ResultWI.AddRange(AlsoRecommendedItems2);
+            var G = Group.Value; 
+            while (G != null)
+            {
+                foreach (var i in G.AlsoRecommendedItems2) if (i.Propagate) ResultWI.Add(i);
+                G = G.Parent.Value;
+            }
+            return ResultWI;
+        }
         public List<Image> CollectImages(bool IgnoreDrawings)
         {
             List<Image> Result = new List<Image>();
@@ -163,6 +266,10 @@ namespace Site.Data.DBModel
         {
             return (Price * PackAmount).ToStringWithDot();
         }
+        public string GetPackSalePrice()
+        {
+            return (SalePrice * PackAmount).ToStringWithDot();
+        }
         public string GetUnitPrice()
         {
             return Price.ToStringWithDot();
@@ -175,6 +282,45 @@ namespace Site.Data.DBModel
         {
             return SalePrice != 0.0;
         }
-     
+        public Vendor GetVendor()
+        {
+            Vendor Vendor = this.Vendor.Value;
+            if (Vendor == null)
+            {
+                var G = Group.Value;
+                while (G != null && Vendor == null)
+                {
+                    Vendor = G.Vendor.Value;
+                    G = G.Parent.Value;
+                }
+            }
+            return Vendor;
+        }
+        public List<Image> CollectImages()
+        {
+            List<Image> Result = new List<Image>();
+            Result.AddRange(Images);
+            Result.AddRange(Group?.Value?.CollectPropagatedImages());
+            return Result;
+        }
+        public bool IsByrpexOrEagle()
+        {
+            WareItem wi = this;
+            var group_pointer = wi.Group.Value;
+            var top_group = wi.Group.Value.TopParent;
+
+            while (group_pointer.Vendor.KeyAsString == "000000000000000000000000")
+            {
+                if (group_pointer == top_group) { break; }
+                group_pointer = group_pointer.Parent.Value;
+            }
+            if (group_pointer.Vendor.KeyAsString != "000000000000000000000000" && (group_pointer.Vendor.Value.Name.Ru == "БирПекс" || group_pointer.Vendor.Value.Name.Ru == "Игл-БирПекс"))
+            {
+                return true;
+
+            }
+            return false;
+        }
+
     }
 }

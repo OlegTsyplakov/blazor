@@ -1,8 +1,9 @@
 ﻿@using Data.Services
-@{
+@{ 
     var RI = Model.GetAlsoRecommendedItems();
     var RG = Model.GetAlsoRecommendedGroup();
 }
+
 @{
     if (RI != null || (RG != null && RG.Where(x => !x.ExludeFromGroup.Contains(Model.IdAsString)).Count() > 0))
     {
@@ -44,10 +45,7 @@
     }
 }
 
-
-@code
-{
-    [Parameter]
-    public WareGroup Model { get; set; }
+@code {
+    [Parameter] public WareItem Model { get; set; }
     [CascadingParameter] string lang { get; set; }
 }

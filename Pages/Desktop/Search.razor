@@ -1,0 +1,60 @@
+﻿@page "/ru/search"
+@page "/en/search"
+@using Data.Services
+@{
+    var cannonical = Settings.HomePage + Utils.LangHref(lang, "search");
+
+}
+<Title>@Utils.LC("Результаты поиска", "Search Results", lang)</Title>
+<div class="content-container">
+    <div class="part-container">
+        <h1 class="main-title">@Utils.LC("Результаты поиска", "Search Results", lang)</h1>
+
+        @if (lang == Settings.LanguageRU)
+        {
+            <h3>Search: @search</h3>
+            <div class="txt-talk">
+                <p>К сожалению, поиск не дал результатов. Попробуйте задать другой набор слов для поиска.</p>
+                <p></p>
+                <h2 class="main-title">Правила написания запросов</h2>
+                <p>
+                    Для поиска требуется ввести запрос, состоящий из одного или нескольких слов или артикулов (каждое не короче 3 знаков).
+                    Выводятся страницы, на которых встречаются все слова, указанные в запросе.
+                    Можно указывать части слов, главное, чтобы они были достаточны для нахождения слова во всех формах.
+                </p>
+                <p>
+                    Например, введите "<i>полиэт труб</i>", и Вы увидите все страницы, которые содержат сочетания типа<br />
+                    - труба полиэтиленовая<br />
+                    - трубы полиэтиленовые<br />
+                    и т.д.
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="txt-talk">
+                <p>Unfortunately, the search gave no results. Please try to input another words.</p>
+                <p></p>
+                <h2 class="main-title">Query rules</h2>
+                <p>
+                    To find something, you need to enter a query consisting of one or more words or articles (each must be 3 characters or longer).
+                    The result will list pages which contain all the words in the query.
+                    You may specify just words parts that are enough to find a word in all forms.
+                </p>
+                <p>
+                    For example, enter "<i>poly pipe</i>", and you will get all the pages containing<br />
+                    - polythene pipe<br />
+                    - трубы полиэтиленовые<br />
+                    etc.
+                </p>
+            </div>
+        }
+
+
+    </div>
+</div>
+@code
+{
+    [CascadingParameter(Name = "search")] string search { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

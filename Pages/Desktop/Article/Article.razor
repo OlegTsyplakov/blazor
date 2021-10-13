@@ -1,0 +1,373 @@
+﻿
+@using Data.Services
+@{
+    bool sdr_check = false;
+    string sdr = "";
+    string system = "";
+    var group_pointer = Model.GetPSO();
+    List<Image> LI = Model.CollectImages();
+    bool isByrpexOrEagle = Model.IsByrpexOrEagle();
+    var Items = DbContext.LoadWareItems<WareItem>(Model.Group.Value.IdAsString,x=>x.IdAsString!=Model.IdAsString);
+
+    if (group_pointer == "Optima")
+    {
+        sdr = "SDR 11";
+        sdr_check = true;
+        system = "Optima";
+    }
+    if (group_pointer == "Standart")
+    {
+        sdr = "SDR 7.4";
+        sdr_check = true;
+        system = "Standart";
+    }
+    if (group_pointer == "Premium")
+    {
+        sdr = "SDR 7.4";
+        sdr_check = true;
+        system = "Premium";
+    }
+    if (group_pointer == "Premium/Standart")
+    {
+        sdr = "SDR 7.4";
+        sdr_check = true;
+        system = "Premium/Standart";
+    }
+}
+<Title>@Utils.LC(Model.MetaTitle, lang)</Title>
+<Meta Name="description" Content="@Utils.LC(Model.MetaDescription, lang)" />
+<link href="/css/desktop/article.css" rel="stylesheet" />
+<JS Name="Module.Article" />
+<JS Name="Module.Share" />
+
+
+
+<div class="small-photo-enlarge-container">
+    <div class="small-photo-enlarge-x"></div>
+    <div class="small-photo-enlarge-img"></div>
+    <div class="article-arrow-container"><div id="nav-left"></div><div id="nav-right"></div></div>
+</div>
+<div class="small-photo-enlarge-container2">
+    <div class="small-photo-enlarge-x2"></div>
+    <div class="small-photo-enlarge-img2"></div>
+    <div class="article-arrow-container2"><div id="nav-left2"></div><div id="nav-right2"></div></div>
+</div>
+<div class="bg-container">
+    <div class="part-container">
+        <Breadcrumbs Model="@Model.Group.Value" />
+        <div class="purple-txt-container">
+            <h1 class="purple-txt">@Utils.HtmlRaw(Utils.LC(Model.Name, lang))</h1>
+
+            <div class="blue-logo">@Utils.VendorLogo(Model.GetVendor(), lang)</div>
+            <div class="ya-share2" data-curtain data-shape="round" data-limit="0" data-more-button-type="short" data-services="vkontakte,facebook,odnoklassniki,telegram,twitter"></div>
+        </div>
+        <div class="item-container">
+            <div class="item-photo-container">
+                <div class="article">@Utils.LC(MLText.Article, lang) @Model.FinalArticle</div>
+                @if (sdr_check)
+                {
+                    <div class="sdr">@sdr</div>
+                }
+                @if (LI.Count() > 0)
+                {
+                    @WareOrGroupImages(LI.Where(x => !x.IsDrawing).ToList())
+                }
+            </div>
+            <div class="item-price-bg-container">
+                <div class="item-price-container">
+                    @if (system == "Optima")
+                    {<div class="brand-container">@Utils.LC("Оптима", "Optima", lang)</div>}
+                    @if (system == "Premium/Standart")
+                    {<div class="brand-blue-container">@Utils.LC("Стандарт", "Standart", lang)</div><div class="brand-purple-container">@Utils.LC("Премиум", "Premium", lang)</div>}
+                    @if (system == "Premium")
+                    {<div class="brand-purple-container">@Utils.LC("Премиум", "Premium", lang)</div>}
+                    @if (system == "Standart")
+                    {<div class="brand-blue-single-container">@Utils.LC("Стандарт", "Standart", lang)</div>}
+                    <div class="item-price-row item-price-row-top">
+
+                        @if (Model.IsUsePack())
+                        {
+                            if (Model.IsOnSale())
+                            {
+                                <div class="buh-container"><div class="item-price-txt-black">@Utils.LC(MLText.Price, lang)</div><div class="item-price-txt-red">@Model.GetUnitSalePrice()</div><div class="ruble"></div><div class="red-unit">/@Model.GetUnit(lang)</div><div class="item-price-txt-grey">@Model.GetUnitPrice()<div class="ruble-grey"></div>/@Model.GetUnit(lang)</div></div>
+                                <div class="buh-container"><div class="item-price-txt-black"></div><div class="item-price-txt-red buh">@Model.GetPackSalePrice()<div class="ruble-small"></div>/@Model.GetPackUnit(lang)</div><div class="item-price-txt-grey buh">@Model.GetPackPrice()<div class="ruble-grey"></div>/@Model.GetPackUnit(lang)</div></div>
+                            }
+                            else
+                            {
+                                <div class="buh-container"><div class="item-price-txt-black">@Utils.LC(MLText.Price, lang)</div><div class="item-price-txt-red">@Model.GetUnitPrice()</div><div class="ruble"></div><div class="red-unit">/@Model.GetUnit(lang)</div></div>
+                                <div class="buh-container"><div class="item-price-txt-black"></div><div class="item-price-txt-red buh">@Model.GetPackPrice()<div class="ruble-small"></div>/@Model.GetPackUnit(lang)</div></div>
+                            }
+                        }
+                        else
+                        {
+                            if (Model.IsOnSale())
+                            {
+
+                                <div class="item-price-txt-black">@Utils.LC(MLText.Price, lang)</div><div class="item-price-txt-red">@Model.GetUnitSalePrice()</div><div class="ruble"></div><div class="red-unit">/@Model.GetUnit(lang)</div><div class="item-price-txt-grey">@Model.GetUnitPrice()<div class="ruble-grey"></div>/@Model.GetUnit(lang)</div>
+
+                            }
+                            else
+                            {
+                                <div class="item-price-txt-black">@Utils.LC(MLText.Price, lang)</div><div class="item-price-txt-red">@Model.GetUnitPrice()</div><div class="ruble"></div><div class="red-unit">/@Model.GetUnit(lang)</div>
+                            }
+                        }
+                    </div>
+
+
+                    @WareOrGroupPropertyTableGroup(Model.CollectPropertiesGroupArticle(), lang)
+
+                    <div class="item-price-row item-price-row-center in-cart">
+                        <div class="item-price-txt-black-cart">@Utils.LC("В корзине сейчас", "Now in the cart", lang), @(Model.IsUsePack() ? Model.GetPackUnit(lang) : Model.GetUnit(lang))</div>
+                    </div>
+
+                    <div data-wareid="@Model.IdAsString" data-mode="qcont">
+                        <div class="item-price-row item-price-row-center">
+                            <div class="item-price-qty-container">
+                                <div class="item-price-qty-minus" title="@Utils.LC(MLText.Decrease, lang)" data-wareid="@Model.IdAsString" data-change="-1">-</div>
+                                <input type="text" id="qty" data-wareid="@Model.IdAsString" value="0">
+                                <div class="item-price-qty-plus" title="@Utils.LC(MLText.Increase, lang)" data-wareid="@Model.IdAsString" data-change="1">+</div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="item-price-row item-price-row-center">
+                            <button class="add-to-cart" data-wareid="@Model.IdAsString" data-change="0">@Utils.LC(MLText.AddToCart, lang)</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+        <div class="descparam-container">
+            <button class="description">@Utils.LC("Описание", "Description", lang)</button>
+            <button class="parametrs">@Utils.LC("Параметры", "Parametrs", lang)</button>
+        </div>
+    </div>
+</div>
+<div class="part-container">
+    <div class="descparam-container2">
+        @{
+            var desc = Utils.LC(Model.Description, lang);
+            var desc_more = Utils.LC(Model.DescriptionMore, lang);
+        }
+        <div class="descparam-item-container" id="description">
+            @if (!string.IsNullOrEmpty(desc) && !string.IsNullOrEmpty(desc_more))
+            {
+                @Utils.HtmlRaw(desc) <div class="readmore" id="readmore">@Utils.LC("далее ...", "more ...", lang)</div>
+                <div id="readmore-container-height">
+                    <div id="readmore-container">@Utils.HtmlRaw(desc_more)<div class="readmore" id="close">@Utils.LC("свернуть", "close", lang)</div></div>
+                </div>
+            }
+            else if (!string.IsNullOrEmpty(desc))
+            {
+                @Utils.HtmlRaw(desc)
+            }
+            <div class="descparam-item-line"></div>
+        </div>
+        <div class="descparam-item-container" id="parametrs">
+            @if (LI != null && LI.Count() > 0)
+            {
+                @WareOrGroupPropertyTableArticle(Model.CollectPropertiesGroupArticleTab(), LI.Where(x => x.IsDrawing == true).ToList(), lang)
+            }
+            <div class="descparam-item-line"></div>
+        </div>
+    </div>
+    <div class="descparam-item-info">
+        @if (Model.Units != null && Model.Units.Count > 0)
+        {
+            <div class="descparam-item-info-txt2">@Utils.LC("Информация об упаковке", "Package information", lang)</div>
+            <div class="descparam-item-all-pack">
+                @foreach (var mu in Model.Units)
+                {
+                    var type = string.Empty;
+                    if (mu.Unit == "796") { type = "Штука"; }
+                    if (mu.Unit == "006") { type = "Метр"; }
+                    if (mu.Unit == "778") { type = "Упаковка"; }
+                    if (mu.Unit == "839") { type = "Комплект"; }
+                    if (mu.Unit == "736") { type = "Рулон"; }
+                    <div class="descparam-item-pack">
+
+                        @if (!string.IsNullOrEmpty(type))
+                        {<div class="descparam-item-info-txt">Единица товара: @type</div>}
+                        @if (!Double.IsNaN(mu.Weight) && !double.IsInfinity(mu.Weight))
+                        {<div class="descparam-item-info-txt">Вес, кг: @mu.Weight</div>}
+                        @if (!Double.IsNaN(mu.Weight) && !double.IsInfinity(mu.Weight))
+                        {<div class="descparam-item-info-txt">Длина, см: @mu.Length</div>}
+                        @if (!Double.IsNaN(mu.Width) && !double.IsInfinity(mu.Width))
+                        {<div class="descparam-item-info-txt">Ширина, см: @mu.Width</div>}
+                        @if (!Double.IsNaN(mu.Height) && !double.IsInfinity(mu.Height))
+                        {<div class="descparam-item-info-txt">Высота, см: @mu.Height</div>}
+                        @if (mu.QuantityPerPack != 0)
+                        {<div class="descparam-item-info-txt">Количество в упаковке: @mu.QuantityPerPack</div>}
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+<div id="article-filter-result" style="margin-top:20px;">
+    @if (Model.AlsoRequired != null && Model.AlsoRequired.Count > 0)
+    {
+        <div class="part-container">
+            <h2 class="also-required">@Utils.LC(MLText.AlsoRequired, lang)</h2>
+
+            @foreach (WareItemQuantity WIQ in Model.AlsoRequired)
+            {
+                <WareItemRow Model="@WIQ.Item.Value" />
+            }
+
+        </div>
+    }
+    
+<AlsoRecommendedArticle Model="@Model"/>
+
+
+    @if (Items.Count > 0)
+    {
+        <div class="part-container">
+
+            <h2 class="also-required2">@Utils.LC("Товары этой подгруппы", "Articles of this group",lang)</h2>
+         <WareitemListRow Models="@Items"/>
+        </div>
+    }
+</div>
+<Comment Model="@Model" />
+<Documents Model="@Model.Group.Value" />
+<Video Model="@Model.Group.Value"/>
+@if (isByrpexOrEagle)
+{
+<Advantages />
+}
+@code
+{
+    public MarkupString WareOrGroupPropertyTableArticle(List<Property> Props, List<Image> Images, string lang)
+    {
+        int count = 0;
+        var result = string.Empty;
+
+        string[] val = { "H", "L", "LSmall", "R", "S", "Z", "Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "V" };
+        string size = "";
+        if (Props.Count > 0)
+        {
+
+            foreach (var p in Props)
+            {
+                if (!p.Hidden)
+                {
+
+                    result += "<div class=\"item-price-row\">";
+                    if (count % 2 == 0)
+                    {
+                        result += "<div class=\"item-price-row-purple\">";
+                    }
+                    else
+                    {
+                        result += "<div class=\"item-price-row-purple-light\">";
+                    }
+                    result += "<div class=\"item-price-txt-purple\">" + Utils.LC(p.PropType.Value.Name, lang) + "</div><div class=\"item-price-txt-purple\">" + Utils.LC(p.Value, lang) + "</div></div></div>";
+                    count++;
+                }
+                else
+                {
+                    if (val.Contains(p.PropType.Value.Name.Ru))
+                    {
+                        size += "<div class=\"drawing-size-txt-container\"><div class=\"drawing-size-txt\">" + Utils.LC(p.PropType.Value.Name, lang) + "</div><div class=\"drawing-size-txt\">" + Utils.LC(p.Value, lang) + "</div></div><div class=\"drawing-purple-line\"></div>";
+
+                    }
+
+                }
+
+            }
+
+            result += "<div class=\"drawings-container\">";
+            if (!string.IsNullOrEmpty(size))
+            {
+                result += "<div class=\"drawing-size-container\"><div class=\"drawing-scheme-txt\">" + Utils.LC("Схема", "Scheme", lang) + "</div><div class=\"drawing-purple-line\"></div>";
+                result += size + "</div>";
+
+            }
+            else
+            {
+                result += "<div class=\"drawing-size-container\"></div>";
+            }
+
+            if (Images.Count > 0)
+            {
+                for (var i = 0; i < Images.Count; i++)
+                {
+                    result += "<div class=\"drawing-container\"><img src=\"" + Utils.GetImageCropedUrl(Images[i].FileName, 1024, 768) + "\"></div>";
+                }
+            }
+
+            result += "</div>";
+        }
+        return result.ToMarkupString();
+    }
+
+
+
+
+
+    public MarkupString WareOrGroupPropertyTableGroup(List<Property> Props, string lang)
+    {
+        var result = string.Empty;
+        int count = 0;
+        if (Props.Count > 0)
+        {
+
+            foreach (var p in Props)
+            {
+                if (!p.Hidden)
+                {
+                    result += "<div class=\"item-price-row\">";
+                    if (count % 2 == 0)
+                    {
+                        result += "<div class=\"item-price-row-purple-light\">";
+                    }
+                    else
+                    {
+                        result += "<div class=\"item-price-row-purple\">";
+                    }
+                    result += "<div class=\"item-price-txt-purple\">" + Utils.LC(p.PropType.Value.Name, lang) + "</div><div class=\"item-price-txt-purple\">" + Utils.LC(p.Value, lang) + "</div></div></div>";
+                    count++;
+                }
+            }
+            result += "<div class=\"item-price-row-empty\"></div>";
+        }
+        return result.ToMarkupString();
+    }
+
+    private MarkupString WareOrGroupImages(List<Image> Images)
+    {
+        var result = string.Empty;
+
+        int ic;
+        if ((ic = Images.Count) > 0)
+        {
+            var image_src = Utils.GetImageCropedUrl(Images[0].FileName, 1024, 768);
+            if (ic == 1)
+            {
+                result += "<div class=\"main-photo-container main-photo-container-single\"><img src=\"" + image_src + "\"></div>";
+            }
+            else
+            {
+                result += " <div class=\"main-photo-container\"><img src=\"" + image_src + "\"></div>";
+
+                result += "<div class=\"small-photo-container\">";
+                for (int i = 1; i < ic; i++)
+                {
+                    result += " <div class=\"small-photo\"><img src=\"" + Utils.GetImageCropedUrl(Images[i].FileName, 1024, 768) + "\"></div>";
+                }
+
+                result += "</div>";
+            }
+        }
+
+        return result.ToMarkupString();
+    }
+    [Parameter] public WareItem Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

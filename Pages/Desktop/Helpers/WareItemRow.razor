@@ -1,0 +1,52 @@
+﻿@using Data.Services
+
+@{ 
+    var image = Model.GetMainImage();
+    string arthref = Utils.LangHref(lang, "art/" + Model.GetSlugOrID());
+}
+
+<div class="item-container-row">
+    <div class="table-ware-container">
+
+        @if (Utils.CheckImageExists(image, lang))
+        {
+            <div class="table-img-container">
+                <img src="@Utils.GetImageCropedUrl(image.FileName,70, 70)">
+            </div>
+        }
+        <div class="table-desc-container">
+            <a href="@arthref">@Utils.HtmlRaw(Utils.LC(Model.Name, lang))</a>
+            <div class="cartpopup-article-container">
+                @Utils.LC(MLText.Article, lang)&nbsp;@Utils.HtmlRaw(Model.Article)
+            </div>
+            @if (Model.GetPropValue("Size") != null)
+            {
+                <div class="cartpopup-article-container">
+                    @Utils.LC("Размер:", "Size:", lang)&nbsp;@Utils.LC(Model.GetPropValue("Size"), lang)
+                </div>
+            }
+        </div>
+        @if (Model.IsOnSale())
+        {
+            <div class="table-price-container">
+                <div class="old-price">@Model.GetUnitPrice()</div> <div class="red-price">@Model.GetUnitSalePrice()</div><div class="ruble"></div><div class="red-unit">/@Model.GetUnit(lang)</div>
+            </div>
+        }
+        else
+        {
+            <div class="table-price-container">
+              <div class="red-price">@Model.GetUnitPrice()</div><div class="ruble"></div><div class="red-unit">/@Model.GetUnit(lang)</div>
+            </div>
+        }
+    </div>
+
+    <Quantity ID="@Model.IdAsString" />
+</div>
+
+
+@code
+{
+    [Parameter]
+    public WareItem Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

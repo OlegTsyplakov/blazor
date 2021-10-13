@@ -15,5 +15,9 @@ namespace Site.Data.Services
         public static MLString Required = MLString.MLS("Требуется: ", "Required: ");
         public static MLString Items = MLString.MLS("Товары", "Items");
         public static MLString Details = MLString.MLS("Подробнее", "Details");
+        public static MLString Price = MLString.MLS("Цена", "Price");
+        public static MLString AddToCart = MLString.MLS("Добавить в корзину", "Add to cart");
+        public static MLString AlsoRequired = MLString.MLS("Также требуется", "Also Required");
+        public static MLString Article = MLString.MLS("Артикул", "Article");
     }
 }
