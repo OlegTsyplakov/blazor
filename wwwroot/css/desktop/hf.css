@@ -4632,3 +4632,19 @@ margin-bottom: 10px;
 border-bottom: 1px solid #f4f1f8;
 justify-content: center;
 }
+.btn-refresh {
+    border: none;
+    background-color: gainsboro;
+    padding: 2px 2px 2px 4px;
+    font-size: 16px;
+    height:20px;
+    vertical-align: sub;
+}
+
+    .btn-refresh:before {
+        content: url(/img/new/SVG/refresh.svg);
+        width: 15px;
+        float: left;
+        margin-right: 5px;
+        margin-top: -2px;
+    }

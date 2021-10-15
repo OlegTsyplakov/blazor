@@ -1,5 +1,5 @@
-export function documents(){
-// Начало документы
+п»їexport function documents(){
+// РќР°С‡Р°Р»Рѕ РґРѕРєСѓРјРµРЅС‚С‹
 $(function() {
 var items = document.getElementsByClassName('doc-item-container');
 var num = items.length;
@@ -93,5 +93,5 @@ function map(){
        });
 }
 });
-//Конец документы
+//РљРѕРЅРµС† РґРѕРєСѓРјРµРЅС‚С‹
 }

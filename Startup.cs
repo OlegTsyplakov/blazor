@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.WebEncoders;
 using Site.Data;
+using System;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
@@ -32,8 +33,9 @@ namespace Site
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-        
-           
+
+         
+
             services.AddAuthentication("Cookies").AddCookie();
      
             services.AddScoped<Mobile>();
@@ -65,7 +67,7 @@ namespace Site
             app.UseHeadElementServerPrerendering();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
 
             app.UseCookiePolicy();
             app.UseRouting();
@@ -74,6 +76,7 @@ namespace Site
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+              
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");

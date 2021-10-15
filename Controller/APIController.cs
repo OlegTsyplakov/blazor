@@ -9,7 +9,7 @@ namespace Site.Controller
 {
     [Route("/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class APIController : ControllerBase
     {
         [HttpPost]
         public async Task<ActionResult> Post([FromForm] string name)
@@ -22,8 +22,7 @@ namespace Site.Controller
             await HttpContext.SignInAsync(claims);
             return Redirect("/");
         }
-        
-
+       
 
     }
 }

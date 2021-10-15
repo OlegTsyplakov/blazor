@@ -1,0 +1,81 @@
+﻿@using Data.Services
+@inject ProtectedSessionStorage storage
+@{
+    string AddClass = null;
+}
+
+<!-- Начало отзыв-->
+
+<div class="calc-x x"></div>
+
+<div class="color-circle-container"><div class="color-circle light-blue-circle"></div><div class="color-circle green-color-circle"></div><div class="color-circle orange-color-circle"></div><div class="color-circle red-color-circle"></div><div class="color-circle purple-color-circle"></div><div class="color-circle blue-color-circle"></div></div>
+<EditForm Model="@FeedbackModel" class="x" id="feedback-form" OnValidSubmit="@ValidSubmit">
+    <div class="feedback-title">@Utils.LC("Форма обратной связи", "Feedback Form", lang)</div>
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText @bind-Value="FeedbackModel.Email" class="cartpopup-profile-input feedback-input x" placeholder="@Utils.LC("Ваш адрес электронной почты", "Your email",lang)" required="required" autocomplete="off" />
+    <InputText @bind-Value="FeedbackModel.Phone" type="phone" class="cartpopup-profile-input feedback-input x" placeholder="@Utils.LC("Ваш номер телефона", "Your phone number",lang)" autocomplete="off" />
+    <InputTextArea @bind-Value="FeedbackModel.Message" class="cartpopup-profile-input-textarea feedback-textarea x" placeholder="@Utils.LC("Ваше сообщение", "Your message",lang)" maxlength="2048" cols="20" rows="5" style="max-width: 100%;" />
+
+    <div class="control-label" for="Attachment">@Utils.LC("Вы можете приложить файл размером до 10 МБ", "You may attach a file of up to 10 MB", lang)</div>
+    <div class="fileform">
+        <div class="selectbutton">Обзор</div>
+        <InputFile name="Attachment" class="feedback-upload x" />
+    </div>
+    <span class="feedback-filename"></span>
+    <span class="text-danger" data-valmsg-for="Attachment" data-valmsg-replace="true"></span>
+
+    <div class="control-label-row">
+        <div class="control-label" for="Captcha">@Utils.LC("Введите символы с картинки", "Enter symbols from picture", lang)</div>
+        <Captcha @bind-CaptchaWord="@Captcha" CharNumber="@CaptchaLetters" />
+    </div>
+
+    <input autocomplete="off" class="cartpopup-profile-input feedback-input x" id="Captcha" maxlength="10" name="Captcha" type="text" value="" />
+
+
+
+
+
+    <input type="submit" class="feedback-submit x" value="@Utils.LC("Отправить", "Submit",lang)" />
+
+
+</EditForm>
+
+
+<div class="feedback-linebottom"></div>
+@if (Success)
+{ AddClass = "success"; }
+<div class="price-container @AddClass" id="feedback-response">
+    <div class="black-x x"></div>
+    <div class="checkup"></div>
+    <div class="check-txt-black-bold" id="message">@Utils.LC("Сообщение отправлено!", "Message was sent!", lang)</div>
+    <div class="checkdown"></div>
+</div>
+
+
+
+
+
+
+<!-- Конец отзыв-->
+
+@code
+{
+    private string Captcha = "";
+    private int CaptchaLetters = 5;
+
+    protected override Task OnInitializedAsync()
+    {
+        Captcha = Tools.GetCaptchaWord(CaptchaLetters);
+
+        return base.OnInitializedAsync();
+    }
+    void ValidSubmit()
+    {
+
+        Success = true;
+    }
+    private bool Success { get; set; } = false;
+    private TFeedback FeedbackModel = new TFeedback();
+    [CascadingParameter] string lang { get; set; }
+}

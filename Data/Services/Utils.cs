@@ -6,11 +6,65 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System;
+using System.Linq;
 
 namespace Site.Data.Services
 {
     public static class Utils
     {
+        public static Dictionary<string, string> ToDictionary(string key, string value)
+        {
+            return new Dictionary<string, string>() { { key,value} };
+        }
+        public static RenderFragment CreateComponent(Type type, Dictionary<string, string> items = null) => builder =>
+        {
+            if (items == null)
+            {
+                builder.OpenComponent(0, type);
+                builder.CloseComponent();
+            }
+            else
+            {
+                int count = 1;
+                builder.OpenComponent(0, type);
+                foreach (var item in items)
+                {
+                    builder.AddAttribute(count, item.Key, item.Value);
+                    count++;
+                }
+                builder.CloseComponent();
+            }
+
+
+        };
+        public static List<string> RqParts(string rq)
+        {
+            int i, l;
+            if (String.IsNullOrEmpty(rq) || rq.Length > 200) return null;
+            if (rq.IndexOfAny(new char[] { '<', '>' }) >= 0) return null;
+            List<string> Result = rq.Split(new char[] { ' ', '\t', '\x00A0', '\x000D', '\x000A', '\x000C' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            if (Result.Count == 0) return null;
+            for (i = 0; i < Result.Count;)
+                if ((l = Result[i].Length) < 3 || (l > 40)) Result.RemoveAt(i); else i++;
+            Result.Sort((A, B) => A.Length - B.Length);
+            return Result;
+        }
+        public static bool ContainsWord(string Container, string Word)
+        {
+            return Container != null && Container.IndexOf(Word, StringComparison.InvariantCultureIgnoreCase) >= 0;
+        }
+        public static List<string> StringParts(string rq)
+        {
+            int i, l;
+            if (String.IsNullOrEmpty(rq) || rq.Length > 200) return null;
+            if (rq.IndexOfAny(new char[] { '<', '>' }) >= 0) return null;
+            List<string> Result = rq.Split(new char[] { ' ', '\t', '\x00A0', '\x000D', '\x000A', '\x000C' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            if (Result.Count == 0) return null;
+            for (i = 0; i < Result.Count;)
+                if ((l = Result[i].Length) < 3 || (l > 40)) Result.RemoveAt(i); else i++;
+            Result.Sort((A, B) => A.Length - B.Length);
+            return Result;
+        }
         public static MarkupString VendorLogo(Vendor Model,string lang)
         {
             string result = string.Empty;

@@ -487,10 +487,10 @@ string[] catalog_url_array = catalog_url_list.ToArray<string>();
     <div class="calc-delivery-container"><div class="calc-delivery-container-load"></div><div class="calc-x x"></div></div>
     <div class="purple-arrow"></div>
     <!-- Начало мнение-->
-    <div class="feedback-popup-container" id="feedback-results"></div>
+    <div class="feedback-popup-container" id="feedback-results">@Feedback</div>
     <div class="opinion-container">
 
-        <div class="opinion-txt x" id="feedback-popup">@Utils.LC("Сообщить об ошибке", "Share your opinion", lang) <div class="white-talk"></div></div>
+        <div class="opinion-txt x" @onclick="ShowFeedback" id="feedback-popup">@Utils.LC("Сообщить об ошибке", "Share your opinion", lang) <div class="white-talk"></div></div>
 
     </div>
     <!-- Конец мнение-->
@@ -604,6 +604,15 @@ string[] catalog_url_array = catalog_url_list.ToArray<string>();
     <div id="PriceHintSale">Сейчас распродажа!</div>
     <div id="PriceHintMin">Минимально возможная цена. Скидка предоставляется менеджером индивидуально.</div>
     @code {
+        public RenderFragment Feedback;
+
+
+ 
+        void ShowFeedback()
+        {
+            Feedback = Utils.CreateComponent(typeof(Feedback));
+        }
+
 
         string lang { get; set; }
         string url { get; set; }

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.13.1" />
+    <PackageReference Include="SkiaSharp" Version="2.80.3" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     <PackageReference Include="Toolbelt.Blazor.HeadElement" Version="6.0.0" />
     <PackageReference Include="Toolbelt.Blazor.HeadElement.ServerPrerendering" Version="6.0.0" />

@@ -1820,7 +1820,8 @@ $(function () {
 
     });
     $("#feedback-popup, #feedback-popup-top, #feedback-popup-top2").on("click", function () {
-        FeedbackForm();
+    $(".feedback-popup-container").fadeIn();
+        //FeedbackForm();
     });
 
     $("#client-container").on("click", "#loginclick", function () {

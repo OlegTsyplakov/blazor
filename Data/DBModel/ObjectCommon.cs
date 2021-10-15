@@ -1,6 +1,7 @@
 ﻿
 
 using MongoDB.Bson.Serialization.Attributes;
+using Site.Data.Services;
 using System.Collections.Generic;
 
 namespace Site.Data.DBModel
@@ -43,6 +44,24 @@ namespace Site.Data.DBModel
             }
 
             return null;
+        }
+        protected virtual bool MatchWord(string word)
+        {
+            return
+                Name.ContainsWord(word) ||
+                Description.ContainsWord(word) ||
+                LongDesc.ContainsWord(word) ||
+                Comment.ContainsWord(word) ||
+                Utils.ContainsWord(Slug, word) ||
+                Properties.Exists(x => x.Value.ContainsWord(word));
+        }
+
+        public bool MatchSearch(List<string> requestParts)
+        {
+            foreach (var w in requestParts)
+                if (!MatchWord(w)) return false;
+
+            return true;
         }
     }
 }
