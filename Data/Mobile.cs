@@ -18,14 +18,7 @@ namespace Site.Data
                 
             _httpContextAccessor = httpContextAccessor;
 
-            if (_httpContextAccessor.HttpContext.Request.Path.ToString().Contains("/en"))
-            {               
-                Lang.lang = "en";
-            }
-            else 
-            {
-                Lang.lang = "ru";
-            }
+           
 
             if (_httpContextAccessor.HttpContext.Request.Cookies.ContainsKey("uid")) {
                 IsAuthorized = true;

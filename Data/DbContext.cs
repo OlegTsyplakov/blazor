@@ -13,7 +13,7 @@ namespace Site.Data
     {
         
         
-        private static readonly string Connection_string = "mongodb://localhost:27017";
+        private static readonly string Connection_string = "mongodb://192.168.2.17:27017";
         private static readonly string Database_name = "blazor";
         private static readonly MongoClient _Client = new MongoClient(Connection_string);
         private static readonly IMongoDatabase _Database = _Client.GetDatabase(Database_name);

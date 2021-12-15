@@ -1,5 +1,7 @@
 export function hf(){
 
+
+
 var lang = $("html").attr("lang");
 function SmetaInOut() {
     $(".smeta-login-container").load("/" + lang + "/SmetaLogin", function () {
@@ -509,11 +511,11 @@ $(document).click(function (e) {
             });
         }
     }
-    if (!$(e.target).is(".calc-x") && $(".feedback-popup-container").css("display") != "none") {
-        if ($(e.target).closest('.feedback-popup-container').length === 0) {
-            $(".feedback-popup-container").fadeOut();
-        }
-    }
+    // if (!$(e.target).is(".calc-x") && $(".feedback-popup-container").css("display") != "none") {
+    //     if ($(e.target).closest('.feedback-popup-container').length === 0) {
+    //         $(".feedback-popup-container").fadeOut();
+    //     }
+    // }
     if (!$(e.target).is("#smeta") && !$(e.target).is("#smeta2") && !$(e.target).is("#smeta3") && !$(e.target).is(".slr-box-smeta") && !$(e.target).is(".smeta-del") && !$(e.target).is(".calc-x") && $(".smeta-container").css("display") != "none") {
         if ($(e.target).closest('.smeta-container').length === 0) {
             $(".smeta-container").fadeOut({ complete: function () { $(".smeta-container").css("top", "-50%"); } });
@@ -1516,7 +1518,7 @@ $(function () {
         if ($(e.target).parent().hasClass("email-conformation-container")) { $(".email-conformation-container").fadeOut(); }
 
         if ($(e.target).parent().hasClass("advantage-info-popup-container")) { $(".advantage-info-popup-container").fadeOut(); }
-        if ($(e.target).parent().hasClass("feedback-popup-container")) { $(".feedback-popup-container").fadeOut(); $(".price-container").removeClass("success"); }
+        // if ($(e.target).parent().hasClass("feedback-popup-container")) { $(".feedback-popup-container").fadeOut(); $(".price-container").removeClass("success"); }
     });
     $("#popup-cart-container").on("click", "#calc-delivery", function () {
         $(".calc-delivery-container").fadeIn();
@@ -1819,23 +1821,23 @@ $(function () {
         ppc = $(this).val();
 
     });
-    $("#feedback-popup, #feedback-popup-top, #feedback-popup-top2").on("click", function () {
-    $(".feedback-popup-container").fadeIn();
-        //FeedbackForm();
-    });
+    // $("#feedback-popup, #feedback-popup-top, #feedback-popup-top2").on("click", function () {
+    // $(".feedback-popup-container").fadeIn();
+    //     //FeedbackForm();
+    // });
 
     $("#client-container").on("click", "#loginclick", function () {
         ClientContainerScroll();
         ShowLoginRegForm();
     });
-    function FeedbackForm() {
-        $(".feedback-popup-container").html("");
-        $(".feedback-popup-container").load("/" + lang + "/FeedbackForm", function () {
-        });
-        setTimeout(function () {
-            $(".feedback-popup-container").fadeIn();
-        }, 600);
-    }
+    // function FeedbackForm() {
+    //     $(".feedback-popup-container").html("");
+    //     $(".feedback-popup-container").load("/" + lang + "/FeedbackForm", function () {
+    //     });
+    //     setTimeout(function () {
+    //         $(".feedback-popup-container").fadeIn();
+    //     }, 600);
+    // }
     $(".calc-delivery-container").on("click", "#cartpopup-step4-change-button", function () {
         $("#cartpopup-step4-pay-button").css("pointer-events", "none").css("background", "#aaa");
         $("#cartpopup-step4-change-button").text("Подтвердить изменения");

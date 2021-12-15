@@ -1,6 +1,8 @@
 ﻿@inherits LayoutComponentBase
 @using Data.Services
+@inject IJSRuntime JSRuntime
 @inject NavigationManager navigation
+
 
 
 
@@ -12,43 +14,43 @@
 @{
     string Phone = "8 800 700 9732";
     string PhoneFlat = "+78007009732";
-    string tel = "tel:"+PhoneFlat;
-var solChildren = DbContext.LoadFirstChildren<WareGroup>(Settings.SolutionsId);
-var catChildren = DbContext.LoadFirstChildren<WareGroup>(Settings.CatalogId);
-List<string> catalog_url_list = new List<string> { };
-List<string> solution_url_list = new List<string> { };
-List<string> catalog_img_url_list = new List<string> { };
-List<string> solution_img_url_list = new List<string> { };
-var LinkDocs = Utils.LangHref(lang, "docs");
-var LinkPublicOffer = Utils.LangHref(lang, "info/public-offer");
-var LinkReturns = Utils.LangHref(lang, "info/returns-and-refund");
-var LinkDeliveryOptions = Utils.LangHref(lang, "info/delivery-options");
-var LinkPlaceAnOrderAndPay = Utils.LangHref(lang, "info/placing-an-order-and-payment");
-var LinkAboutUs = Utils.LangHref(lang, "info/about-us");
-var LinkContacts = Utils.LangHref(lang, "contacts");
-string LinkProfile = Utils.LangHref(lang, "profile");
-for (int i = 0; i < solChildren.Count; i++)
-{
+    string tel = "tel:" + PhoneFlat;
+    var solChildren = DbContext.LoadFirstChildren<WareGroup>(Settings.SolutionsId);
+    var catChildren = DbContext.LoadFirstChildren<WareGroup>(Settings.CatalogId);
+    List<string> catalog_url_list = new List<string> { };
+    List<string> solution_url_list = new List<string> { };
+    List<string> catalog_img_url_list = new List<string> { };
+    List<string> solution_img_url_list = new List<string> { };
+    var LinkDocs = Utils.LangHref(lang, "docs");
+    var LinkPublicOffer = Utils.LangHref(lang, "info/public-offer");
+    var LinkReturns = Utils.LangHref(lang, "info/returns-and-refund");
+    var LinkDeliveryOptions = Utils.LangHref(lang, "info/delivery-options");
+    var LinkPlaceAnOrderAndPay = Utils.LangHref(lang, "info/placing-an-order-and-payment");
+    var LinkAboutUs = Utils.LangHref(lang, "info/about-us");
+    var LinkContacts = Utils.LangHref(lang, "contacts");
+    string LinkProfile = Utils.LangHref(lang, "profile");
+    for (int i = 0; i < solChildren.Count; i++)
+    {
 
-    var WG = solChildren[i];
+        var WG = solChildren[i];
 
-    string url = "/" + Lang.lang + "/solutions/" + WG.GetSlugOrID();
-    solution_url_list.Add("<a class=\"choose_slider_txt\" href=\"" + url + "\">" + @Utils.LC(WG.Name) + "</a>");
-    solution_img_url_list.Add(url);
-}
-foreach (var WG in catChildren)
-{
+        string url = "/" + lang + "/solutions/" + WG.GetSlugOrID();
+        solution_url_list.Add("<a class=\"choose_slider_txt\" href=\"" + url + "\">" + @Utils.LC(WG.Name) + "</a>");
+        solution_img_url_list.Add(url);
+    }
+    foreach (var WG in catChildren)
+    {
 
 
-    string url = "/" + Lang.lang + "/cat/" + WG.GetSlugOrID();
-    catalog_url_list.Add("<a class=\"choose_slider_txt\" href=\"" + url + "\">" + @Utils.LC(WG.Name) + "</a>");
-    catalog_img_url_list.Add(url);
-}
+        string url = "/" + lang + "/cat/" + WG.GetSlugOrID();
+        catalog_url_list.Add("<a class=\"choose_slider_txt\" href=\"" + url + "\">" + @Utils.LC(WG.Name) + "</a>");
+        catalog_img_url_list.Add(url);
+    }
 
-string[] solution_img_url_array = solution_img_url_list.ToArray<string>();
-string[] solution_url_array = solution_url_list.ToArray<string>();
-string[] catalog_img_url_array = catalog_img_url_list.ToArray<string>();
-string[] catalog_url_array = catalog_url_list.ToArray<string>();
+    string[] solution_img_url_array = solution_img_url_list.ToArray<string>();
+    string[] solution_url_array = solution_url_list.ToArray<string>();
+    string[] catalog_img_url_array = catalog_img_url_list.ToArray<string>();
+    string[] catalog_url_array = catalog_url_list.ToArray<string>();
 }
 
 
@@ -171,7 +173,7 @@ string[] catalog_url_array = catalog_url_list.ToArray<string>();
             <div class="txt-blue">@Utils.LC("Официальный", "Official", lang)</div>
             <div class="txt-blue">@Utils.LC("интернет-магазин", "Internet Store", lang)</div>
         </div>
-        <NavLink href="@Settings.HomePage">
+        <NavLink href="@homepage">
             <div class="logo-blue"></div>
         </NavLink>
         <div class="official2">
@@ -305,19 +307,19 @@ string[] catalog_url_array = catalog_url_list.ToArray<string>();
                         <div class="search-container-enlarge">
                             <a title="@Utils.LC("Поиск по параметрам", "Parametric search", lang)" href="@Utils.LangHref(lang, "globalfilter")"><div class="search-filter"></div></a>
                             @*<form class="search-form" action="@Utils.LangHref(lang, "search")">*@
-                        <div class="search-form">
-                            <div class="autocomplete">
+                            <div class="search-form">
+                                <div class="autocomplete">
 
-                                <input type="search" @bind="@search" placeholder="Поиск" id="search-input" autocomplete="off">
+                                    <input type="search" @bind="@search" placeholder="Поиск" id="search-input" autocomplete="off">
+                                </div>
+
+                                <div class="search-lupa-container"><button type="submit" @onclick="@SearchForm" class="search-lupa"></button></div>
                             </div>
 
-                            <div class="search-lupa-container"><button type="submit" @onclick="@SearchForm" class="search-lupa"></button></div>
+                            @*</form>*@
+
+                            <div class="search-x"></div>
                         </div>
-                                    
-                                @*</form>*@
-                               
-                                <div class="search-x"></div>
-</div>
                     </div>
 
 
@@ -482,171 +484,180 @@ string[] catalog_url_array = catalog_url_list.ToArray<string>();
     </CascadingValue>
 </CascadingValue>
 
-    <div class="smeta-container"><div class="smeta-load-container"></div></div>
-    <div class="slr-pricelist-container"><div class="slr-pricelist-title">@Utils.LC("Прайс-лист", "Pricelist", lang)</div><div class="color-circle-container"><div class="color-circle light-blue-circle"></div><div class="color-circle green-color-circle"></div><div class="color-circle orange-color-circle"></div><div class="color-circle red-color-circle"></div><div class="color-circle purple-color-circle"></div><div class="color-circle blue-color-circle"></div></div><div class="calc-x"></div><div class="slr-pricelist-container-load"></div></div>
-    <div class="calc-delivery-container"><div class="calc-delivery-container-load"></div><div class="calc-x x"></div></div>
-    <div class="purple-arrow"></div>
-    <!-- Начало мнение-->
-    <div class="feedback-popup-container" id="feedback-results">@Feedback</div>
-    <div class="opinion-container">
+<div class="smeta-container"><div class="smeta-load-container"></div></div>
+<div class="slr-pricelist-container"><div class="slr-pricelist-title">@Utils.LC("Прайс-лист", "Pricelist", lang)</div><div class="color-circle-container"><div class="color-circle light-blue-circle"></div><div class="color-circle green-color-circle"></div><div class="color-circle orange-color-circle"></div><div class="color-circle red-color-circle"></div><div class="color-circle purple-color-circle"></div><div class="color-circle blue-color-circle"></div></div><div class="calc-x"></div><div class="slr-pricelist-container-load"></div></div>
+<div class="calc-delivery-container"><div class="calc-delivery-container-load"></div><div class="calc-x x"></div></div>
+<div class="purple-arrow"></div>
+<!-- Начало мнение-->
+<div class="feedback-popup-container" id="feedback-results">@Feedback</div>
+<div class="opinion-container">
 
-        <div class="opinion-txt x" @onclick="ShowFeedback" id="feedback-popup">@Utils.LC("Сообщить об ошибке", "Share your opinion", lang) <div class="white-talk"></div></div>
+    <div class="opinion-txt x" @ref=feedback @onclick="@(e => ShowModal(@feedback, new Feedback()))" id="feedback-popup">@Utils.LC("Сообщить об ошибке", "Share your opinion", lang) <div class="white-talk"></div></div>
+
+</div>
+<!-- Конец мнение-->
+<footer class="footer-all-container">
+    <div class="footer-container">
+        <div class="footer-container-left">
+            <div class="footer-container-column">
+                <div class="logo-white-footer"></div>
+                <div class="footer-white-txt our-company">Наша компания способна пред&shy;ло&shy;жить вам ком&shy;плекс&shy;ное ре&shy;ше&shy;ние по ус&shy;трой&shy;ству кли&shy;мата и до&shy;маш&shy;не&shy;го уюта. Обоз&shy;начь&shy;те за&shy;дачу и до&shy;верь&shy;тесь ко&shy;манде опыт&shy;ных специа&shy;листов.</div>
+                <div class="footer-row-social">
+                    <a href="http://tg.xenot.ru/BYRbot" target="_blank">
+                        <div class="telegram"></div>
+                    </a>
+                    <a href="https://www.facebook.com/TSDbyrpex/" target="_blank">
+                        <div class="facebook"></div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=I9WQhE0wq6k&list=PL8WswMf69c5O_GM76oAsB7B0Yqtd2Od9j&index=2" target="_blank">
+                        <div class="youtube"></div>
+                    </a>
+                    <a href="https://www.instagram.com/byr_pex/" target="_blank">
+                        <div class="instagram"></div>
+                    </a>
+                    <a href="https://vm.tiktok.com/ZSJFMAKfF/" target="_blank">
+                        <div class="tiktok"></div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <div class="footer-container-right">
+            <div class="footer-container-column2">
+                <div class="footer-white-txt"><strong>@Utils.LC("Информация", "Information", lang)</strong></div>
+                <div class="white-line"></div>
+
+                <div class="footer-white-txt"><a href="@LinkAboutUs">@Utils.LC("О компании", "About us", lang)</a></div>
+                <div class="footer-white-txt"><a href="@LinkPlaceAnOrderAndPay">Оформление заказа и оплата</a></div>
+                <div class="footer-white-txt"><a href="@LinkDeliveryOptions">Доставка / Самовывоз</a></div>
+                <div class="footer-white-txt"><a href="@LinkReturns">Возврат</a></div>
+                <div class="footer-white-txt"><a href="@LinkPublicOffer">Договор публичной оферты</a></div>
+                <div class="footer-white-txt"><a href="@LinkDocs">Библиотека</a></div>
+            </div>
+
+            <div class="footer-container-column2 smaller">
+                <div class="footer-white-txt"><strong>@Utils.LC("Решения", "Решения", lang)</strong></div>
+                <div class="white-line"></div>
+                @foreach (var item in solution_url_list)
+                {
+                    <div class="footer-white-txt">@Utils.HtmlRaw(item)</div>
+                }
+            </div>
+
+            <div class="footer-container-column2">
+                <div class="footer-white-txt"><a href="@Utils.LangHref(lang, "cat")"><strong>@Utils.LC("Каталог", "Catalogue", lang)</strong></a></div>
+                <div class="white-line"></div>
+                @foreach (var item in catalog_url_list)
+                {
+                    <div class="footer-white-txt">@Utils.HtmlRaw(item)</div>
+                }
+
+                <div class="footer-white-txt"><a href="@Utils.LangHref(lang, "articles")">@Utils.LC("Статьи", "Articles", lang)</a></div>
+            </div>
+
+            <div class="footer-container-column2">
+                <div class="footer-white-txt"><a href="@Utils.LangHref(lang, "contacts")"><strong>@Utils.LC("Контакты", "Contacts", lang)</strong></a></div>
+                <div class="white-line"></div>
+                <div class="footer-row">
+                    <div class="email"></div>
+                    <div class="footer-white-txt" id="choose-email">@Utils.LC("Написать нам:", "Email us:", lang)</div>
+                    <div class="footer-arrow" id="footer-arrow-email"></div>
+
+                </div>
+                <div id="choose-city-email"><a class="etc" href="mailto:shop@byrpex.ru">shop@byrpex.ru</a></div>
+                <div class="footer-row">
+                    <div class="footer-tel"></div>
+                    <div class="footer-white-txt" id="choose-city">@Utils.LC("Позвонить нам:", "Call us:", lang)</div>
+
+                    <div class="footer-arrow" id="footer-arrow-tel"></div>
+
+
+                </div>
+                <div id="choose-city-tel"><a class="etc" href="tel:@PhoneFlat">@Phone</a></div>
+                <div class="footer-row">
+                    <div class="footer-pin"></div>
+                    <div class="footer-white-txt" id="delivery">@Utils.LC("Увидеть на карте:", "See on the map:", lang)</div>
+                    <div class="footer-arrow" id="footer-arrow-map"></div>
+
+                </div>
+                <div id="choose-city-map"><a class="etc" href="@LinkContacts">@Utils.LC("Сеть торговых представителей", "Network of sales representatives", lang)</a></div>
+            </div>
+        </div>
+
+
 
     </div>
-    <!-- Конец мнение-->
-    <footer class="footer-all-container">
-        <div class="footer-container">
-            <div class="footer-container-left">
-                <div class="footer-container-column">
-                    <div class="logo-white-footer"></div>
-                    <div class="footer-white-txt our-company">Наша компания способна пред&shy;ло&shy;жить вам ком&shy;плекс&shy;ное ре&shy;ше&shy;ние по ус&shy;трой&shy;ству кли&shy;мата и до&shy;маш&shy;не&shy;го уюта. Обоз&shy;начь&shy;те за&shy;дачу и до&shy;верь&shy;тесь ко&shy;манде опыт&shy;ных специа&shy;листов.</div>
-                    <div class="footer-row-social">
-                        <a href="http://tg.xenot.ru/BYRbot" target="_blank">
-                            <div class="telegram"></div>
-                        </a>
-                        <a href="https://www.facebook.com/TSDbyrpex/" target="_blank">
-                            <div class="facebook"></div>
-                        </a>
-                        <a href="https://www.youtube.com/watch?v=I9WQhE0wq6k&list=PL8WswMf69c5O_GM76oAsB7B0Yqtd2Od9j&index=2" target="_blank">
-                            <div class="youtube"></div>
-                        </a>
-                        <a href="https://www.instagram.com/byr_pex/" target="_blank">
-                            <div class="instagram"></div>
-                        </a>
-                        <a href="https://vm.tiktok.com/ZSJFMAKfF/" target="_blank">
-                            <div class="tiktok"></div>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-            <div class="footer-container-right">
-                <div class="footer-container-column2">
-                    <div class="footer-white-txt"><strong>@Utils.LC("Информация", "Information", lang)</strong></div>
-                    <div class="white-line"></div>
-
-                    <div class="footer-white-txt"><a href="@LinkAboutUs">@Utils.LC("О компании", "About us", lang)</a></div>
-                    <div class="footer-white-txt"><a href="@LinkPlaceAnOrderAndPay">Оформление заказа и оплата</a></div>
-                    <div class="footer-white-txt"><a href="@LinkDeliveryOptions">Доставка / Самовывоз</a></div>
-                    <div class="footer-white-txt"><a href="@LinkReturns">Возврат</a></div>
-                    <div class="footer-white-txt"><a href="@LinkPublicOffer">Договор публичной оферты</a></div>
-                    <div class="footer-white-txt"><a href="@LinkDocs">Библиотека</a></div>
-                </div>
-
-                <div class="footer-container-column2 smaller">
-                    <div class="footer-white-txt"><strong>@Utils.LC("Решения", "Решения", lang)</strong></div>
-                    <div class="white-line"></div>
-                    @foreach (var item in solution_url_list)
-                    {
-                        <div class="footer-white-txt">@Utils.HtmlRaw(item)</div>
-                    }
-                </div>
-
-                <div class="footer-container-column2">
-                    <div class="footer-white-txt"><a href="@Utils.LangHref(lang, "cat")"><strong>@Utils.LC("Каталог", "Catalogue", lang)</strong></a></div>
-                    <div class="white-line"></div>
-                    @foreach (var item in catalog_url_list)
-                    {
-                        <div class="footer-white-txt">@Utils.HtmlRaw(item)</div>
-                    }
-
-                    <div class="footer-white-txt"><a href="@Utils.LangHref(lang, "articles")">@Utils.LC("Статьи", "Articles", lang)</a></div>
-                </div>
-
-                <div class="footer-container-column2">
-                    <div class="footer-white-txt"><a href="@Utils.LangHref(lang, "contacts")"><strong>@Utils.LC("Контакты", "Contacts", lang)</strong></a></div>
-                    <div class="white-line"></div>
-                    <div class="footer-row">
-                        <div class="email"></div>
-                        <div class="footer-white-txt" id="choose-email">@Utils.LC("Написать нам:", "Email us:", lang)</div>
-                        <div class="footer-arrow" id="footer-arrow-email"></div>
-
-                    </div>
-                    <div id="choose-city-email"><a class="etc" href="mailto:shop@byrpex.ru">shop@byrpex.ru</a></div>
-                    <div class="footer-row">
-                        <div class="footer-tel"></div>
-                        <div class="footer-white-txt" id="choose-city">@Utils.LC("Позвонить нам:", "Call us:", lang)</div>
-
-                        <div class="footer-arrow" id="footer-arrow-tel"></div>
 
 
-                    </div>
-                    <div id="choose-city-tel"><a class="etc" href="tel:@PhoneFlat">@Phone</a></div>
-                    <div class="footer-row">
-                        <div class="footer-pin"></div>
-                        <div class="footer-white-txt" id="delivery">@Utils.LC("Увидеть на карте:", "See on the map:", lang)</div>
-                        <div class="footer-arrow" id="footer-arrow-map"></div>
-
-                    </div>
-                    <div id="choose-city-map"><a class="etc" href="@LinkContacts">@Utils.LC("Сеть торговых представителей", "Network of sales representatives", lang)</a></div>
-                </div>
-            </div>
-
-
-
+    <div class="footer-address-payment">
+        <div class="footer-white-txt  copyright-container">© @(DateTime.Now.Year) <NavLink href="@Settings.HomePage">@Utils.LC("ТОРГОВО-СТРОИТЕЛЬНЫЙ ДОМ БИР ПЕКС", "TRADING AND CONSTRUCTION HOUSE BYR PEX", lang)</NavLink></div>
+        <div class="footer-white-txt address-container">
+            @Utils.LC("Россия, 141580, Московская область, деревня Поярково Солнечногорского района, ул. Клушинская, 1", "Russia, 141580, Moscow oblast, Solnechnogorskiy rayon, Poyarkovo, Klushinskaya st., 1", lang)
         </div>
-
-
-        <div class="footer-address-payment">
-            <div class="footer-white-txt  copyright-container">© @(DateTime.Now.Year) <NavLink href="@Settings.HomePage">@Utils.LC("ТОРГОВО-СТРОИТЕЛЬНЫЙ ДОМ БИР ПЕКС", "TRADING AND CONSTRUCTION HOUSE BYR PEX", lang)</NavLink></div>
-            <div class="footer-white-txt address-container">
-                @Utils.LC("Россия, 141580, Московская область, деревня Поярково Солнечногорского района, ул. Клушинская, 1", "Russia, 141580, Moscow oblast, Solnechnogorskiy rayon, Poyarkovo, Klushinskaya st., 1", lang)
-            </div>
-            <div class="payment-container">
-                <div class="visa"></div>
-                <div class="mastercard"></div>
-                <div class="mir"></div>
-            </div>
+        <div class="payment-container">
+            <div class="visa"></div>
+            <div class="mastercard"></div>
+            <div class="mir"></div>
         </div>
-    </footer>
-    <div id="PriceHintBase">Базовая цена</div>
-    <div id="PriceHintDisc">Цена с Вашей скидкой</div>
-    <div id="PriceHintSale">Сейчас распродажа!</div>
-    <div id="PriceHintMin">Минимально возможная цена. Скидка предоставляется менеджером индивидуально.</div>
-    @code {
-        public RenderFragment Feedback;
+    </div>
+</footer>
+<div id="PriceHintBase">Базовая цена</div>
+<div id="PriceHintDisc">Цена с Вашей скидкой</div>
+<div id="PriceHintSale">Сейчас распродажа!</div>
+<div id="PriceHintMin">Минимально возможная цена. Скидка предоставляется менеджером индивидуально.</div>
+@code {
+    public RenderFragment Feedback;
 
+    private ElementReference feedback;
 
- 
-        void ShowFeedback()
-        {
-            Feedback = Utils.CreateComponent(typeof(Feedback));
-        }
-
-
-        string lang { get; set; }
-        string url { get; set; }
-        string search { get; set; }
-        protected override void OnInitialized()
-        {
-            url = Lang.GetDifferentLangUrl(navigation.Uri);
-            lang = Lang.lang;
-        }
-
-        void SearchForm()
-        {
-            navigation.NavigateTo(lang + "/search");
-
-
-        }
-        void ChangeLanguage()
-        {
-            url = Lang.GetDifferentLangUrl(navigation.Uri);
-            if (Lang.lang == Settings.LanguageRU)
-            {
-                Lang.lang = "en";
-                lang = "en";
-
-            }
-            else
-            {
-                Lang.lang = "ru";
-                lang = "ru";
-
-            }
-            StateHasChanged();
-        }
+    async void ShowModal(ElementReference element, ComponentBase T)
+    {
+        Feedback = Utils.CreateComponent(T.GetType());
+        await JSRuntime.InvokeVoidAsync("Module.showModal", element);
 
     }
+
+
+    string lang { get; set; }
+    string homepage { get; set; }
+    string url { get; set; }
+    string search { get; set; }
+    protected override void OnInitialized()
+    {
+        navigation.LocationChanged += LocationChanged;
+        url = Lang.GetDifferentLangUrl(navigation.Uri);
+        lang = (navigation.Uri.Contains(Settings.HomePage + Settings.LanguageEN) ? Settings.LanguageEN : Settings.LanguageRU);
+        Lang.lang = lang;
+        homepage = (lang == Settings.LanguageRU) ? Settings.HomePage : Settings.HomePage + Settings.LanguageEN;
+        base.OnInitialized();
+    }
+    void LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        url = Lang.GetDifferentLangUrl(e.Location);
+        StateHasChanged();
+    }
+
+    void SearchForm()
+    {
+        navigation.NavigateTo(lang + "/search");
+    }
+    void ChangeLanguage()
+    {
+        url = navigation.Uri;
+        if (lang == Settings.LanguageRU)
+        {
+            homepage = Settings.HomePage + Settings.LanguageEN;
+            lang = Settings.LanguageEN;
+        }
+        else
+        {
+            homepage = Settings.HomePage;
+            lang = Settings.LanguageRU;
+        }
+        Lang.lang = lang;
+        StateHasChanged();
+    }
+
+}
 
 

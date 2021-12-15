@@ -1,0 +1,73 @@
+﻿@page "/ru/news/{Slug}"
+@page "/en/news/{Slug}"
+@using Data.Services
+@{
+    var Model  = DbContext.GetItemFromCollection<Site.Data.DBModel.NewsItem>(x => x.Slug == Slug);
+    string href = Settings.HomePage + lang + "/" + Model.GetSlugOrID();
+    uint count = Model.Vote;
+    if (Model.GetSlugOrID() != Slug)
+    {
+        <Error />
+        return;
+    }
+}
+
+<Title>@Utils.LC(Model.MetaTitle, lang)</Title>
+<Meta Name="description" Content="@Utils.LC(Model.MetaDescription, lang)" />
+<link href="/css/desktop/news.css" rel="stylesheet" />
+<JS Name="Module.Share" />
+
+
+<div class="content-container">
+
+    <div class="all-comments-container">
+        <div class="gray-txt-url"><a href="@Utils.LangHref(lang,"news")">@Utils.LC("Новости", "News", lang)</a></div>
+        <div class="upper-container">
+            @if (Model.Images != null && Model.Images.Count > 0)
+            {
+                var image = Model.Images[0];
+                <div class="img-container">
+                    <img src="@Utils.LC(image.FileName, lang).Substring(1)" />
+                </div>
+            }
+
+            <div class="upper-title-container">
+                <div class="news-date-container">@Model.Moment.ToString(Settings.DefaultDateFormat)</div>
+                <h1 class="news-title-container">@Utils.LC(Model.Name, lang)</h1>
+            </div>
+        </div>
+
+
+        <div class="news-desc-container">
+            @Utils.HtmlRaw(Utils.LC(Model.Content, lang))
+        </div>
+
+
+        @if (Model.Images != null && Model.Images.Count > 1)
+        {
+
+
+            for (int i = 1; i < Model.Images.Count; i++)
+            {
+                var image = Model.Images[i];
+                <div class="img-body-container">
+                    <img src="@Utils.LC(image.FileName, lang).Substring(1)" />
+                </div>
+            }
+
+
+        }
+        <div class="news-social-container">
+            <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,twitter,telegram"></div>
+
+        </div>
+
+        <Comments Model="@Model"/>
+
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Slug { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

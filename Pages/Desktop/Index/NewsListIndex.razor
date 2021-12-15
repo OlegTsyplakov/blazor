@@ -2,7 +2,7 @@
 
 @using Data.Services
 @{
-    var news = DbContext.GetAllItemsFromCollection<NewsItem>().OrderByDescending(x => x.Moment).Take(3).ToList();
+    var news = DbContext.GetAllItemsFromCollection<Site.Data.DBModel.NewsItem>().OrderByDescending(x => x.Moment).Take(3).ToList();
     <div class="news-container">
         <div class="sale-container-txt"><a href="@Utils.LangHref(lang,"news")">@Utils.LC("новости", "news", lang)</a></div>
         <div class="news-container-bg">

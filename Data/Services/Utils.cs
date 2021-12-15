@@ -239,7 +239,7 @@ namespace Site.Data.Services
             }
             try
             {
-                var source = System.Drawing.Image.FromFile(no_tilda_filename);
+                var source = System.Drawing.Image.FromFile(no_tilda);
 
                 if (source.Width != width || source.Height != height)
                 {

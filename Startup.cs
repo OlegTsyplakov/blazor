@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Builder;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.WebEncoders;
 using Site.Data;
+using Site.Data.Email;
 using System;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -34,7 +35,16 @@ namespace Site
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-         
+            var emailConfig = Configuration
+    .GetSection("EmailConfiguration")
+    .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
+            services.AddScoped<IEmailSender, EmailSender>();
 
             services.AddAuthentication("Cookies").AddCookie();
      

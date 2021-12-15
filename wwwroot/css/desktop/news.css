@@ -1,0 +1,110 @@
+@import url('comment.css');
+.all-comments-container{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 1140px;
+    margin: auto;
+}
+.gray-txt-url{
+    color: grey;
+    width: 100%;
+    font-size: 14px;
+    opacity: 1;
+    transition: all 0.6s ease-in-out;
+    }
+    .gray-txt-url>a:hover{
+        color: rgb(44, 44, 44);
+    }
+    .gray-txt-url>a{
+    color: grey;
+    transition: all 0.6s ease-in-out;
+    }
+.upper-container{
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.upper-title-container{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 80%;
+}
+.img-body-container{
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px dotted rgba(146, 175, 255, 0.5);
+    padding: 5px;
+}
+.img-body-container> img {
+    height: auto;
+    width: 100%;
+  }
+.img-container{
+    position: relative;
+display: flex;
+    height: 0;
+  width: 20%;
+    margin: auto;
+    overflow: hidden;
+    padding-bottom:7%;
+}
+.img-container>img{
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+  margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+.news-date-container {
+    color: #d4145a;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.news-title-container {
+    color: #165291;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.news-desc-container {
+    color: #042d58;
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 10px;
+    hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+text-indent: 10px;
+}
+.news-desc-container>a{
+    color: #042d58;
+    font-size: 13px;
+    font-weight: bold;
+}
+.news-social-container{
+    margin-bottom: 20px;
+}
+
+.form-container{
+    position: relative;
+}
+.error-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: auto;
+    width: 400px;
+}

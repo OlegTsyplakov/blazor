@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Site.Data.DBModel
 {
@@ -17,9 +18,11 @@ namespace Site.Data.DBModel
     }
     public class Comment
     {
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Message { get; set; }
-        public DateTime Moment { get; set; }
+        public DateTime Moment { get; set; } = DateTime.Now;
 
     }
 }

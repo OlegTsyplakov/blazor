@@ -1,0 +1,36 @@
+﻿@using Data.Services
+@{ 
+    string href = Settings.HomePage+lang+"/news/"+Model.GetSlugOrID();
+}
+
+<div class="news-container">
+
+    @if (Model.Images != null && Model.Images.Count > 0)
+    {
+    <div class="news-img-container">
+        @{var image = Model.Images[0];
+        }
+        @if (Utils.CheckImageExists(image, lang))
+        {
+            <img src="@Utils.LC(image.FileName, lang).Substring(1)" />
+        }
+
+    </div>
+    }
+
+
+    <div class="news-title-container"><a href="@href">@Utils.LC(Model.Name, lang)</a></div>
+    <div class="more"><a href="@href">@Utils.LC("подробнее", "more",lang)</a></div>
+    <div class="news-date-container">@Model.Moment.ToString(Settings.DefaultDateFormat)</div>
+    <div class="news-social-container">
+
+
+        <div class="ya-share2" style="opacity:0.6" data-services="vkontakte,facebook,odnoklassniki,twitter,telegram" data-title="@Utils.LC(Model.Name,lang)" data-url="@href"></div>
+    </div>
+
+</div>
+@code
+{
+    [Parameter] public Site.Data.DBModel.NewsItem Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

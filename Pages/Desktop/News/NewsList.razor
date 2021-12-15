@@ -1,0 +1,81 @@
+﻿@page "/ru/news"
+@page "/en/news"
+@using Data.Services
+@{
+    var Models = DbContext.GetAllItemsFromCollection<Site.Data.DBModel.NewsItem>().OrderByDescending(x => x.Moment).ToList();
+    var j = 0;
+}
+<Title>@Utils.LC("Новости", "News", lang)</Title>
+<Meta Name="description" Content="@Utils.LC("", "", lang)" />
+<link href="/css/desktop/newslist.css" rel="stylesheet" />
+<JS Name="Module.Share" />
+
+<div class="content-container">
+    <div class="part-container">
+        <div class="main-title">@Utils.LC("Новости", "News", lang)</div>
+    </div>
+        @if (Models.Count > 0)
+        {
+            <div class="all-news-container">
+                <div class="all-news-column-container">
+                    @foreach (var Model in Models.Where((x, i) => i == j))
+                    {
+
+                        <NewsBriefList Model="@Model" />
+                        j += 4;
+                    }
+                </div>
+                <div class="all-news-column-container">
+
+                    @{
+                        j = 1;
+                    }
+
+
+                    @foreach (var Model in Models.Where((x, i) => i == j))
+                    {
+
+                        <NewsBriefList Model="@Model" />
+                        j += 4;
+                    }
+                </div>
+                <div class="all-news-column-container">
+
+                    @{
+                        j = 2;
+                    }
+                    @foreach (var Model in Models.Where((x, i) => i == j))
+                    {
+
+                        <NewsBriefList Model="@Model" />
+                        j += 4;
+                    }
+                </div>
+                <div class="all-news-column-container">
+
+                    @{
+                        j = 3;
+                    }
+                    @foreach (var Model in Models.Where((x, i) => i == j))
+                    {
+
+                        <NewsBriefList Model="@Model" />
+                        j += 4;
+                    }
+                </div>
+
+
+
+
+
+
+
+            </div>
+        }
+    </div>
+
+
+@code
+{
+    [CascadingParameter] string lang { get; set; }
+}

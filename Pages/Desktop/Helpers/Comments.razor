@@ -1,0 +1,66 @@
+﻿@using Data.Services
+<link href="/css/desktop/comment.css" rel="stylesheet" />
+<JS Name="Module.Comments" />
+
+<div class="social-buttouns-container"><div class="applause" @onclick="Applause"></div><div class="social-buttouns-txt">@Model.Vote</div><div class="comment ml10 mra"></div><div class="share mla mr10"></div><div class="bookmark"></div></div>
+<EditForm Model="@Comment" OnValidSubmit="@ValidSubmit">
+    <div class="articles-comments-container-overflow">
+        <div class="articles-comments-container"><div class="calc-x"></div>
+        <label class="articles-comments-label2">Оставить комментарий:</label>
+        <label class="articles-comments-label">Имя:*</label>
+        <InputText @bind-Value="@Comment.Name" class="articles-comments-name" />
+        <label class="articles-comments-label">Сообщение:*</label>
+        <InputTextArea @bind-Value="@Comment.Message" class="articles-comments-text" rows="10" cols="45"></InputTextArea>
+        <input type="hidden" @bind-value="@Comment.Moment">
+        <label class="articles-comments-required">* Обязательные к заполнению поля</label>
+        <input class="articles-comments-submit" type="submit" value=" @Utils.LC("Отправить", "Send",lang)">
+        <label class="text-green">@CommentAdded</label>
+        </div>
+    </div>
+</EditForm>
+@{
+    @if (Model.Comments.Count > 0)
+    {
+        <div class="comments-container">
+            <div class="comments-title">@Utils.LC("Комментарии:", "Comments:", lang)</div>
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="comment-container">
+                    <div class="comment-name">@comment.Name</div>
+                    <div class="comment-body">@comment.Message</div>
+                    <div class="comment-date">@comment.Moment.ToString("dd/M/yyyy")</div>
+                </div>
+            }
+
+        </div>
+    }
+}
+
+@code 
+{
+    private async Task Applause()
+    {
+        await Task.Run(() => {
+            if (!IsVoted)
+            {
+                Model.Vote++;
+                IsVoted = true;
+                DbContext.UpdateItemFromCollection<Site.Data.DBModel.NewsItem>(Model);
+            }
+
+
+        });
+    }
+    void ValidSubmit()
+    {
+        Model.Comments.Add(Comment);
+        DbContext.UpdateItemFromCollection<Site.Data.DBModel.NewsItem>(Model);
+        CommentAdded = Utils.LC("Комментарий добавлен!", "Comment added!",lang);
+        Comment = new Data.DBModel.Comment();
+    }
+    private bool IsVoted { get; set; } = false;
+    private string CommentAdded { get; set; }
+    private Site.Data.DBModel.Comment Comment { get; set; } = new Data.DBModel.Comment();
+    [Parameter] public Site.Data.DBModel.NewsItem Model { get; set; }
+    [CascadingParameter] string lang { get; set; }
+}

@@ -10,38 +10,30 @@ namespace Site.Data
     
         public static string GetOtherLang(string lang)
         {
-            if (lang == "ru")
-                   return "en";
-                return "ru";
+            if (lang == Settings.LanguageRU)
+                   return Settings.LanguageEN;
+                return Settings.LanguageRU;
         }
         public static string GetDifferentLangUrl(string url) 
         {
             if (url == Settings.HomePage)
             {
-                url+="en";
-                return url;
+                return url + Settings.LanguageEN;
             }
-            if (url== "https://localhost:44364/en") 
+            if (url== Settings.HomePage + Settings.LanguageEN) 
             {
-                url.Replace("/en", "");
-                return url;
+                return url.Replace("/en", "");
             }
-            if ( url.Contains("/en/"))
+            if (url.Contains("/en/"))
             {
-                url.Replace("/en/", "/ru/");
-                return url;
+                return url.Replace("/en/", "/ru/");
             }
-           if (url.Contains("/ru/"))
+            if (url.Contains("/ru/"))
             {
-                url.Replace("/ru/", "/en/");
-                return url;
+                return url.Replace("/ru/", "/en/");
             }
             return url;
         }
-        public static string GetCurrentUrl(string url)
-        {
 
-            return url;
-        }
     }
 }

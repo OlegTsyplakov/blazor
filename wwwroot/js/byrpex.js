@@ -19,11 +19,16 @@ import { share } from '/js/desktop/share.js';
 import { purmo } from '/js/desktop/purmo.js';
 import { article } from '/js/desktop/article.js';
 import { sale } from '/js/desktop/sale.js';
+import { comments } from '/js/desktop/comments.js';
 
 
 var Module = 
 {
 
+    showModal:    function showModal(element){
+        console.log("Show modal "+$(element));
+$(element).fadeIn();
+    },
     WriteCookie: function (name, value, days) {
 
         var expires;
@@ -73,7 +78,8 @@ var Module =
      Share:share,
      Purmo:purmo,
      Article:article,
-     Sale:sale
+     Sale:sale,
+     Comments:comments
      
 }
 window.Module = Module;

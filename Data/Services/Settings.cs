@@ -12,7 +12,7 @@ namespace Site.Data.Services
         public const string DefaultTimeFormat = "HH:mm:ss";
         public const string LanguageRU = "ru";
         public const string LanguageEN = "en";
-        public const string HomePage = "https://localhost:44364/";
+        public const string HomePage = "https://www.byrpex.com/";
         public const string DBZeros = "000000000000000000000000";
         public const string MoneyFormat = "0.00";
     }

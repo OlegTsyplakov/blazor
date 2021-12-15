@@ -43,9 +43,7 @@
 
 
 <div class="feedback-linebottom"></div>
-@if (Success)
-{ AddClass = "success"; }
-<div class="price-container @AddClass" id="feedback-response">
+<div class="price-container @Show">
     <div class="black-x x"></div>
     <div class="checkup"></div>
     <div class="check-txt-black-bold" id="message">@Utils.LC("Сообщение отправлено!", "Message was sent!", lang)</div>
@@ -73,9 +71,9 @@
     void ValidSubmit()
     {
 
-        Success = true;
+        Show = "show";
     }
-    private bool Success { get; set; } = false;
+    private string Show { get; set; }
     private TFeedback FeedbackModel = new TFeedback();
     [CascadingParameter] string lang { get; set; }
 }
