@@ -1,0 +1,70 @@
+﻿@using Data.Services
+
+
+<div class="wrapper fadeInDown" @ref="login">
+    <h1>For @forgot.Id</h1>
+    <h1>Log @login.Id</h1>
+    <div id="formContent">
+        <div class="login-x-container"><div class="login-x" title="@Utils.LC("Закрыть", "Close", lang)" @onclick="@Close"></div></div>
+        <div class="login-title fadeIn second">Представьтесь, пожалуйста</div>
+        <div class="login-title2 fadeIn third">Если Вы уже зарегистрированы, введите свои учетные данные.<br>Если нет - нажмите «Регистрация».</div>
+        <div class="login-button-container fadeIn third">
+            <div class="login-button-reg" id="register" @onclick="()=> { Toggle(login);Toggle(register); }">Регистрация</div>
+            <div class="login-button-enter">Вход</div>
+        </div>
+        <LoginForm lang="@lang" forgot="forgot" login="login" ToggleModal="ToggleModal" />
+    </div>
+</div>
+
+<div class="wrapper-forgotpassword fadeInDown" @ref="forgot">
+    <div id="formContent">
+        <div class="login-x-container"><div class="login-x" title="@Utils.LC("Закрыть", "Close", lang))" @onclick="@Close"></div></div>
+        <div class="login-title fadeIn second">Восстановление пароля</div>
+        <div class="login-button-container fadeIn third">
+            <div class="login-button-reg" id="register2" @onclick="()=> { Toggle(forgot);Toggle(register); }">Регистрация</div>
+            <div class="login-button-enter" id="signin" @onclick="()=> { Toggle(forgot);Toggle(login); }">Вход</div>
+        </div>
+        <div class="fadeIn first">
+
+        </div>
+        <ForgotPassword lang="@lang" />
+    </div>
+</div>
+
+
+<div class="wrapper-register fadeInDown" @ref="register">
+    <div id="formContent">
+        <div class="login-x-container"><div class="login-x" title="@Utils.LC("Закрыть", "Close", lang))" @onclick="@Close"></div></div>
+        <div class="login-title fadeIn second">Зарегистрируйтесь, пожалуйста</div>
+        <div class="login-button-container fadeIn third">
+            <div class="login-button-reg" id="signin2" @onclick="()=> { Toggle(login);Toggle(register); }">Вход</div>
+            <div class="login-button-enter">Регистрация</div>
+        </div>
+        <div class="fadeIn first">
+
+        </div>
+        <RegForm lang="@lang" />
+    </div>
+</div>
+
+@code 
+{
+    ElementReference login { get; set; }
+    ElementReference register { get; set; }
+    ElementReference forgot { get; set; }
+
+    [Parameter] public Action<ElementReference> HideModal { get; set; }
+    [Parameter] public Action<ElementReference> ToggleModal { get; set; }
+    [Parameter] public string elementID { get; set; }
+    private void Close()
+    {
+        HideModal?.Invoke(new ElementReference(elementID));
+    }
+    private void Toggle(ElementReference toggle_element)
+    {
+        ToggleModal?.Invoke(toggle_element);
+    }
+
+    [Parameter] public string lang { get; set; }
+
+}

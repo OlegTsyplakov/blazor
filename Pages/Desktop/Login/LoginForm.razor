@@ -1,0 +1,63 @@
+﻿@using Data.Services
+
+<div id="login_results">
+    <h1>For @forgot.Id</h1>
+    <h1>Log @login.Id</h1>
+
+    <EditForm Model="@Model" class="login-form x" id="feedback-form" OnValidSubmit="@ValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="login-label-container fadeIn third">
+            <div class="login-label-txt">E-mail</div> <div class="login-label-star">*</div>
+        </div>
+
+        <InputText type="text" @bind-Value="Model.LoginEmail" class="fadeIn second" placeholder="@Utils.LC("адрес электронной почты", "email",lang)" required="required" autocomplete="off" />
+
+
+
+        <div class="login-label-container fadeIn third">
+            <div class="login-label-txt">Пароль</div> <div class="login-label-star">*</div>
+        </div>
+        <InputText type="password" class="fadeIn third" placeholder="@Utils.LC("пароль", "password",lang)" @bind-Value="@Model.LoginPassword" />
+
+        <div class="login-label-container2 fadeIn third">
+            <div class="login-label-star">*</div> <div class="login-label-txt2">Обязательные к заполнению поля</div>
+        </div>
+
+
+
+        <div id="forgot-password" class="login-label-recover  fadeIn third" @onclick="RecoverPassword">@Utils.LC("Восстановить пароль", "Recover password", lang)</div>
+        <div class="social-container social fadeIn fourth">с помощью соцсетей</div>
+        <div class="social-container fadeIn fourth"><NavLink href="@Utils.LangHref(lang, "FacebookLogin")"><div class="facebook-login"></div></NavLink><NavLink href="@Utils.LangHref(lang, "GoogleLogin")"><div class="google"></div></NavLink></div>
+
+        <div class="keep-me-container fadeIn fourth">
+            <InputCheckbox @bind-Value="@Model.LoginRememberMe" />
+            <label for="LoginRememberMe" class="keep-me">@Utils.LC("Запомнить меня", "Remember me", lang)</label>
+        </div>
+        <input type="submit" class="fadeIn fourth" value="@Utils.LC("Войти", "Log In", lang)" id="login_button">
+        <div class="login-line-botom fadeIn second"></div>
+
+
+
+    </EditForm>
+
+</div>
+
+@code {
+    [Parameter] public ElementReference forgot { get; set; }
+    [Parameter] public ElementReference login { get; set; }
+    [Parameter] public Action<ElementReference> ToggleModal { get; set; }
+
+    void ValidSubmit()
+    {
+
+
+    }
+    void RecoverPassword()
+    {
+        ToggleModal?.Invoke(login);
+        ToggleModal?.Invoke(forgot);
+    }
+    private LoginViewModel Model = new LoginViewModel();
+    [Parameter] public string lang { get; set; }
+}

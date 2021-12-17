@@ -152,7 +152,7 @@
                         else
                         {
 
-                            <div id="loginclick">@Utils.LC("Личный кабинет", "My Profile", lang)</div>
+                            <div @onclick="@(e => ShowModal(@login, new LoginRegForm()))" id="loginclick">@Utils.LC("Личный кабинет", "My Profile", lang)</div>
 
                         }
                     </div>
@@ -489,13 +489,16 @@
 <div class="calc-delivery-container"><div class="calc-delivery-container-load"></div><div class="calc-x x"></div></div>
 <div class="purple-arrow"></div>
 <!-- Начало мнение-->
-<div class="feedback-popup-container" id="feedback-results">@Feedback</div>
+<div class="feedback-popup-container" @ref=feedback id="feedback-results">@RF_Feedback</div>
 <div class="opinion-container">
 
-    <div class="opinion-txt x" @ref=feedback @onclick="@(e => ShowModal(@feedback, new Feedback()))" id="feedback-popup">@Utils.LC("Сообщить об ошибке", "Share your opinion", lang) <div class="white-talk"></div></div>
+    <div class="opinion-txt x" @onclick="@(e => ShowModal(@feedback, new Feedback()))" id="feedback-popup">@Utils.LC("Сообщить об ошибке", "Share your opinion", lang) <div class="white-talk"></div></div>
 
 </div>
 <!-- Конец мнение-->
+<!-- Начало модал-->
+<div class="login-container" @ref="login">@RF_Login</div>
+<!-- Конец модал-->
 <footer class="footer-all-container">
     <div class="footer-container">
         <div class="footer-container-left">
@@ -606,18 +609,44 @@
 <div id="PriceHintSale">Сейчас распродажа!</div>
 <div id="PriceHintMin">Минимально возможная цена. Скидка предоставляется менеджером индивидуально.</div>
 @code {
-    public RenderFragment Feedback;
+    public RenderFragment RF_Feedback;
+    public RenderFragment RF_Login;
 
     private ElementReference feedback;
+    private ElementReference login;
 
     async void ShowModal(ElementReference element, ComponentBase T)
     {
-        Feedback = Utils.CreateComponent(T.GetType());
-        await JSRuntime.InvokeVoidAsync("Module.showModal", element);
+
+        switch (T)
+        {
+            case Feedback:
+                RF_Feedback = Component.Create(typeof(Feedback), new Dictionary<string, string> { { "lang", lang },{ "elementID", feedback.Id } }, new Dictionary<string, Action<ElementReference>> { { "HideModal", HideModal } } );
+                break;
+            case LoginRegForm:
+                RF_Login = Component.Create(typeof(LoginRegForm),new Dictionary<string, string> { { "lang", lang }, { "elementID", login.Id } }, new Dictionary<string, Action<ElementReference>> { { "HideModal", HideModal },{ "ToggleModal", ToggleModal } });
+                break;
+            default:
+                break;
+        }
+
+
+        await JSRuntime.InvokeVoidAsync("Module.ShowModal", element);
+
 
     }
+    async void HideModal(ElementReference element)
+    {
 
+        await JSRuntime.InvokeVoidAsync("Module.HideModal", element);
 
+    }
+    async void ToggleModal(ElementReference element)
+    {
+
+        await JSRuntime.InvokeVoidAsync("Module.ToggleModal", element);
+
+    }
     string lang { get; set; }
     string homepage { get; set; }
     string url { get; set; }

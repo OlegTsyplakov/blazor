@@ -25,10 +25,16 @@ import { comments } from '/js/desktop/comments.js';
 var Module = 
 {
 
-    showModal:    function showModal(element){
-        console.log("Show modal "+$(element));
+    ShowModal:    function (element){
 $(element).fadeIn();
     },
+    HideModal:    function (element){
+        $(element).fadeOut();
+            },
+            ToggleModal:    function (element){
+                console.log("Toggle");
+                $(element).toggle();
+                    },
     WriteCookie: function (name, value, days) {
 
         var expires;

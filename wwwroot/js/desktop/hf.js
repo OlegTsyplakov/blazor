@@ -1826,10 +1826,10 @@ $(function () {
     //     //FeedbackForm();
     // });
 
-    $("#client-container").on("click", "#loginclick", function () {
-        ClientContainerScroll();
-        ShowLoginRegForm();
-    });
+    // $("#client-container").on("click", "#loginclick", function () {
+    //     ClientContainerScroll();
+    //     ShowLoginRegForm();
+    // });
     // function FeedbackForm() {
     //     $(".feedback-popup-container").html("");
     //     $(".feedback-popup-container").load("/" + lang + "/FeedbackForm", function () {

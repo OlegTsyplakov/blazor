@@ -7,36 +7,19 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System;
 using System.Linq;
+using Microsoft.JSInterop;
 
 namespace Site.Data.Services
 {
     public static class Utils
     {
+  
+      
         public static Dictionary<string, string> ToDictionary(string key, string value)
         {
             return new Dictionary<string, string>() { { key,value} };
         }
-        public static RenderFragment CreateComponent(Type type, Dictionary<string, string> items = null) => builder =>
-        {
-            if (items == null)
-            {
-                builder.OpenComponent(0, type);
-                builder.CloseComponent();
-            }
-            else
-            {
-                int count = 1;
-                builder.OpenComponent(0, type);
-                foreach (var item in items)
-                {
-                    builder.AddAttribute(count, item.Key, item.Value);
-                    count++;
-                }
-                builder.CloseComponent();
-            }
 
-
-        };
         public static List<string> RqParts(string rq)
         {
             int i, l;

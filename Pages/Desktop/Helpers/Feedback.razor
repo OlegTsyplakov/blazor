@@ -6,7 +6,7 @@
 
 <!-- Начало отзыв-->
 
-<div class="calc-x x"></div>
+<div class="calc-x x" @onclick="@Close"></div>
 
 <div class="color-circle-container"><div class="color-circle light-blue-circle"></div><div class="color-circle green-color-circle"></div><div class="color-circle orange-color-circle"></div><div class="color-circle red-color-circle"></div><div class="color-circle purple-color-circle"></div><div class="color-circle blue-color-circle"></div></div>
 <EditForm Model="@FeedbackModel" class="x" id="feedback-form" OnValidSubmit="@ValidSubmit">
@@ -59,6 +59,14 @@
 
 @code
 {
+
+    [Parameter] public Action<ElementReference> HideModal { get; set; }
+    [Parameter] public string elementID { get; set; }
+    private void Close()
+    {
+        HideModal?.Invoke(new ElementReference(elementID));
+    }
+
     private string Captcha = "";
     private int CaptchaLetters = 5;
 
@@ -75,5 +83,5 @@
     }
     private string Show { get; set; }
     private TFeedback FeedbackModel = new TFeedback();
-    [CascadingParameter] string lang { get; set; }
+    [ParameterAttribute] public string lang { get; set; }
 }
