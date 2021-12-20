@@ -5,7 +5,7 @@ namespace Site.Data
 {
     public static class Tools
     {
-        public static string GetCaptchaWord(int length)
+        public static string GetCaptchaWord(int length=3)
         {
             var random = new Random(DateTime.Now.Millisecond);
 

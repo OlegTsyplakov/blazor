@@ -27,7 +27,7 @@
 
     <div class="control-label-row">
         <div class="control-label" for="Captcha">@Utils.LC("Введите символы с картинки", "Enter symbols from picture", lang)</div>
-        <Captcha @bind-CaptchaWord="@Captcha" CharNumber="@CaptchaLetters" />
+        <Captcha @bind-CaptchaWord="@Captcha" />
     </div>
 
     <input autocomplete="off" class="cartpopup-profile-input feedback-input x" id="Captcha" maxlength="10" name="Captcha" type="text" value="" />
@@ -67,12 +67,12 @@
         HideModal?.Invoke(new ElementReference(elementID));
     }
 
-    private string Captcha = "";
-    private int CaptchaLetters = 5;
+    private string Captcha = string.Empty;
+
 
     protected override Task OnInitializedAsync()
     {
-        Captcha = Tools.GetCaptchaWord(CaptchaLetters);
+        Captcha = Tools.GetCaptchaWord();
 
         return base.OnInitializedAsync();
     }

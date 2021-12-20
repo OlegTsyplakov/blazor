@@ -1,5 +1,162 @@
-﻿<h3>RegForm</h3>
+﻿@using Data.Services
 
-@code {
+<div id="register_results">
+    <label class="label-reg">
+        <div class="toggle">
+            <input id="reg-toggle-state" class="toggle-state" type="checkbox" name="check" value="check" />
+            <div class="indicator"></div>
+        </div>
+        <div class="label-text fadeIn third" id="reg_fiz">Физическое лицо</div>
+    </label>
+    <div class="reg-inn-container" id="reg_inn_container">
+        <div class="reg-inn" id="reg_inn">Заполнить по ИНН</div>
+        <div class="reg-inn-popup-container" id="reg_inn_popup_container"><input class="reg_ip_input" type="checkbox" name="ip" value="" id="reg_ip"><label for="reg_ip" class="reg_ip_label">ИП</label><input id="checkINN" type="text" name="checkINN" value="" placeholder="ИНН"><div class="cartpopup-red-cross"></div><div class="v-gray v-trans" id="v-gray"></div></div>
+    </div>
+    <EditForm Model="@Model" class="login-form x" id="feedback-form" OnValidSubmit="@ValidSubmit">
+
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <InputText type="hidden" @bind-Value="Model.RegReturnUrl" />
+        <InputText type="hidden" @bind-Value="Model.RegUrAddress" />
+        @*<InputNumber type="hidden" @bind-Value="Model.Kind"  />*@
+
+
+
+
+        <div class="login-label-container fadeIn third">
+            <div class="login-label-txt" id="reg_name">Имя</div>
+        </div>
+        <InputText type="text" @bind-Value="Model.RegName" class="fadeIn third" placeholder="@Utils.LC("ФИО", "Your name",lang)" required="required" />
+        <ValidationMessage For="@(() => Model.RegName)" />
+        <div class="reg-input-container">
+
+            <div class="login-label-container fadeIn third">
+                <div class="login-label-txt">ИНН</div>
+            </div>
+            <InputText type="text" @bind-Value="Model.RegTIN" class="fadeIn third" placeholder="@Utils.LC("ИНН", "INN",lang)" required="required" />
+
+        </div>
+
+        <div class="reg-input-container" id="reg_kpp">
+
+            <div class="login-label-container fadeIn third">
+                <div class="login-label-txt">КПП</div>
+            </div>
+            <InputText type="text" @bind-Value="Model.RegKPP" class="fadeIn third" placeholder="@Utils.LC("КПП", "КПП",lang)" required="required" />
+
+
+        </div>
+        <div class="reg-input-container">
+
+            <div class="login-label-container fadeIn third">
+                <div class="login-label-txt">Ваша должность</div>
+            </div>
+            <InputText type="text" @bind-Value="Model.RegContactPosition" class="fadeIn third" placeholder="@Utils.LC("Ваша должность", "Contact position",lang)" required="required" />
+
+
+        </div>
+        <div class="reg-input-container">
+
+            <div class="login-label-container fadeIn third">
+                <div class="login-label-txt">Контактное лицо</div>
+            </div>
+            <InputText type="text" @bind-Value="Model.RegContactPerson" class="fadeIn third" placeholder="@Utils.LC("Контактное лицо", "Contact person",lang)" required="required" />
+
+
+
+        </div>
+
+        <div class="login-label-container fadeIn third">
+            <div class="login-label-txt">Телефон</div>
+        </div>
+        <InputText type="text" @bind-Value="Model.RegPhone" class="fadeIn third" placeholder="@Utils.LC("+7 000 000 00 00", "+7 000 000 00 00",lang)" required="required" />
+
+
+        <div class="login-label-container fadeIn third">
+            <div class="login-label-txt">E-mail</div> <div class="login-label-star">*</div>
+        </div>
+        <InputText type="text" @bind-Value="Model.RegEmail" class="fadeIn third" placeholder="@Utils.LC("Адрес электронной почты", "Your e-mail",lang)" required="required" />
+
+
+
+        <div class="login-label-container fadeIn third">
+            <div class="login-label-txt">Пароль</div> <div class="login-label-star">*</div>
+        </div>
+        <InputText type="password" @bind-Value="Model.RegPassword" class="fadeIn third" placeholder="@Utils.LC("Пароль", "Password",lang)" required="required" />
+
+        <div class="login-label-container fadeIn third">
+            <div class="login-label-txt">Повторить пароль</div> <div class="login-label-star">*</div>
+        </div>
+        <InputText type="password" @bind-Value="Model.RegConfirmPassword" class="fadeIn third" placeholder="@Utils.LC("Подтверждение пароля", "Confirm Password",lang)" required="required" />
+
+        <div class="login-label-container2 fadeIn third">
+            <div class="login-label-star">*</div> <div class="login-label-txt2">Обязательные к заполнению поля</div>
+        </div>
+        <br>
+        <div class="keep-me-container">
+            <InputCheckbox @bind-Value="@Model.RegAgree" />
+            <label class="keep-me fadeIn fourth" for="RegAgree"></label>
+
+
+            <div class="agreement fadeIn fourth">@Utils.LC("Я согласен с ", "I agree with this ", lang) <a href="@Utils.LangHref(lang,"placing-an-order-and-payment")" target="_blank">@Utils.LC("правилами", "site usage rules", lang)</a>@Utils.LC(" пользования данным сайтом, в частности, даю согласие на ", " , particularly agree with ", lang)<a href="@Utils.LangHref(lang,"personal-data")" target="_blank">@Utils.LC("обработку своих персональных данных", "personal data processing rules", lang)</a>.</div>
+
+
+        </div>
+
+        <br>
+        <div id="forgot-password" class="login-label-recover fadeIn third" @onclick="RecoverPassword">@Utils.LC("Восстановить пароль", "Recover password", lang)</div>
+        <div class="captcha-container fadeIn fourth">
+            <div class="login-label-container3">
+                <Captcha @bind-CaptchaWord="@Captcha" />
+
+                <div class="login-blue-arrow"></div>
+                <InputText type="text" @bind-Value="Model.RegCaptcha" id="RegCaptcha" class="fadeIn third" required="required" />
+
+            </div>
+            <div class="login-label-container4">
+                <div class="login-label-container5">
+                    <div class="login-label-txt">ведите символы, изображенные</div>
+                </div>
+                <div class="login-label-container5">
+                    <div class="login-label-txt">на картинке<div class="login-label-star">*</div></div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <input type="submit" autocomplete="off" value="@Utils.LC("Войти", "Log In",lang)" id="RegSubmit" class="fadeIn third" />
+
+
+        <div class="login-line-botom fadeIn third"></div>
+    </EditForm>
+</div>
+
+@code 
+{
+    private string Captcha = string.Empty;
+
+
+    [Parameter] public ElementReference forgot { get; set; }
+    [Parameter] public ElementReference register { get; set; }
+    [Parameter] public Action<ElementReference> ToggleModal { get; set; }
+
+    void ValidSubmit()
+    {
+
+
+    }
+    void RecoverPassword()
+    {
+        ToggleModal?.Invoke(register);
+        ToggleModal?.Invoke(forgot);
+    }
+    protected override Task OnInitializedAsync()
+    {
+        Captcha = Tools.GetCaptchaWord();
+
+        return base.OnInitializedAsync();
+    }
+    private RegisterViewModel Model = new RegisterViewModel();
     [Parameter] public string lang { get; set; }
 }

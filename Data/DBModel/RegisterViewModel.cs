@@ -19,5 +19,7 @@ namespace Site.Data.DBModel
         public string RegContactPerson { get; set; }
         public string RegUrAddress { get; set; }
         public ClientKind Kind { get; set; }
+
+   
     }
 }

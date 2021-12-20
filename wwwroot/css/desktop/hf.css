@@ -1885,8 +1885,7 @@ flex-direction: row;
 justify-content: center;
 align-items: center;
 height: 45px;
-width: 70%;
-margin: auto;
+width: 100%;
 background-color: white;
 border-radius: 5px;
 }
@@ -1971,7 +1970,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 height: 100%;
-width: 50%;
+width: 30%;
 
 }
 .login-label-container5{
@@ -4634,11 +4633,11 @@ justify-content: center;
 }
 .btn-refresh {
     border: none;
-    background-color: gainsboro;
     padding: 2px 2px 2px 4px;
     font-size: 16px;
     height:20px;
     vertical-align: sub;
+    background-color: transparent;
 }
 
     .btn-refresh:before {
@@ -4646,5 +4645,10 @@ justify-content: center;
         width: 15px;
         float: left;
         margin-right: 5px;
-        margin-top: -2px;
+        margin-top: -2px;   
+    }
+    .dfc{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }

@@ -13,13 +13,13 @@ namespace Site.Data
     {
 
         [Parameter]
-        public int Width { get; set; } = 170;
+        public int Width { get; set; } = 100;
 
         [Parameter]
         public int Height { get; set; } = 40;
 
         [Parameter]
-        public int CharNumber { get; set; } = 5;
+        public int CharNumber { get; set; } = 3;
 
         [Parameter]
         public EventCallback<MouseEventArgs> OnRefresh { get; set; }
@@ -69,7 +69,7 @@ namespace Site.Data
 
             RandomValue = new Random();
 
-            _bgColor = new SKColor((byte)RandomValue.Next(90, 130), (byte)RandomValue.Next(90, 130), (byte)RandomValue.Next(90, 130));
+            _bgColor = new SKColor(255, 255, 255);
 
             var fontFamilies = new string[] { "Courier", "Arial", "Verdana", "Times New Roman" };
 
@@ -115,7 +115,7 @@ namespace Site.Data
                         paint.Color = l.ForeColor;
                         paint.Typeface = SKTypeface.FromFamilyName(l.Family);
                         paint.TextAlign = SKTextAlign.Left;
-                        paint.TextSize = RandomValue.Next(Height / 2, (Height / 2) + (Height / 4));
+                        paint.TextSize = RandomValue.Next(Height / 2, (Height / 2) + (Height / 6));
                         paint.FakeBoldText = true;
                         paint.IsAntialias = true;
 
@@ -160,6 +160,7 @@ namespace Site.Data
             var seq = 0;
             builder.OpenElement(++seq, "div");
             {
+                builder.AddAttribute(++seq, "class", "dfc");
                 builder.OpenElement(++seq, "img");
                 builder.AddAttribute(++seq, "src", img);
                 builder.CloseElement();

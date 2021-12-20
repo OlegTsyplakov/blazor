@@ -2,8 +2,7 @@
 
 
 <div class="wrapper fadeInDown" @ref="login">
-    <h1>For @forgot.Id</h1>
-    <h1>Log @login.Id</h1>
+
     <div id="formContent">
         <div class="login-x-container"><div class="login-x" title="@Utils.LC("Закрыть", "Close", lang)" @onclick="@Close"></div></div>
         <div class="login-title fadeIn second">Представьтесь, пожалуйста</div>
@@ -43,12 +42,28 @@
         <div class="fadeIn first">
 
         </div>
-        <RegForm lang="@lang" />
+        <RegForm lang="@lang"  forgot="forgot" register="register" ToggleModal="ToggleModal"/>
     </div>
 </div>
 
 @code 
 {
+
+    private void InitElementReference(ElementReference element)
+    {
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            InitElementReference(login);
+            StateHasChanged();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
     ElementReference login { get; set; }
     ElementReference register { get; set; }
     ElementReference forgot { get; set; }
